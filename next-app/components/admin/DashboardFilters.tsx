@@ -79,13 +79,13 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
     const fetchFilters = async () => {
       try {
         const [platformRes, userRes, profileRes] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/platforms`, {
+          axios.get(`/api/admin/platforms`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/allusers`, {
+          axios.get(`/api/admin/allusers`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/get-all-profiles`, {
+          axios.get(`/api/get-all-profiles`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -103,7 +103,7 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
 
   const applyDateOption = (option: string) => {
     const now = new Date();
-    let start, end;
+    let start: Date = new Date(), end: Date = new Date();
 
     switch (option) {
       case 'Today':

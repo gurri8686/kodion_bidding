@@ -88,7 +88,7 @@ export const POST = withAuth(async (
     const maxOrder = await Portfolio.max('display_order', {
       where: { user_id },
     });
-    const display_order = (maxOrder || 0) + 1;
+    const display_order = (Number(maxOrder) || 0) + 1;
 
     const portfolio = await Portfolio.create({
       user_id,

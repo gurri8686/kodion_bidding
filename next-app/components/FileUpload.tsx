@@ -170,7 +170,7 @@ const FileUpload = ({ files, setFiles, maxFiles = 5 }: FileUploadProps) => {
                 // For existing files from server (just URL strings)
                 fileObj.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                   <img
-                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${fileObj}`}
+                    src={`${fileObj}`}
                     alt="Attachment"
                     className="w-12 h-12 object-cover rounded"
                   />

@@ -103,11 +103,11 @@ export async function authenticate(
 export function withAuth(
   handler: (
     req: NextRequest,
-    context: { params?: any },
+    context: any,
     user: AuthenticatedUser
   ) => Promise<NextResponse>
 ) {
-  return async (req: NextRequest, context: { params?: any } = {}) => {
+  return async (req: NextRequest, context: any = {}) => {
     const authResult = await authenticate(req);
 
     // If authentication failed, return error response
@@ -146,7 +146,7 @@ export function requireAdmin(user: AuthenticatedUser): NextResponse | null {
 export function withAdminAuth(
   handler: (
     req: NextRequest,
-    context: { params?: any },
+    context: any,
     user: AuthenticatedUser
   ) => Promise<NextResponse>
 ) {

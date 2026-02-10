@@ -29,7 +29,7 @@ export default function ConnectsCost() {
   const fetchPlatforms = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/platforms`, {
+      const response = await fetch(`/api/admin/platforms`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -70,7 +70,7 @@ export default function ConnectsCost() {
       let response;
 
       if (!editing) {
-        response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/create-platform`, {
+        response = await fetch(`/api/create-platform`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function ConnectsCost() {
           }),
         });
       } else {
-        response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/save-connect-cost`, {
+        response = await fetch(`/api/save-connect-cost`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

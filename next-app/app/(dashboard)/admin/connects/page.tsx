@@ -18,7 +18,7 @@ export default function Connects() {
       setLoading(true);
       const params = { date: format(selectedDate, 'yyyy-MM-dd') };
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/get-connects/${userId}`,
+        `/api/get-connects/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,

@@ -123,7 +123,7 @@ export default function AdminDashboard() {
         const { platform, userProfile, bidder, startDate, endDate } = appliedFilters || {};
 
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/job-stats`,
+          `/api/admin/job-stats`,
           {
             params: {
               platform: platform || null,
@@ -485,14 +485,14 @@ const DashboardCard = ({
                   >
                     <span
                       className={`flex items-center justify-center w-5 h-5 rounded-full flex-shrink-0 ${
-                        colorClasses[userBreakdown.color || 'blue']
+                        colorClasses[userBreakdown?.color || 'blue']
                       } text-[10px] font-semibold`}
                     >
                       {getFirstLetter(name)}
                     </span>
 
                     <span className="text-xs font-semibold text-gray-700 truncate">
-                      {userBreakdown.formatValue ? userBreakdown.formatValue(val) : val}
+                      {userBreakdown?.formatValue ? userBreakdown.formatValue(val) : val}
                     </span>
                   </div>
                 ))}

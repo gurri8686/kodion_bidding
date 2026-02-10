@@ -57,7 +57,7 @@ export const DateRangePickerInput = ({
               if (handleDateRangeChange) {
                 handleDateRangeChange(item);
               } else if (setDateRange) {
-                setDateRange([item.selection]);
+                setDateRange([item.selection] as any);
               }
             }}
             moveRangeOnFirstSelection={false}

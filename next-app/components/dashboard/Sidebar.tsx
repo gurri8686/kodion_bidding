@@ -78,7 +78,7 @@ const Sidebar = () => {
           },
           {
             label: "User Activity",
-            path: "/admin/user-activity",
+            path: "/admin/activity",
             icon: <BarChart size={18} />,
           },
           {
@@ -98,59 +98,59 @@ const Sidebar = () => {
           },
           {
             label: "Progress Tracker",
-            path: "/admin/progress-tracker",
+            path: "/admin/progress",
             icon: <Workflow size={18} />,
           },
           {
             label: "Connects Cost",
-            path: "/admin/connects-cost",
+            path: "/admin/connect-cost",
             icon: <DollarSign size={18} />,
           },
           {
             label: "Connects Logs",
-            path: "/admin/connects-logs",
+            path: "/admin/connects",
             icon: <Plug size={18} />,
           },
         ]
       : [
           {
             label: "Dashboard",
-            path: "/dashboard",
+            path: "/jobs",
             icon: <LayoutDashboard size={18} />,
           },
           {
             label: "Profile",
-            path: "/dashboard/profile",
+            path: "/profile",
             icon: <User size={18} />,
           },
           {
             label: "Applied Jobs",
-            path: "/dashboard/applied-jobs",
+            path: "/applied-jobs",
             icon: <ClipboardList size={18} />,
           },
           {
             label: "Hired Jobs",
-            path: "/dashboard/hired-jobs",
+            path: "/hired-jobs",
             icon: <BadgeCheck size={18} />,
           },
           {
             label: "Portfolios",
-            path: "/dashboard/portfolios",
+            path: "/portfolios",
             icon: <FolderKanban size={18} />,
           },
           {
             label: "Progress Tracker",
-            path: "/dashboard/progress-tracker",
+            path: "/admin/progress",
             icon: <Plug size={18} />,
           },
           {
             label: "Manage Developers",
-            path: "/dashboard/manage-developers",
+            path: "/developers",
             icon: <Code2 size={18} />,
           },
           {
             label: "Active Technologies",
-            path: "/dashboard/settings",
+            path: "/settings",
             icon: <Settings size={18} />,
           },
         ];

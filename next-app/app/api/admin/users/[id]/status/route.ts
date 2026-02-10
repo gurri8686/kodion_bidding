@@ -9,7 +9,7 @@ import { User } from '@/lib/db/models';
 import { notifyUserBlocked, notifyUserActivated } from '@/lib/utils/notificationHelper';
 
 export const PUT = withAdminAuth(
-  async (req: NextRequest, context: { params: any }, adminUser) => {
+  async (req: NextRequest, context: { params?: any }, adminUser) => {
     try {
       const { id: userId } = await context.params;
       const body = await req.json();

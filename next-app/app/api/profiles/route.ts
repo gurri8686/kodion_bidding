@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
-import { Profile } from '@/lib/db/models';
+import { Profiles } from '@/lib/db/models';
 
 export const GET = withAuth(async (
   req: NextRequest,
@@ -12,7 +12,7 @@ export const GET = withAuth(async (
   user: AuthenticatedUser
 ) => {
   try {
-    const profiles = await Profile.findAll();
+    const profiles = await Profiles.findAll();
 
     return NextResponse.json(profiles);
   } catch (error: any) {

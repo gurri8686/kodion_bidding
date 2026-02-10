@@ -68,7 +68,7 @@ export default function UserLogs() {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/logs/${userId}`,
+          `/api/admin/logs/${userId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

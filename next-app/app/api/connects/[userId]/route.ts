@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
-import { AppliedJob, User, Profile } from '@/lib/db/models';
+import { AppliedJob, User, Profiles } from '@/lib/db/models';
 import { Op, Sequelize } from 'sequelize';
 
 export const GET = withAuth(async (
@@ -20,7 +20,7 @@ export const GET = withAuth(async (
     if (date) {
       const startOfDay = new Date(date + 'T00:00:00');
       const endOfDay = new Date(date + 'T23:59:59');
-      whereClause.createdAt = {
+      whereClause.created_at = {
         [Op.between]: [startOfDay, endOfDay],
       };
     }
@@ -29,9 +29,9 @@ export const GET = withAuth(async (
       attributes: [
         'userId',
         'profileId',
-        [Sequelize.fn('SUM', Sequelize.col('AppliedJob.connectsUsed')), 'total_connects'],
+        [Sequelize.fn('SUM', Sequelize.col('AppliedJob.connects_used')), 'total_connects'],
         [Sequelize.fn('COUNT', Sequelize.col('AppliedJob.id')), 'total_entries'],
-        [Sequelize.fn('MAX', Sequelize.col('AppliedJob.createdAt')), 'last_used'],
+        [Sequelize.fn('MAX', Sequelize.col('AppliedJob.created_at')), 'last_used'],
       ],
       where: whereClause,
       include: [
@@ -40,7 +40,7 @@ export const GET = withAuth(async (
           attributes: ['id', 'firstname', 'email'],
         },
         {
-          model: Profile,
+          model: Profiles,
           as: 'profile',
           attributes: ['id', 'name'],
         },
@@ -51,7 +51,7 @@ export const GET = withAuth(async (
         'User.id',
         'profile.id',
       ],
-      order: [[Sequelize.fn('MAX', Sequelize.col('AppliedJob.createdAt')), 'DESC']],
+      order: [[Sequelize.fn('MAX', Sequelize.col('AppliedJob.created_at')), 'DESC']],
     });
 
     return NextResponse.json(usage);

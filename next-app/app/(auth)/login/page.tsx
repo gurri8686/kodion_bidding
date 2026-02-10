@@ -44,7 +44,7 @@ const LoginPage = () => {
             if (user.role === "admin") {
               router.push("/admin/dashboard");
             } else {
-              router.push("/dashboard/profile");
+              router.push("/profile");
             }
           }, 2000);
         } else {

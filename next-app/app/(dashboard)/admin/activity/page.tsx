@@ -32,7 +32,7 @@ export default function UserActivity() {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/user/activity`,
+          `/api/admin/user/activity`,
           {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,

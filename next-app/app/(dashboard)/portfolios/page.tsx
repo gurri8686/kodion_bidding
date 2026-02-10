@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import Sidebar from "@/components/Sidebar";
-import GlobalHeader from "@/components/GlobalHeader";
 import { Loader } from "@/utils/Loader";
 import { Briefcase, Plus, ExternalLink, Edit2, Trash2 } from "lucide-react";
 import AddPortfolioModal from "@/modals/AddPortfolioModal";
@@ -29,13 +27,11 @@ const Portfolios = () => {
   const user = useSelector((state: any) => state.auth.user);
   const token = useSelector((state: any) => state.auth.token);
   const userId = user?.id;
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   const fetchPortfolios = async (page = 1) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${API}/api/portfolios/user/${userId}`,
+        `/api/portfolios/user/${userId}`,
         {
           params: {
             page,
@@ -73,7 +69,7 @@ const Portfolios = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.delete(`${API}/api/portfolios/${portfolioToDelete.id}`, {
+      await axios.delete(`/api/portfolios/${portfolioToDelete.id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -94,10 +90,7 @@ const Portfolios = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="My Portfolios" />
+    <>
         <main className="p-8">
           {/* Header Section */}
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -224,7 +217,6 @@ const Portfolios = () => {
             </div>
           )}
         </main>
-      </div>
 
       {/* Modals */}
       <ToastContainer position="top-right" autoClose={2000} />
@@ -254,7 +246,7 @@ const Portfolios = () => {
         confirmText="Delete"
         cancelText="Cancel"
       />
-    </div>
+    </>
   );
 };
 

@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import Sidebar from "@/components/Sidebar";
-import GlobalHeader from "@/components/GlobalHeader";
 import axios from "axios";
 import JobFilters from "@/components/JobFilters";
 import { useSelector } from "react-redux";
@@ -72,7 +70,7 @@ const IgnoredJobs = () => {
     console.log("Fetching ignored jobs with params:", params);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/get-ignored-jobs`,
+        `/api/jobs/get-ignored-jobs`,
         {
           params,
           headers: {
@@ -137,10 +135,6 @@ const IgnoredJobs = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="Ignored Jobs" />
         <main className="p-8">
           <div className="flex lg:items-center lg:flex-row flex-col justify-between mb-3">
             <p className="text-gray-700 font-medium">
@@ -199,8 +193,6 @@ const IgnoredJobs = () => {
           </>
         )}
       </main>
-      </div>
-    </div>
   );
 };
 

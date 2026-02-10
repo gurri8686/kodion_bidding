@@ -21,7 +21,7 @@ export default function UserJobDetails() {
         setLoading(true);
         setError('');
 
-        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/user/${userId}/jobs`;
+        const url = `/api/admin/user/${userId}/jobs`;
         const res = await axios.get(url, {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,

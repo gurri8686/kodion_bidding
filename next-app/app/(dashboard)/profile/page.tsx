@@ -1,15 +1,12 @@
 'use client';
 
 import { useAppSelector } from "@/lib/store/hooks";
-import GlobalHeader from "@/components/dashboard/GlobalHeader";
 import { Edit, User, Mail, Phone } from "lucide-react";
 
 const ProfilePage = () => {
   const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <>
-      <GlobalHeader title="Profile" />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Profile Header */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -98,9 +95,7 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-          </div>
       </div>
-    </>
   );
 };
 

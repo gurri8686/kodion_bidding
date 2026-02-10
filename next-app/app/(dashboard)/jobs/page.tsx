@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import Sidebar from "@/components/Sidebar";
-import GlobalHeader from "@/components/GlobalHeader";
 import 'react-datepicker/dist/react-datepicker.css';
-import "react-day-picker/dist/style.css";
+import "react-day-picker/style.css";
 import JobFilters from "@/components/JobFilters";
 import Modal from "react-modal";
 import { useSelector } from "react-redux";
@@ -79,7 +77,7 @@ const Jobs = () => {
     };
 
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/get-jobs`, {
+      const res = await axios.get(`/api/jobs/get-jobs`, {
         params,
         withCredentials: true,
       });
@@ -149,7 +147,7 @@ const Jobs = () => {
     if (!finalReason) return toast.error("Please enter a reason.");
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/ignore`,
+        `/api/jobs/ignore`,
         {
           reason: finalReason,
           dropdownReason: ignoreReason || null,
@@ -182,10 +180,6 @@ const Jobs = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="Jobs" />
         <main className="p-8">
           <ToastContainer position="top-center" autoClose={2000} />
           <div className="flex lg:items-center lg:flex-row flex-col justify-between mb-6 text-left ">
@@ -245,7 +239,6 @@ const Jobs = () => {
           </div>
         )}
 
-      </main>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -304,8 +297,7 @@ const Jobs = () => {
         </div>
       </Modal>
 
-      </div>
-    </div>
+  </main>
   );
 };
 

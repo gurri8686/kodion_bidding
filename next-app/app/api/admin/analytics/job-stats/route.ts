@@ -189,7 +189,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
           },
         ],
         subQuery: false,
-      }),
+      } as any),
       HiredJob.sum('budgetAmount', {
         include: [
           {
@@ -201,7 +201,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
           },
         ],
         subQuery: false,
-      }),
+      } as any),
     ]);
 
     const totalAppliedJobs = totalAppliedJobsRes || 0;

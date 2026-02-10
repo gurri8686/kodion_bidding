@@ -32,7 +32,7 @@ export default function AllUsers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/allusers`,
+        `/api/admin/allusers`,
         {
           params: { search: searchTerm },
           headers: { Authorization: `Bearer ${token}` },
@@ -64,7 +64,7 @@ export default function AllUsers() {
 
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/user/${selectedUser.id}/status`,
+        `/api/admin/user/${selectedUser.id}/status`,
         {
           status: pendingAction === 'suspend' ? 'blocked' : 'active',
         },
@@ -212,7 +212,7 @@ export default function AllUsers() {
           )}
 
           {viewModalOpen && selectedUser && (
-            <ViewUser viewModalOpen={viewModalOpen} selectedUser={selectedUser} setViewModalOpen={setViewModalOpen} />
+            <ViewUser selectedUser={selectedUser} setViewModalOpen={setViewModalOpen} />
           )}
           {confirmModalOpen && selectedUser && pendingAction && (
             <ConfirmUserBlock

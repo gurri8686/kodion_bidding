@@ -78,7 +78,7 @@ AppliedJob.init({
     field: 'profile_name',
   },
   technologies: {
-    type: DataTypes.JSONB,
+    type: DataTypes.JSON,
     field: 'technologies',
   },
   connectsUsed: {
@@ -163,7 +163,7 @@ AppliedJob.init({
     field: 'hired_date',
   },
   attachments: {
-    type: DataTypes.JSONB,
+    type: DataTypes.JSON,
     allowNull: true,
     defaultValue: [],
     field: 'attachments',

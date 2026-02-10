@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import GlobalHeader from '@/components/dashboard/GlobalHeader';
 import { useAppSelector } from '@/lib/store/hooks';
 import { toast, ToastContainer } from "react-toastify";
 import { Loader } from '@/components/ui/Loader';
@@ -97,8 +96,6 @@ const SettingsPage = () => {
   };
 
   return (
-    <>
-      <GlobalHeader title="Settings" />
       <div className="p-8 h-full flex items-start justify-center overflow-hidden bg-gray-100">
           {loading ? (
             <div className='grid grid-cols-1 mx-auto'>
@@ -150,7 +147,6 @@ const SettingsPage = () => {
             </div>
           )}
       </div>
-    </>
   );
 };
 

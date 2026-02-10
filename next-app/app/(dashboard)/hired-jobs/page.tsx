@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import Sidebar from "@/components/Sidebar";
-import GlobalHeader from "@/components/GlobalHeader";
 import UniversalJobCard from "@/components/cards/UniversalJobCard";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
@@ -33,8 +31,6 @@ const HiredJobs = () => {
   const [viewMode, setViewMode] = useState("card");
   const token = useSelector((state: any) => state.auth.token);
   const userId = useSelector((state: any) => state.auth.userId);
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   const [currentPage, setCurrentPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -184,7 +180,7 @@ const HiredJobs = () => {
         const endDate = format(dateRange[0].endDate, "yyyy-MM-dd");
 
         const res = await axios.get(
-          `${API}/api/jobs/get-hired-jobs/${userId}`,
+          `/api/jobs/get-hired-jobs/${userId}`,
           {
             params: {
               page,
@@ -209,7 +205,7 @@ const HiredJobs = () => {
         setLoading(false);
       }
     },
-    [userId, token, API, dateRange, jobsPerPage]
+    [userId, token, dateRange, jobsPerPage]
   );
 
   useEffect(() => {
@@ -225,10 +221,6 @@ const HiredJobs = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="Hired Jobs" />
         <main className="p-8">
         {/* Filters - Always visible after initial load */}
         {!loading && (
@@ -401,8 +393,6 @@ const HiredJobs = () => {
           </>
         )}
       </main>
-      </div>
-    </div>
   );
 };
 

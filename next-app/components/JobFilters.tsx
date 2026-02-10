@@ -12,6 +12,10 @@ interface JobFiltersProps {
   setFilters: (filters: any) => void;
   fetchJobs: () => void;
   handleClearFilter: () => void;
+  isApplying?: boolean;
+  handleApplyFilter?: () => void;
+  setIsLoading?: (loading: boolean) => void;
+  page?: string;
 }
 
 const JobFilters = ({
@@ -65,11 +69,10 @@ const JobFilters = ({
   useEffect(() => {
     const fetchTechOptions = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
         const endpoint =
           role === "admin"
-            ? `${baseUrl}/api/jobs/all-technology-names`
-            : `${baseUrl}/api/jobs/active/${userId}`;
+            ? `/api/jobs/all-technology-names`
+            : `/api/jobs/active/${userId}`;
 
         const response = await fetch(endpoint, {
           headers: {

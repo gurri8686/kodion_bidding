@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import Sidebar from "@/components/Sidebar";
-import GlobalHeader from "@/components/GlobalHeader";
 import { Loader } from "@/utils/Loader";
 import { useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
@@ -201,7 +199,7 @@ const AppliedJobs = () => {
         const endDate = format(dateRange[0].endDate, "yyyy-MM-dd");
 
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/applied-jobs/${userId}`,
+          `/api/jobs/applied-jobs/${userId}`,
           {
             params: {
               userId,
@@ -251,11 +249,6 @@ const AppliedJobs = () => {
   const hasActiveFilters = debouncedSearch !== "" || stageFilter !== "";
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
-      <Sidebar />
-
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="Applied Jobs" />
         <main className="p-3 sm:p-6 lg:p-8">
         <ApplyManualJob
           isOpen={applyModal}
@@ -536,8 +529,6 @@ const AppliedJobs = () => {
           </div>
         )}
       </main>
-      </div>
-    </div>
   );
 };
 

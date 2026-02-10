@@ -11,7 +11,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
-import { AppliedJob, Job, IgnoredJob, Profile, User, Platform } from '@/lib/db/models';
+import { AppliedJob, Job, IgnoredJob, Profiles, User, Platform } from '@/lib/db/models';
 import { uploadMultipleFiles, parseFilesFromFormData } from '@/lib/utils/fileUpload';
 import { notifyJobApplied } from '@/lib/utils/notificationHelper';
 
@@ -54,7 +54,7 @@ export const POST = withAuth(async (
     }
 
     // Validate profile
-    const profile = await Profile.findOne({ where: { id: profileId } });
+    const profile = await Profiles.findOne({ where: { id: profileId } });
     if (!profile) {
       return NextResponse.json(
         { message: 'Invalid profile selected' },
@@ -110,7 +110,7 @@ export const POST = withAuth(async (
       manualJobTitle: jobTitle || null,
       manualJobDescription: jobDescription || null,
       manualJobUrl: upworkJobUrl || null,
-      attachments: JSON.stringify(attachmentUrls), // Store as JSON array
+      attachments: attachmentUrls, // Store as JSON array
     });
 
     console.log('✅ Applied job created:', appliedJob.id);
@@ -185,9 +185,3 @@ export const POST = withAuth(async (
   }
 });
 
-// Configure for file uploads (disable default body parser)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};

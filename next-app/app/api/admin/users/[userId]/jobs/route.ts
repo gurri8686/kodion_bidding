@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/middleware/auth';
 import { AppliedJob, Job, HiredJob, IgnoredJob, Platform, Profiles } from '@/lib/db/models';
 
-export const GET = withAdminAuth(async (req: NextRequest, context: { params: any }) => {
+export const GET = withAdminAuth(async (req: NextRequest, context: { params?: any }) => {
   try {
     const { userId } = await context.params;
 

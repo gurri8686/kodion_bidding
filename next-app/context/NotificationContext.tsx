@@ -46,7 +46,7 @@ interface NotificationProviderProps {
 }
 
 export const NotificationProvider = ({ children }: NotificationProviderProps) => {
-  const { socket, connected } = useSocket();
+  const { userChannel, adminChannel, connected } = useSocket();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -54,15 +54,13 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
   const user = useAppSelector((state) => state.auth.user);
   const role = user?.role;
 
-  const API_URL = process.env.NEXT_PUBLIC_APP_URL || '';
-
   // Fetch notifications from API
   const fetchNotifications = useCallback(async (page = 1, limit = 20) => {
     if (!token) return;
 
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/api/notifications`, {
+      const response = await axios.get(`/api/notifications`, {
         params: { page, limit },
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
@@ -74,14 +72,14 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     } finally {
       setLoading(false);
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Fetch unread count
   const fetchUnreadCount = useCallback(async () => {
     if (!token) return;
 
     try {
-      const response = await axios.get(`${API_URL}/api/notifications/unread-count`, {
+      const response = await axios.get(`/api/notifications/unread-count`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -89,7 +87,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     } catch (error) {
       console.error('Error fetching unread count:', error);
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Mark notification as read
   const markAsRead = useCallback(async (notificationId: number) => {
@@ -97,7 +95,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
     try {
       await axios.put(
-        `${API_URL}/api/notifications/${notificationId}/read`,
+        `/api/notifications/${notificationId}/read`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -114,7 +112,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Mark all as read
   const markAllAsRead = useCallback(async () => {
@@ -122,7 +120,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
 
     try {
       await axios.put(
-        `${API_URL}/api/notifications/mark-all-read`,
+        `/api/notifications/mark-all-read`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -139,14 +137,14 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       console.error('Error marking all as read:', error);
       toast.error('Failed to mark all as read');
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Delete notification
   const deleteNotification = useCallback(async (notificationId: number) => {
     if (!token) return;
 
     try {
-      await axios.delete(`${API_URL}/api/notifications/${notificationId}`, {
+      await axios.delete(`/api/notifications/${notificationId}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -156,14 +154,14 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       console.error('Error deleting notification:', error);
       toast.error('Failed to delete notification');
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Delete all notifications
   const deleteAllNotifications = useCallback(async () => {
     if (!token) return;
 
     try {
-      await axios.delete(`${API_URL}/api/notifications/all`, {
+      await axios.delete(`/api/notifications/all`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -174,11 +172,10 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       console.error('Error deleting all notifications:', error);
       toast.error('Failed to delete all notifications');
     }
-  }, [API_URL, token]);
+  }, [token]);
 
   // Listen for real-time notifications via Pusher
   useEffect(() => {
-    const { userChannel, adminChannel } = useSocket();
     if (!userChannel) return;
 
     const handleNewNotification = (notification: Notification) => {
@@ -239,7 +236,7 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
         adminChannel.unbind('admin_notification', handleAdminNotification);
       }
     };
-  }, [role, markAsRead]);
+  }, [userChannel, adminChannel, role, markAsRead]);
 
   // Fetch initial data on mount
   useEffect(() => {

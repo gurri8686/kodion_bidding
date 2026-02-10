@@ -85,8 +85,6 @@ Notification.init({
     type: DataTypes.STRING(100),
     allowNull: true,
     comment: 'Icon name or emoji for the notification',
-    charset: 'utf8mb4',
-    collate: 'utf8mb4_unicode_ci',
   },
   createdAt: {
     type: DataTypes.DATE,

@@ -8,6 +8,9 @@ import { NotificationProvider } from '@/context/NotificationContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ReactNode } from 'react';
+import Modal from 'react-modal';
+
+Modal.setAppElement('body');
 
 interface ProvidersProps {
   children: ReactNode;

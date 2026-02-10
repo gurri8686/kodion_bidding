@@ -28,7 +28,7 @@ IgnoredJob.init({
     allowNull: true,
   },
   userId: {
-    type: DataTypes.BIGINT(20).UNSIGNED,
+    type: DataTypes.BIGINT.UNSIGNED,
     allowNull: false,
     references: {
       model: 'users',

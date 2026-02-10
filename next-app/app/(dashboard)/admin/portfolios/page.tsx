@@ -37,7 +37,7 @@ export default function AllPortfolios() {
   const fetchAllPortfolios = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/portfolios/all`, {
+      const response = await axios.get(`/api/portfolios/all`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -53,7 +53,7 @@ export default function AllPortfolios() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/allusers`, {
+      const response = await axios.get(`/api/admin/allusers`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -65,7 +65,7 @@ export default function AllPortfolios() {
 
   const fetchTechnologies = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/all-technology-names`, {
+      const response = await axios.get(`/api/jobs/all-technology-names`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -205,7 +205,7 @@ export default function AllPortfolios() {
                 <Select
                   isMulti
                   value={selectedTechnologies}
-                  onChange={setSelectedTechnologies}
+                  onChange={(val: any) => setSelectedTechnologies(val as any[])}
                   options={technologyOptions}
                   placeholder="All Technologies"
                   className="text-sm"

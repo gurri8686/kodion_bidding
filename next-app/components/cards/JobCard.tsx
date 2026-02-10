@@ -10,16 +10,16 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useState } from "react";
-import Rating from 'react-rating';
+const Rating = require('react-rating') as any;
 import moment from "moment";
-import ApplyModal from "../modals/ApplyModal";
+import ApplyModal from "@/modals/ApplyModal";
 import { useSelector } from "react-redux";
 
 interface JobCardProps {
   job: any;
   mode?: "job" | "ignored";
-  onIgnore: (job: any) => void;
-  onApply: (jobId: string) => void;
+  onIgnore?: (job: any) => void;
+  onApply?: (jobId: string) => void;
 }
 
 const JobCard = ({ job, mode = "job", onIgnore, onApply }: JobCardProps) => {
@@ -136,7 +136,7 @@ const JobCard = ({ job, mode = "job", onIgnore, onApply }: JobCardProps) => {
           >
             Mark as Applied
           </button>
-          <button className="text-red-600 underline" onClick={() => onIgnore(job)}>
+          <button className="text-red-600 underline" onClick={() => onIgnore?.(job)}>
             Ignore
           </button>
           {job.link && (
@@ -184,8 +184,8 @@ const JobCard = ({ job, mode = "job", onIgnore, onApply }: JobCardProps) => {
         onRequestClose={() => setApplyModal(false)}
         jobId={job.jobId}
         job={job}
-        onApplyJob={(jobId) => {
-          onApply(jobId);
+        onApplyJob={(jobId: any) => {
+          onApply?.(jobId);
           setApplyModal(false);
         }}
       />

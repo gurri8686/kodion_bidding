@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Sidebar from '@/components/Sidebar';
-import GlobalHeader from '@/components/GlobalHeader';
 import { useNotifications } from '@/context/NotificationContext';
 import { formatDistanceToNow } from 'date-fns';
 import { Bell, Check, CheckCheck, Trash2, Filter } from 'lucide-react';
@@ -39,10 +37,6 @@ const Notifications = () => {
   });
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <GlobalHeader />
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           {/* Header */}
           <div className="mb-6">
@@ -238,8 +232,6 @@ const Notifications = () => {
             )}
           </div>
         </div>
-      </div>
-    </div>
   );
 };
 

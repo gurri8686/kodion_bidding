@@ -8,7 +8,7 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { Logs, AppliedJob, Profiles } from '@/lib/db/models';
 import { Op } from 'sequelize';
 
-export const GET = withAdminAuth(async (req: NextRequest, context: { params: any }) => {
+export const GET = withAdminAuth(async (req: NextRequest, context: { params?: any }) => {
   try {
     const { id: userId } = await context.params;
     const { searchParams } = new URL(req.url);
