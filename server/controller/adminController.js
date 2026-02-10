@@ -896,6 +896,94 @@ const getJobStats = async (req, res) => {
 };
 
 
+// Get all jobs for a specific user
+const getUserJobs = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    // Get applied jobs for the user
+    const appliedJobs = await AppliedJob.findAll({
+      where: { userId: parseInt(userId) },
+      include: [
+        {
+          model: Job,
+          required: false,
+        },
+        {
+          model: Platform,
+          as: "platform",
+          required: false,
+        },
+        {
+          model: Profiles,
+          as: "profile",
+          required: false,
+        },
+      ],
+      order: [["created_at", "DESC"]],
+    });
+
+    // Get hired jobs for the user
+    const hiredJobs = await HiredJob.findAll({
+      include: [
+        {
+          model: AppliedJob,
+          as: "appliedJobDetails",
+          where: { userId: parseInt(userId) },
+          required: true,
+          include: [
+            {
+              model: Job,
+              required: false,
+            },
+            {
+              model: Platform,
+              as: "platform",
+              required: false,
+            },
+            {
+              model: Profiles,
+              as: "profile",
+              required: false,
+            },
+          ],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    // Get ignored jobs for the user
+    const ignoredJobs = await IgnoredJob.findAll({
+      where: { userId: parseInt(userId) },
+      include: [
+        {
+          model: Job,
+          required: false,
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.status(200).json({
+      appliedJobs,
+      hiredJobs,
+      ignoredJobs,
+      summary: {
+        totalApplied: appliedJobs.length,
+        totalHired: hiredJobs.length,
+        totalIgnored: ignoredJobs.length,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching user jobs:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserCount,
@@ -908,4 +996,5 @@ module.exports = {
   userLogs,
   getPlatforms,
   getJobStats,
+  getUserJobs,
 };

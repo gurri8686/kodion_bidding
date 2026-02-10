@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-    getAllUsers, getUserCount, getJobCount, getAppliedJobsCount, getTopTechnologies, getScrapeLogSummary, getUserActivityDetails, toggleUserStatus,userLogs,getPlatforms,getJobStats
+    getAllUsers, getUserCount, getJobCount, getAppliedJobsCount, getTopTechnologies, getScrapeLogSummary, getUserActivityDetails, toggleUserStatus,userLogs,getPlatforms,getJobStats,getUserJobs
 } = require("../controller/adminController");
 
 
@@ -17,4 +17,5 @@ router.put("/user/:id/status", authenticate, toggleUserStatus);
 router.get('/logs/:id', authenticate, userLogs);
 router.get('/platforms', authenticate, getPlatforms);
 router.get('/job-stats', authenticate, getJobStats);
+router.get('/user/:userId/jobs', authenticate, getUserJobs);
 module.exports = router;
