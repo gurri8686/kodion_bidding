@@ -8,6 +8,11 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'dev_secret_change_me';
 
+
+// Route segment config for Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   // Get token from cookies
   let token = req.cookies.get('token')?.value;

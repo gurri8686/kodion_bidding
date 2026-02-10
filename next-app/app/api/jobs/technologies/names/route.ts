@@ -6,6 +6,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Technologies } from '@/lib/db/models';
 
+
+// Route segment config for Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const technologies = await Technologies.findAll({

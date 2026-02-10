@@ -13,13 +13,13 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import MediaGalleryModal from "@/modals/MediaGalleryModal";
-import HiredJobModal from "@/modals/HiredJob";
-import EditAppliedJobModal from "@/modals/EditAppliedModal";
-import MarkAsReplyModal from "@/modals/MarkAsReplyModal";
-import MarkAsInterviewModal from "@/modals/MarkAsInterviewModal";
-import ViewStageDetailsModal from "@/modals/ViewStageDetailsModal";
-import MarkAsNotHiredModal from "@/modals/MarkAsNotHiredModal";
+import MediaGalleryModal from "@/components/modals/MediaGalleryModal";
+import HiredJobModal from "@/components/modals/HiredJob";
+import EditAppliedJobModal from "@/components/modals/EditAppliedModal";
+import MarkAsReplyModal from "@/components/modals/MarkAsReplyModal";
+import MarkAsInterviewModal from "@/components/modals/MarkAsInterviewModal";
+import ViewStageDetailsModal from "@/components/modals/ViewStageDetailsModal";
+import MarkAsNotHiredModal from "@/components/modals/MarkAsNotHiredModal";
 
 interface UniversalJobCardProps {
   job: any;

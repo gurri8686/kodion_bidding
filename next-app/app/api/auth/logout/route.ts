@@ -5,6 +5,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
+
+// Route segment config for Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   const response = NextResponse.json({
     message: 'Logged out successfully',

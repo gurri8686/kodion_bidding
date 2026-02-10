@@ -6,6 +6,11 @@
 import { NextResponse } from 'next/server';
 import { testConnection } from '@/lib/db/connection';
 
+
+// Route segment config for Vercel
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const dbHealthy = await testConnection();
