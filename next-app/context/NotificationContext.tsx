@@ -176,9 +176,10 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
     }
   }, [API_URL, token]);
 
-  // Listen for real-time notifications via Socket.IO
+  // Listen for real-time notifications via Pusher
   useEffect(() => {
-    if (!socket || !connected) return;
+    const { userChannel, adminChannel } = useSocket();
+    if (!userChannel) return;
 
     const handleNewNotification = (notification: Notification) => {
       console.log('📬 New notification received:', notification);
@@ -223,14 +224,22 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       }
     };
 
-    socket.on('notification', handleNewNotification);
-    socket.on('admin_notification', handleAdminNotification);
+    // Bind to Pusher events (replaces socket.on)
+    userChannel.bind('notification', handleNewNotification);
 
+    // Admin channel listener
+    if (adminChannel && role === 'admin') {
+      adminChannel.bind('admin_notification', handleAdminNotification);
+    }
+
+    // Cleanup (replaces socket.off)
     return () => {
-      socket.off('notification', handleNewNotification);
-      socket.off('admin_notification', handleAdminNotification);
+      userChannel.unbind('notification', handleNewNotification);
+      if (adminChannel) {
+        adminChannel.unbind('admin_notification', handleAdminNotification);
+      }
     };
-  }, [socket, connected, role, markAsRead]);
+  }, [role, markAsRead]);
 
   // Fetch initial data on mount
   useEffect(() => {

@@ -1,0 +1,44 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/lib/store/hooks';
+import Sidebar from '@/components/dashboard/Sidebar';
+import GlobalHeader from '@/components/dashboard/GlobalHeader';
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const token = useAppSelector((state) => state.auth.token);
+  const user = useAppSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    // Check if user is authenticated
+    if (!token || !user) {
+      router.push('/login');
+    }
+  }, [token, user, router]);
+
+  // Don't render dashboard if not authenticated
+  if (!token || !user) {
+    return null;
+  }
+
+  return (
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

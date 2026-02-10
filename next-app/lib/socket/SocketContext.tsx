@@ -1,16 +1,22 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import Pusher, { Channel } from 'pusher-js';
+import { getPusherClient, disconnectPusher } from '../notification/pusher-client';
+import { useAppSelector } from '../store/hooks';
 
 interface SocketContextType {
-  socket: Socket | null;
+  pusher: Pusher | null;
+  userChannel: Channel | null;
+  adminChannel: Channel | null;
   connected: boolean;
 }
 
 const SocketContext = createContext<SocketContextType>({
-  socket: null,
-  connected: false
+  pusher: null,
+  userChannel: null,
+  adminChannel: null,
+  connected: false,
 });
 
 export function useSocket() {
@@ -22,62 +28,80 @@ interface SocketProviderProps {
 }
 
 export function SocketProvider({ children }: SocketProviderProps) {
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [pusher, setPusher] = useState<Pusher | null>(null);
+  const [userChannel, setUserChannel] = useState<Channel | null>(null);
+  const [adminChannel, setAdminChannel] = useState<Channel | null>(null);
   const [connected, setConnected] = useState(false);
 
+  // Get user data from Redux store
+  const userId = useAppSelector((state) => state.auth.userId);
+  const user = useAppSelector((state) => state.auth.user);
+  const isAuthenticated = useAppSelector((state) => !!state.auth.token);
+
   useEffect(() => {
-    // Get Socket.io URL from environment or default to current host
-    const socketUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+    // Only connect if user is authenticated
+    if (!isAuthenticated) {
+      if (pusher) {
+        disconnectPusher();
+        setPusher(null);
+        setUserChannel(null);
+        setAdminChannel(null);
+        setConnected(false);
+      }
+      return;
+    }
 
-    // Initialize Socket.io client
-    const socketInstance = io(socketUrl, {
-      transports: ['websocket', 'polling'],
-      withCredentials: true,
-      reconnection: true,
-      reconnectionDelay: 1000,
-      reconnectionAttempts: 5
-    });
+    // Initialize Pusher client
+    const pusherClient = getPusherClient();
+    setPusher(pusherClient);
 
-    // Connection handlers
-    socketInstance.on('connect', () => {
-      console.log('✓ Socket.io connected:', socketInstance.id);
+    // Connection event handlers
+    pusherClient.connection.bind('connected', () => {
+      console.log('✅ Pusher connected');
       setConnected(true);
+
+      // Subscribe to user-specific channel
+      if (userId) {
+        const channel = pusherClient.subscribe(`user_${userId}`);
+        setUserChannel(channel);
+        console.log(`📍 Subscribed to user_${userId} channel`);
+      }
+
+      // Subscribe to admin channel if user is admin
+      if (user?.role === 'admin') {
+        const adminChan = pusherClient.subscribe('admin_room');
+        setAdminChannel(adminChan);
+        console.log('👨‍💼 Subscribed to admin_room channel');
+      }
     });
 
-    socketInstance.on('disconnect', (reason) => {
-      console.log('✗ Socket.io disconnected:', reason);
+    pusherClient.connection.bind('disconnected', () => {
+      console.log('❌ Pusher disconnected');
       setConnected(false);
     });
 
-    socketInstance.on('connect_error', (error) => {
-      console.error('✗ Socket.io connection error:', error.message);
+    pusherClient.connection.bind('error', (err: any) => {
+      console.error('❌ Pusher connection error:', err);
       setConnected(false);
     });
 
-    socketInstance.on('reconnect', (attemptNumber) => {
-      console.log(`✓ Socket.io reconnected after ${attemptNumber} attempts`);
-      setConnected(true);
+    pusherClient.connection.bind('state_change', (states: any) => {
+      console.log(`🔄 Pusher state changed: ${states.previous} -> ${states.current}`);
     });
 
-    socketInstance.on('reconnect_error', (error) => {
-      console.error('✗ Socket.io reconnection error:', error.message);
-    });
-
-    socketInstance.on('reconnect_failed', () => {
-      console.error('✗ Socket.io reconnection failed');
-    });
-
-    setSocket(socketInstance);
-
-    // Cleanup on unmount
+    // Cleanup on unmount or when authentication changes
     return () => {
-      console.log('✓ Disconnecting Socket.io');
-      socketInstance.disconnect();
+      if (userChannel) {
+        pusherClient.unsubscribe(`user_${userId}`);
+      }
+      if (adminChannel) {
+        pusherClient.unsubscribe('admin_room');
+      }
     };
-  }, []);
+  }, [isAuthenticated, userId, user?.role]);
 
   return (
-    <SocketContext.Provider value={{ socket, connected }}>
+    <SocketContext.Provider value={{ pusher, userChannel, adminChannel, connected }}>
       {children}
     </SocketContext.Provider>
   );

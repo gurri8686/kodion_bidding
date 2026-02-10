@@ -1,0 +1,65 @@
+/**
+ * GET /api/connects/[userId] - Get connects usage for profiles
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
+import { AppliedJob, User, Profile } from '@/lib/db/models';
+import { Op, Sequelize } from 'sequelize';
+
+export const GET = withAuth(async (
+  req: NextRequest,
+  context: { params: Promise<{ userId: string }> },
+  user: AuthenticatedUser
+) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const date = searchParams.get('date');
+
+    const whereClause: any = {};
+    if (date) {
+      const startOfDay = new Date(date + 'T00:00:00');
+      const endOfDay = new Date(date + 'T23:59:59');
+      whereClause.createdAt = {
+        [Op.between]: [startOfDay, endOfDay],
+      };
+    }
+
+    const usage = await AppliedJob.findAll({
+      attributes: [
+        'userId',
+        'profileId',
+        [Sequelize.fn('SUM', Sequelize.col('AppliedJob.connectsUsed')), 'total_connects'],
+        [Sequelize.fn('COUNT', Sequelize.col('AppliedJob.id')), 'total_entries'],
+        [Sequelize.fn('MAX', Sequelize.col('AppliedJob.createdAt')), 'last_used'],
+      ],
+      where: whereClause,
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstname', 'email'],
+        },
+        {
+          model: Profile,
+          as: 'profile',
+          attributes: ['id', 'name'],
+        },
+      ],
+      group: [
+        'AppliedJob.userId',
+        'AppliedJob.profileId',
+        'User.id',
+        'profile.id',
+      ],
+      order: [[Sequelize.fn('MAX', Sequelize.col('AppliedJob.createdAt')), 'DESC']],
+    });
+
+    return NextResponse.json(usage);
+  } catch (error: any) {
+    console.error('Error fetching connects usage:', error);
+    return NextResponse.json(
+      { message: 'Error fetching connects usage' },
+      { status: 500 }
+    );
+  }
+});

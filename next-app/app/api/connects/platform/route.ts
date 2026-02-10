@@ -1,0 +1,56 @@
+/**
+ * POST /api/connects/platform - Create a new platform
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
+import { Platform } from '@/lib/db/models';
+
+export const POST = withAuth(async (
+  req: NextRequest,
+  context: any,
+  user: AuthenticatedUser
+) => {
+  try {
+    const { platformName, connect_cost_usd, connect_cost_inr } = await req.json();
+
+    if (!platformName) {
+      return NextResponse.json(
+        { message: 'Platform name is required' },
+        { status: 400 }
+      );
+    }
+
+    // Check if platform exists
+    const exists = await Platform.findOne({ where: { name: platformName } });
+    if (exists) {
+      return NextResponse.json(
+        { message: 'Platform already exists' },
+        { status: 409 }
+      );
+    }
+
+    const newPlatform = await Platform.create({
+      name: platformName,
+      connect_cost_usd,
+      connect_cost_inr,
+    });
+
+    return NextResponse.json(
+      {
+        message: 'Platform created successfully',
+        data: newPlatform,
+      },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    console.error('Error creating platform:', error);
+    return NextResponse.json(
+      {
+        message: 'Internal server error',
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+});
