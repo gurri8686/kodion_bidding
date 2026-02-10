@@ -49,9 +49,10 @@ const io = new Server(server, {
             'http://ec2-51-20-84-250.eu-north-1.compute.amazonaws.com:3000',
             'chrome-extension://lfnmgjkpcbabmbdjjnknamjmpegcdjai',
             'http://localhost:3000',
-             'http://localhost:3001',
-
-        ],
+            'http://localhost:3001',
+            'https://kodion-bidding.vercel.app', // Add your Vercel domain
+            process.env.FRONTEND_URL, // Can be set in Railway env vars
+        ].filter(Boolean), // Remove undefined values
         methods: ['GET', 'POST'],
         credentials: true,
     },
@@ -69,8 +70,10 @@ app.use(cors({
         'http://ec2-51-20-84-250.eu-north-1.compute.amazonaws.com:3000',
         'chrome-extension://lfnmgjkpcbabmbdjjnknamjmpegcdjai',
         'http://localhost:3000',
-        'http://localhost:3001'
-    ],
+        'http://localhost:3001',
+        'https://kodion-bidding.vercel.app', // Add your Vercel domain
+        process.env.FRONTEND_URL, // Can be set in Railway env vars
+    ].filter(Boolean), // Remove undefined values
     // methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
