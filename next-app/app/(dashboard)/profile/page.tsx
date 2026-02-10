@@ -1,7 +1,6 @@
 'use client';
 
 import { useAppSelector } from "@/lib/store/hooks";
-import Sidebar from "@/components/dashboard/Sidebar";
 import GlobalHeader from "@/components/dashboard/GlobalHeader";
 import { Edit, User, Mail, Phone } from "lucide-react";
 
@@ -9,13 +8,9 @@ const ProfilePage = () => {
   const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar />
-
-      <div className="flex-1 overflow-y-auto">
-        <GlobalHeader title="Profile" />
-        <main className="overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      <GlobalHeader title="Profile" />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Profile Header */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 h-32"></div>
@@ -104,9 +99,8 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-        </main>
       </div>
-    </div>
+    </>
   );
 };
 

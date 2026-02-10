@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Sidebar from '@/components/dashboard/Sidebar';
 import GlobalHeader from '@/components/dashboard/GlobalHeader';
 import { useAppSelector } from '@/lib/store/hooks';
 import { toast, ToastContainer } from "react-toastify";
@@ -18,6 +17,7 @@ const SettingsPage = () => {
   useEffect(() => {
     fetchTechOptions();
     fetchActiveTechnologies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchTechOptions = async () => {
@@ -97,11 +97,9 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <GlobalHeader title="Settings" />
-        <div className="p-8 h-full flex items-start justify-center overflow-hidden">
+    <>
+      <GlobalHeader title="Settings" />
+      <div className="p-8 h-full flex items-start justify-center overflow-hidden bg-gray-100">
           {loading ? (
             <div className='grid grid-cols-1 mx-auto'>
               <Loader />
@@ -151,9 +149,8 @@ const SettingsPage = () => {
               </div>
             </div>
           )}
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 
