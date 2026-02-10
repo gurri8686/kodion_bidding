@@ -33,7 +33,7 @@ export const SocketProvider = ({ children }) => {
     }
 
     // Create socket connection
-    const socketInstance = io(import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000', {
+    const socketInstance = io(import.meta.env.VITE_API_BASE_URL || 'http://kodion-bidding.vercel.app', {
       transports: ['websocket', 'polling'],
       withCredentials: true,
     });
