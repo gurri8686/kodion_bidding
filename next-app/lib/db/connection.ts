@@ -39,13 +39,13 @@ export function getSequelize(): Sequelize {
           timeout: 3000,
         },
 
-        // Disable SSL for local development
+        // Only enable SSL if explicitly configured via MYSQL_SSL=true
         dialectOptions:
-          process.env.NODE_ENV === 'production'
+          process.env.MYSQL_SSL === 'true'
             ? {
                 ssl: {
                   require: true,
-                  rejectUnauthorized: false, // For some cloud MySQL providers
+                  rejectUnauthorized: false,
                 },
               }
             : {},
