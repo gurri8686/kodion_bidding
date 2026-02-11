@@ -6,6 +6,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { Profiles } from '@/lib/db/models';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(async (
   req: NextRequest,
   context: any,

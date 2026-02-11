@@ -71,7 +71,7 @@ const IgnoredJobs = () => {
 
     try {
       const response = await axios.get(
-        `/api/jobs/get-ignored-jobs`,
+        `/api/jobs/ignored`,
         {
           params,
           headers: {

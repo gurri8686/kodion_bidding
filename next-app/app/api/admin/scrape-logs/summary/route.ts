@@ -8,6 +8,9 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { ScrapeLog } from '@/lib/db/models';
 import { fn, col } from 'sequelize';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAdminAuth(async () => {
   try {
     const logs = await ScrapeLog.findAll({

@@ -27,7 +27,7 @@ const ConnectsCost = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/platforms`,
+        `/api/admin/platforms`,
         {
           credentials: "include",
         }
@@ -75,7 +75,7 @@ const ConnectsCost = () => {
       if (!editing) {
         // CREATE NEW PLATFORM + COST
         response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/create-platform`,
+          `/api/connects/platform`,
           {
             method: "POST",
             headers: {
@@ -92,7 +92,7 @@ const ConnectsCost = () => {
       } else {
         // UPDATE COST ONLY
         response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/save-connect-cost`,
+          `/api/connects/cost`,
           {
             method: "POST",
             headers: {

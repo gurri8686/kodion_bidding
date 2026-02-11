@@ -1,20 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import RootApp from "../components/RootApp";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const token = useSelector((state: any) => state.auth?.token);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (token) {
+      router.replace("/jobs");
+    } else {
+      router.replace("/login");
+    }
+  }, [token, router]);
 
-  if (!mounted) {
-    // Avoid rendering the client SPA on the server to prevent
-    // issues with BrowserRouter and window/document usage.
-    return null;
-  }
-
-  return <RootApp />;
+  return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <p>Loading...</p>
+    </div>
+  );
 }

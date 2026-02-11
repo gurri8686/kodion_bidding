@@ -91,7 +91,7 @@ const UserLogs = ({ params }: UserLogsProps) => {
         const { startDate, endDate } = getSelectedDate();
 
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/logs/${userId}`,
+          `/api/admin/logs/${userId}`,
           {
             params: { startDate, endDate },
             withCredentials: true,

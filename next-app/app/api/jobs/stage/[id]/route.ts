@@ -8,6 +8,9 @@ import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { AppliedJob, Job, User } from '@/lib/db/models';
 import { notifyJobReplied, notifyJobInterviewed, notifyJobNotHired } from '@/lib/utils/notificationHelper';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const PUT = withAuth(
   async (req: NextRequest, context: { params: Promise<{ id: string }> }, user: AuthenticatedUser) => {
     try {

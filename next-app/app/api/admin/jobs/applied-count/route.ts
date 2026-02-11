@@ -7,6 +7,9 @@ import { NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/middleware/auth';
 import { AppliedJob } from '@/lib/db/models';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAdminAuth(async () => {
   try {
     const totalAppliedJobs = await AppliedJob.count();

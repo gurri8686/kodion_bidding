@@ -8,6 +8,9 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { User } from '@/lib/db/models';
 import { Op } from 'sequelize';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAdminAuth(async (req: NextRequest) => {
   try {
     const { searchParams } = new URL(req.url);

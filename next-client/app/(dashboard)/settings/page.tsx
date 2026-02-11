@@ -22,7 +22,7 @@ const Settings = () => {
 
   const fetchTechOptions = async () => {
     try {
-      const endpoint = `/api/jobs/all-technology-names`;
+      const endpoint = `/api/jobs/technologies/names`;
 
       const response = await fetch(endpoint, {
         headers: {
@@ -46,7 +46,7 @@ const Settings = () => {
 
   const fetchActiveTechnologies = async () => {
     try {
-      const response = await fetch(`/api/jobs/active/${userId}`, {
+      const response = await fetch(`/api/jobs/technologies/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
         credentials: "include",
       });

@@ -12,6 +12,10 @@ import { uploadMultipleFiles, parseFilesFromFormData, deleteFile } from '@/lib/u
 /**
  * GET - Get applied jobs for a specific user with filtering
  */
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(
   async (req: NextRequest, context: { params: Promise<{ id: string }> }, user: AuthenticatedUser) => {
     try {

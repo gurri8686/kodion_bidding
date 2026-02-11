@@ -24,7 +24,7 @@ const ManageDevelopers = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/get-all-developers`, {
+      const res = await fetch(`/api/developers`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,7 +48,7 @@ const ManageDevelopers = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/add-developer`, {
+      const res = await fetch(`/api/developers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const ManageDevelopers = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/edit-developer/${editingId}`, {
+      const res = await fetch(`/api/developers/${editingId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const ManageDevelopers = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/delete-developer/${developerId}`, {
+      const res = await fetch(`/api/developers/${developerId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

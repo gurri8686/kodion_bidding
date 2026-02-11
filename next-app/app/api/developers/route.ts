@@ -8,6 +8,9 @@ import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { Developer } from '@/lib/db/models';
 import { v4 as uuidv4 } from 'uuid';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(async (
   req: NextRequest,
   context: any,

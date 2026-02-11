@@ -7,6 +7,9 @@ import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { AppliedJob, User, Profiles } from '@/lib/db/models';
 import { Op, Sequelize } from 'sequelize';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(async (
   req: NextRequest,
   context: { params: Promise<{ userId: string }> },

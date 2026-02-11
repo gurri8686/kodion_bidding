@@ -8,6 +8,9 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { Logs, AppliedJob, Profiles } from '@/lib/db/models';
 import { Op } from 'sequelize';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAdminAuth(async (req: NextRequest, context: { params?: any }) => {
   try {
     const { id: userId } = await context.params;

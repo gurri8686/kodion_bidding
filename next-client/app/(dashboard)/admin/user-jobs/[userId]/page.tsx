@@ -23,7 +23,7 @@ export default function UserJobDetails({ params }: UserJobDetailsProps) {
         setLoading(true);
         setError("");
 
-        const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/user/${userId}/jobs`;
+        const url = `/api/admin/users/${userId}/jobs`;
         const res = await axios.get(url, { withCredentials: true });
 
         if (!cancelled) setData(res.data);

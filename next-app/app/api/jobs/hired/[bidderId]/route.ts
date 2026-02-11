@@ -9,6 +9,9 @@ import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { HiredJob, Job, Developer, AppliedJob } from '@/lib/db/models';
 import { sequelize } from '@/lib/db/connection';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(
   async (req: NextRequest, context: { params: Promise<{ bidderId: string }> }, user: AuthenticatedUser) => {
     try {

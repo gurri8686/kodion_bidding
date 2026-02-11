@@ -12,6 +12,10 @@ import { notifyJobHired } from '@/lib/utils/notificationHelper';
  * POST /api/jobs/hired
  * Mark a job as hired
  */
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const POST = withAuth(async (req: NextRequest, context: any, user: AuthenticatedUser) => {
   try {
     const {

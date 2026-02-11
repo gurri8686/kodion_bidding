@@ -8,6 +8,9 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { User } from '@/lib/db/models';
 import { notifyUserBlocked, notifyUserActivated } from '@/lib/utils/notificationHelper';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const PUT = withAdminAuth(
   async (req: NextRequest, context: { params?: any }, adminUser) => {
     try {

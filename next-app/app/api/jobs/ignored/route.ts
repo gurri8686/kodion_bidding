@@ -8,6 +8,9 @@ import { Op } from 'sequelize';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { Job, IgnoredJob } from '@/lib/db/models';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(async (req: NextRequest, context: any, user: AuthenticatedUser) => {
   try {
     const { searchParams } = new URL(req.url);

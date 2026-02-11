@@ -46,13 +46,11 @@ const AllPortfolios = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
 
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   // Fetch all portfolios
   const fetchAllPortfolios = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API}/api/portfolios/all`, {
+      const response = await axios.get(`/api/portfolios/all`, {
         withCredentials: true,
       });
       setPortfolios(response.data.data);
@@ -68,7 +66,7 @@ const AllPortfolios = () => {
   // Fetch all users for filter
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(`${API}/api/admin/allusers`, {
+      const response = await axios.get(`/api/admin/users`, {
         withCredentials: true,
       });
       setUsers(response.data);
@@ -80,7 +78,7 @@ const AllPortfolios = () => {
   // Fetch technologies
   const fetchTechnologies = async () => {
     try {
-      const response = await axios.get(`${API}/api/jobs/all-technology-names`, {
+      const response = await axios.get(`/api/jobs/technologies/names`, {
         withCredentials: true,
       });
       setAvailableTechnologies(response.data.technologies || []);

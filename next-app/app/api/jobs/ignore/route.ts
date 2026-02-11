@@ -7,6 +7,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { Job, IgnoredJob } from '@/lib/db/models';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const POST = withAuth(async (req: NextRequest, context: any, user: AuthenticatedUser) => {
   try {
     const { reason, customReason, job } = await req.json();

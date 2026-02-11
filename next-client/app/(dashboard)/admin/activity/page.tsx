@@ -5,8 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const UserActivity = () => {
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("cards");
@@ -17,7 +17,7 @@ const UserActivity = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/user/activity`,
+          `/api/admin/users/activity`,
           {
             withCredentials: true,
           }

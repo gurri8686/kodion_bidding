@@ -12,6 +12,9 @@ import {
   notifyTargetAchieved,
 } from '@/lib/utils/notificationHelper';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAuth(async (
   req: NextRequest,
   context: any,

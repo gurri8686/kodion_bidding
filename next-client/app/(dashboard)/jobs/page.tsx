@@ -83,7 +83,7 @@ const Jobs = () => {
     };
 
     try {
-      const res = await axios.get(`/api/jobs/get-jobs`, {
+      const res = await axios.get(`/api/jobs`, {
         params,
         withCredentials: true,
       });

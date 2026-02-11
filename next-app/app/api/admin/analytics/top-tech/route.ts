@@ -8,6 +8,9 @@ import { withAdminAuth } from '@/lib/middleware/auth';
 import { UserTechnologies, Technologies } from '@/lib/db/models';
 import { fn, col, literal } from 'sequelize';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const GET = withAdminAuth(async () => {
   try {
     const result = await UserTechnologies.findAll({

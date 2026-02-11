@@ -55,15 +55,13 @@ const ProgressTracker = () => {
   const [formAmount, setFormAmount] = useState("");
   const [formAchievedAmount, setFormAchievedAmount] = useState("");
 
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   const fetchTarget = async () => {
     setLoading(true);
     try {
       const week_start = selectedWeek.start.toISOString().slice(0, 10);
       const week_end = selectedWeek.end.toISOString().slice(0, 10);
 
-      const res = await axios.get(`${API}/api/get-target`, {
+      const res = await axios.get(`/api/targets`, {
         params: { week_start, week_end },
         withCredentials: true,
       });
@@ -109,7 +107,7 @@ const ProgressTracker = () => {
     };
 
     try {
-      await axios.post(`${API}/api/set-target`, payload, {
+      await axios.post(`/api/targets`, payload, {
         withCredentials: true,
       });
 

@@ -15,6 +15,9 @@ import { AppliedJob, Job, IgnoredJob, Profiles, User, Platform } from '@/lib/db/
 import { uploadMultipleFiles, parseFilesFromFormData } from '@/lib/utils/fileUpload';
 import { notifyJobApplied } from '@/lib/utils/notificationHelper';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const POST = withAuth(async (
   req: NextRequest,
   context: any,

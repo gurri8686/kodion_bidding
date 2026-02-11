@@ -8,6 +8,9 @@ import { Op, Sequelize } from 'sequelize';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
 import { Technologies, UserTechnologies } from '@/lib/db/models';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export const POST = withAuth(async (req: NextRequest, context: any, user: AuthenticatedUser) => {
   try {
     const { userId, technologyName } = await req.json();

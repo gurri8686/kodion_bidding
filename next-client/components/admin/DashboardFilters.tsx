@@ -80,16 +80,16 @@ const DashboardFilters = ({ onFilterChange }: DashboardFiltersProps) => {
       try {
         const [platformRes, userRes, profileRes] = await Promise.all([
           axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/platforms`,
+            `/api/admin/platforms`,
             {
               withCredentials: true,
             }
           ),
-          axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/allusers`, {
+          axios.get(`/api/admin/users`, {
             withCredentials: true,
           }),
           axios.get(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/get-all-profiles`,
+            `/api/profiles`,
             {
               withCredentials: true,
             }
@@ -281,7 +281,7 @@ const DashboardFilters = ({ onFilterChange }: DashboardFiltersProps) => {
           isMulti
           options={platformOptions}
           value={platform}
-          onChange={(val) => setPlatform(val || [])}
+          onChange={(val) => setPlatform([...(val || [])])}
           classNamePrefix="select"
           placeholder="Select Platforms..."
         />
@@ -353,7 +353,7 @@ const DashboardFilters = ({ onFilterChange }: DashboardFiltersProps) => {
           isMulti
           options={bidderOptions}
           value={bidder}
-          onChange={(val) => setBidder(val || [])}
+          onChange={(val) => setBidder([...(val || [])])}
           classNamePrefix="select"
           placeholder="Select Bidders..."
         />

@@ -180,7 +180,7 @@ const HiredJobs = () => {
         const endDate = format(dateRange[0].endDate, "yyyy-MM-dd");
 
         const res = await axios.get(
-          `/api/jobs/get-hired-jobs/${userId}`,
+          `/api/jobs/hired/${userId}`,
           {
             params: {
               page,
