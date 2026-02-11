@@ -1,6 +1,0 @@
-RewriteEngine On
-
-# Redirect all HTTP traffic to HTTPS on port 3000
-RewriteCond %{SERVER_PORT} 80
-RewriteRule ^(.*)$ https://ec2-51-20-84-250.eu-north-1.compute.amazonaws.com:3000/$1 [R,L]
-

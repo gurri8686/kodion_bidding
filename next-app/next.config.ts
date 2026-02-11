@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Exclude pg-hstore (PostgreSQL) from bundle - we use MySQL
-  serverExternalPackages: ['pg-hstore', 'pg', 'mysql2', 'sequelize'],
+  serverExternalPackages: ['mysql2', 'sequelize'],
 
   experimental: {
     serverActions: {

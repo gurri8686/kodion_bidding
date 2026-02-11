@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 const Rating = require('react-rating') as any;
 import moment from "moment";
-import ApplyModal from "@/modals/ApplyModal";
+import ApplyModal from "@/components/modals/ApplyModal";
 import { useSelector } from "react-redux";
 
 interface JobCardProps {

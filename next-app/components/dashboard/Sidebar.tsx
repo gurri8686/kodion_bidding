@@ -111,6 +111,11 @@ const Sidebar = () => {
             path: "/admin/connects",
             icon: <Plug size={18} />,
           },
+          {
+            label: "Scrape Logs",
+            path: "/admin/scrape-logs",
+            icon: <Activity size={18} />,
+          },
         ]
       : [
           {

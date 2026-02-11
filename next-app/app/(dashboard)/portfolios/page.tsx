@@ -6,9 +6,9 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import { Loader } from "@/utils/Loader";
 import { Briefcase, Plus, ExternalLink, Edit2, Trash2 } from "lucide-react";
-import AddPortfolioModal from "@/modals/AddPortfolioModal";
-import EditPortfolioModal from "@/modals/EditPortfolioModal";
-import ConfirmModal from "@/modals/ConfirmModal";
+import AddPortfolioModal from "@/components/modals/AddPortfolioModal";
+import EditPortfolioModal from "@/components/modals/EditPortfolioModal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

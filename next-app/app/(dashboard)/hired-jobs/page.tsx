@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { Loader } from "@/utils/Loader";
 import { Briefcase, Search, LayoutGrid, Table, Paperclip } from "lucide-react";
 import { DateRange } from "react-date-range";
-import MediaGalleryModal from "@/modals/MediaGalleryModal";
+import MediaGalleryModal from "@/components/modals/MediaGalleryModal";
 import {
   startOfWeek,
   endOfWeek,

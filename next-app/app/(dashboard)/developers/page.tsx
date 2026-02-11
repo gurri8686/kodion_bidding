@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Loader } from "@/utils/Loader";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { addDeveloperSchema } from '@/utils/validations';
-import ConfirmModal from '@/modals/ConfirmModal';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 
 const ManageDevelopers = () => {
   const [developers, setDevelopers] = useState([]);

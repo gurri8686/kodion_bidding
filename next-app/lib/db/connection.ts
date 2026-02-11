@@ -95,3 +95,4 @@ export async function closeConnection(): Promise<void> {
 
 // Export the instance directly for convenience
 export const sequelize = getSequelize();
+export default sequelize;
