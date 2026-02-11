@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "pusher": "^5.3.2",
+    "pusher-js": "^8.4.0"
+  }
+}
