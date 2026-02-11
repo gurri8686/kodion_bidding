@@ -4,6 +4,27 @@ const nextConfig: NextConfig = {
   // Exclude pg-hstore (PostgreSQL) from bundle - we use MySQL
   serverExternalPackages: ['pg-hstore', 'pg', 'mysql2', 'sequelize'],
 
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+
+  // Allow images from external domains
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+
+  // Environment variables
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  },
+
   // Rewrites to map old Express API routes to new Next.js API routes
   async rewrites() {
     return [
