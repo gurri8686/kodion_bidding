@@ -53,7 +53,17 @@ const LoginPage = () => {
         }
       } catch (error: any) {
         console.error("Login Error:", error);
-        const errMsg = error.response?.data?.error || "Login failed.";
+        
+        // Show more detailed error
+        let errMsg = "Login failed.";
+        if (error.response?.data?.error) {
+          errMsg = error.response.data.error;
+        } else if (error.message) {
+          errMsg = error.message;
+        } else if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED' || error.code === 'ERR_CONNECTION_CLOSED') {
+          errMsg = "Cannot connect to server. Database may be unavailable.";
+        }
+        
         toast.error(errMsg);
       } finally {
         setLoading(false);
@@ -65,7 +75,7 @@ const LoginPage = () => {
     <div className="flex justify-center flex-col items-center min-h-screen bg-[#E9ECEF]">
       <Image src="/dark.png" alt="Logo" width={300} height={100} className="lg:w-[22%] w-[65%] mb-5" priority />
       <div className="bg-white p-6 rounded-lg shadow-md lg:w-96 w-[80%]">
-        <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
+        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-900">Login</h2>
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>
@@ -76,7 +86,7 @@ const LoginPage = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md text-gray-900 placeholder-gray-500"
             />
             {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-sm">{formik.errors.email}</p>
@@ -93,7 +103,7 @@ const LoginPage = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full p-2 border rounded-md border-none focus:outline-none"
+              className="w-full p-2 border rounded-md border-none focus:outline-none text-gray-900 placeholder-gray-500"
             />
             <span
               className="cursor-pointer pr-2"

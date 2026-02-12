@@ -29,13 +29,26 @@ export async function POST(req: NextRequest) {
 
     console.log(`🔐 Login attempt for: ${email}`);
 
-    // Quick DB health check
+    // Quick DB health check with timeout (10 seconds max)
     try {
-      await sequelize.authenticate();
-    } catch (dbErr) {
-      console.error('DB connection unavailable during login:', dbErr);
+      await Promise.race([
+        sequelize.authenticate(),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('DB connection timeout after 10s')), 10000)
+        )
+      ]);
+    } catch (dbErr: any) {
+      console.error('DB connection error:', {
+        message: dbErr?.message || 'Unknown error',
+        code: dbErr?.code,
+        host: process.env.MYSQL_DB_HOST,
+        name: dbErr?.name
+      });
       return NextResponse.json(
-        { error: 'Database unavailable' },
+        { 
+          error: 'Database connection failed. Please check server configuration.',
+          details: process.env.NODE_ENV === 'development' ? dbErr?.message : undefined
+        },
         { status: 503 }
       );
     }
