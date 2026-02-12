@@ -12,13 +12,13 @@ export const dynamic = 'force-dynamic';
 
 export const GET = withAdminAuth(async (req: NextRequest, context: { params?: any }) => {
   try {
-    const { userId } = await context.params;
+    const { id } = await context.params;
 
-    if (!userId) {
+    if (!id) {
       return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
     }
 
-    const userIdInt = parseInt(userId);
+    const userIdInt = parseInt(id);
 
     // Get applied jobs for the user
     const appliedJobs = await AppliedJob.findAll({

@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
       { source: '/api/admin/allusers', destination: '/api/admin/users' },
       { source: '/api/admin/user/:id/status', destination: '/api/admin/users/:id/status' },
       { source: '/api/admin/user/activity', destination: '/api/admin/users/activity' },
-      { source: '/api/admin/user/:userId/jobs', destination: '/api/admin/users/:userId/jobs' },
+      { source: '/api/admin/user/:id/jobs', destination: '/api/admin/users/:id/jobs' },
 
       // Admin - Analytics
       { source: '/api/admin/job-stats', destination: '/api/admin/analytics/job-stats' },
