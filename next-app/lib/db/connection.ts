@@ -1,98 +1,99 @@
 /**
- * Database Connection Singleton for Next.js Serverless
+ * Database Connection Singleton for Next.js Serverless (Vercel Safe)
  *
- * Creates and reuses a single Sequelize instance across serverless function invocations.
- * This is critical for performance in serverless environments.
+ * Optimized for:
+ * - Next.js App Router
+ * - Vercel Serverless Functions
+ * - Remote MySQL (GoDaddy / Cloud DB)
  */
 
 import { Sequelize } from 'sequelize';
 
-let sequelizeInstance: Sequelize | null = null;
-
-/**
- * Get or create Sequelize instance
- * Uses singleton pattern to reuse connections across API route invocations
- */
-export function getSequelize(): Sequelize {
-  if (!sequelizeInstance) {
-    sequelizeInstance = new Sequelize(
-      process.env.MYSQL_DB_NAME || 'dev_bidding_db',
-      process.env.MYSQL_DB_USER || 'root',
-      process.env.MYSQL_DB_PASSWORD || '',
-      {
-        host: process.env.MYSQL_DB_HOST || 'localhost',
-        port: parseInt(process.env.MYSQL_DB_PORT || '3306'),
-        dialect: 'mysql',
-        logging: process.env.NODE_ENV === 'development' ? console.log : false,
-
-        // Connection pool settings optimized for serverless
-        pool: {
-          max: 5, // Maximum connections
-          min: 0, // Minimum connections (0 allows scaling down)
-          acquire: 30000, // Maximum time (ms) to get connection before throwing error
-          idle: 10000, // Maximum time (ms) connection can be idle before release
-        },
-
-        // Retry settings for better reliability
-        retry: {
-          max: 3,
-          timeout: 3000,
-        },
-
-        // Only enable SSL if explicitly configured via MYSQL_SSL=true
-        dialectOptions:
-          process.env.MYSQL_SSL === 'true'
-            ? {
-                ssl: {
-                  require: true,
-                  rejectUnauthorized: false,
-                },
-              }
-            : {},
-      }
-    );
-
-    // Test connection
-    sequelizeInstance
-      .authenticate()
-      .then(() => {
-        console.log('✅ MySQL connected successfully');
-      })
-      .catch((error) => {
-        console.error('❌ Unable to connect to MySQL:', error);
-      });
-  }
-
-  return sequelizeInstance;
+declare global {
+  // Prevent multiple instances in development / serverless
+  // eslint-disable-next-line no-var
+  var __sequelize: Sequelize | undefined;
 }
 
 /**
- * Test database connection
- * Useful for health checks
+ * Create Sequelize instance
+ */
+function createSequelizeInstance(): Sequelize {
+  return new Sequelize(
+    process.env.MYSQL_DB_NAME!,
+    process.env.MYSQL_DB_USER!,
+    process.env.MYSQL_DB_PASSWORD!,
+    {
+      host: process.env.MYSQL_DB_HOST!,
+      port: Number(process.env.MYSQL_DB_PORT || 3306),
+      dialect: 'mysql',
+
+      logging:
+        process.env.NODE_ENV === 'development' ? console.log : false,
+
+      // ⚡ Important for serverless
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+      },
+
+      retry: {
+        max: 3,
+      },
+
+      dialectOptions: {
+        // 🔥 Required for many remote MySQL providers (including GoDaddy)
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+        connectTimeout: 10000,
+      },
+    }
+  );
+}
+
+/**
+ * Get singleton Sequelize instance
+ */
+export function getSequelize(): Sequelize {
+  if (!global.__sequelize) {
+    global.__sequelize = createSequelizeInstance();
+  }
+
+  return global.__sequelize;
+}
+
+/**
+ * Export singleton instance
+ */
+export const sequelize = getSequelize();
+export default sequelize;
+
+/**
+ * Test DB connection manually (for health route)
  */
 export async function testConnection(): Promise<boolean> {
   try {
     const sequelize = getSequelize();
     await sequelize.authenticate();
+    console.log(' Database connected successfully');
     return true;
   } catch (error) {
-    console.error('Database connection test failed:', error);
+    console.error(' Database connection failed:', error);
     return false;
   }
 }
 
 /**
- * Close database connection
- * Useful for graceful shutdown (though rare in serverless)
+ * Close connection (rarely used in serverless)
  */
 export async function closeConnection(): Promise<void> {
-  if (sequelizeInstance) {
-    await sequelizeInstance.close();
-    sequelizeInstance = null;
+  if (global.__sequelize) {
+    await global.__sequelize.close();
+    global.__sequelize = undefined;
     console.log('🔌 Database connection closed');
   }
 }
-
-// Export the instance directly for convenience
-export const sequelize = getSequelize();
-export default sequelize;
