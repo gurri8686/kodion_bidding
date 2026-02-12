@@ -51,19 +51,21 @@ const LoginPage = () => {
           console.error("Invalid login response:", response.data);
           toast.error("Unexpected login response. Please try again.");
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Login Error:", error);
-        
-        // Show more detailed error
+
         let errMsg = "Login failed.";
-        if (error.response?.data?.error) {
-          errMsg = error.response.data.error;
-        } else if (error.message) {
+
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.error) {
+            errMsg = error.response.data.error;
+          } else if (error.message) {
+            errMsg = error.message;
+          }
+        } else if (error instanceof Error) {
           errMsg = error.message;
-        } else if (error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED' || error.code === 'ERR_CONNECTION_CLOSED') {
-          errMsg = "Cannot connect to server. Database may be unavailable.";
         }
-        
+
         toast.error(errMsg);
       } finally {
         setLoading(false);
@@ -125,7 +127,7 @@ const LoginPage = () => {
         </form>
 
         <p className="text-center text-sm mt-4">
-          Don't have an account?{" "}
+          Do not have an account?{" "}
           <Link href="/register" className="text-blue-500 hover:underline">
             Register
           </Link>
