@@ -1,10 +1,19 @@
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import pool from "@/lib/db";
+import { RowDataPacket } from "mysql2/promise";
 
-const prisma = new PrismaClient();
+// Define TypeScript type for user
+interface User extends RowDataPacket {
+  id: number;
+  email: string;
+  password: string;
+  role: string;
+  firstname: string;
+  lastname: string;
+}
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
 
@@ -15,16 +24,22 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.users.findUnique({
-      where: { email },
-    });
+    // Query MySQL users table
+    const [rows] = await pool.query<RowDataPacket[]>(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
 
-    if (!user) {
+    const users = rows as User[];
+
+    if (!users || users.length === 0) {
       return NextResponse.json(
         { message: "Invalid email or password" },
         { status: 401 }
       );
     }
+
+    const user = users[0];
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
@@ -35,13 +50,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // Return user data (without password)
     return NextResponse.json({
-      token: "dummy-token",
-      userId: user.id.toString(), // BigInt → convert to string
+      token: "dummy-token", // replace with JWT if needed
+      userId: user.id.toString(),
       user: {
         id: user.id.toString(),
         email: user.email,
-        role: user.role, // already exists in DB
+        role: user.role,
         firstname: user.firstname,
         lastname: user.lastname,
       },
