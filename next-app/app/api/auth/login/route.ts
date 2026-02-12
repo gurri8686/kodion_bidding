@@ -1,11 +1,26 @@
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
+import { RowDataPacket } from "mysql2";
+
+interface User extends RowDataPacket {
+  id: number;
+  email: string;
+  password: string;
+}
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const email = body.email?.trim();
-    const password = body.password?.trim();
+
+    const email: string = body.email?.trim();
+    const password: string = body.password?.trim();
+
+    if (!email || !password) {
+      return Response.json(
+        { message: "Email and password are required" },
+        { status: 400 }
+      );
+    }
 
     const connection = await mysql.createConnection({
       host: process.env.MYSQL_DB_HOST,
@@ -13,19 +28,18 @@ export async function POST(req: Request) {
       password: process.env.MYSQL_DB_PASSWORD,
       database: process.env.MYSQL_DB_NAME,
       port: Number(process.env.MYSQL_DB_PORT),
-      ssl:
-        process.env.MYSQL_SSL === "true"
-          ? { rejectUnauthorized: false }
-          : undefined,
     });
 
-    const [rows]: any = await connection.execute(
+    const [rows] = await connection.execute<User[]>(
       "SELECT * FROM users WHERE LOWER(email) = LOWER(?)",
       [email]
     );
 
     if (rows.length === 0) {
-      return Response.json({ message: "User not found" }, { status: 401 });
+      return Response.json(
+        { message: "User not found" },
+        { status: 401 }
+      );
     }
 
     const user = rows[0];
@@ -47,10 +61,14 @@ export async function POST(req: Request) {
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("FULL ERROR:", error);
+
     return Response.json(
-      { message: "Server error", error: error.message },
+      {
+        message: "Server error",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
       { status: 500 }
     );
   }
