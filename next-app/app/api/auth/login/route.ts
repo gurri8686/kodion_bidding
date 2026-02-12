@@ -1,18 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  const { email, password } = req.body;
-
+export async function POST(req: Request) {
   try {
+    const body = await req.json();
+    const email = body.email?.trim();
+    const password = body.password?.trim();
+
     const connection = await mysql.createConnection({
       host: process.env.MYSQL_DB_HOST,
       user: process.env.MYSQL_DB_USER,
@@ -26,30 +20,26 @@ export default async function handler(
     });
 
     const [rows]: any = await connection.execute(
-      "SELECT * FROM users WHERE email = ?",
+      "SELECT * FROM users WHERE LOWER(email) = LOWER(?)",
       [email]
     );
 
-    console.log("Email entered:", email);
-    console.log("Rows found:", rows.length);
-
-
     if (rows.length === 0) {
-      return res.status(401).json({ message: "User not found" });
+      return Response.json({ message: "User not found" }, { status: 401 });
     }
 
     const user = rows[0];
 
     const isMatch = await bcrypt.compare(password, user.password);
 
-    console.log("Password match:", isMatch);
-
-
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return Response.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
-    return res.status(200).json({
+    return Response.json({
       message: "Login successful",
       user: {
         id: user.id,
@@ -59,9 +49,9 @@ export default async function handler(
 
   } catch (error: any) {
     console.error("FULL ERROR:", error);
-    return res.status(500).json({
-      message: "Server error",
-      error: error.message,
-    });
+    return Response.json(
+      { message: "Server error", error: error.message },
+      { status: 500 }
+    );
   }
 }
