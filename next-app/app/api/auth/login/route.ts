@@ -1,74 +1,55 @@
-import mysql from "mysql2/promise";
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { RowDataPacket } from "mysql2";
 
-interface User extends RowDataPacket {
-  id: number;
-  email: string;
-  password: string;
-}
+const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-
-    const email: string = body.email?.trim();
-    const password: string = body.password?.trim();
+    const { email, password } = await req.json();
 
     if (!email || !password) {
-      return Response.json(
+      return NextResponse.json(
         { message: "Email and password are required" },
         { status: 400 }
       );
     }
 
-    const connection = await mysql.createConnection({
-      host: process.env.MYSQL_DB_HOST,
-      user: process.env.MYSQL_DB_USER,
-      password: process.env.MYSQL_DB_PASSWORD,
-      database: process.env.MYSQL_DB_NAME,
-      port: Number(process.env.MYSQL_DB_PORT),
+    const user = await prisma.users.findUnique({
+      where: { email },
     });
 
-    const [rows] = await connection.execute<User[]>(
-      "SELECT * FROM users WHERE LOWER(email) = LOWER(?)",
-      [email]
-    );
-
-    if (rows.length === 0) {
-      return Response.json(
-        { message: "User not found" },
+    if (!user) {
+      return NextResponse.json(
+        { message: "Invalid email or password" },
         { status: 401 }
       );
     }
 
-    const user = rows[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return Response.json(
-        { message: "Invalid credentials" },
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { message: "Invalid email or password" },
         { status: 401 }
       );
     }
 
-    return Response.json({
-      message: "Login successful",
+    return NextResponse.json({
+      token: "dummy-token",
+      userId: user.id.toString(), // BigInt → convert to string
       user: {
-        id: user.id,
+        id: user.id.toString(),
         email: user.email,
+        role: user.role, // already exists in DB
+        firstname: user.firstname,
+        lastname: user.lastname,
       },
     });
-
-  } catch (error: unknown) {
-    console.error("FULL ERROR:", error);
-
-    return Response.json(
-      {
-        message: "Server error",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
+  } catch (error) {
+    console.error("Login error:", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
       { status: 500 }
     );
   }
