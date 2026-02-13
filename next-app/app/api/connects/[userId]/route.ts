@@ -32,9 +32,9 @@ export const GET = withAuth(async (
       attributes: [
         'userId',
         'profileId',
-        [Sequelize.fn('SUM', Sequelize.col('applied_jobs.connects_used')), 'total_connects'],
-        [Sequelize.fn('COUNT', Sequelize.col('applied_jobs.id')), 'total_entries'],
-        [Sequelize.fn('MAX', Sequelize.col('applied_jobs.created_at')), 'last_used'],
+        [Sequelize.fn('SUM', Sequelize.col('AppliedJob.connects_used')), 'total_connects'],
+        [Sequelize.fn('COUNT', Sequelize.col('AppliedJob.id')), 'total_entries'],
+        [Sequelize.fn('MAX', Sequelize.col('AppliedJob.created_at')), 'last_used'],
       ],
       where: whereClause,
       include: [
@@ -49,12 +49,12 @@ export const GET = withAuth(async (
         },
       ],
       group: [
-        'applied_jobs.userId',
-        'applied_jobs.profileId',
+        'AppliedJob.userId',
+        'AppliedJob.profileId',
         'User.id',
         'profile.id',
       ],
-      order: [[Sequelize.fn('MAX', Sequelize.col('applied_jobs.created_at')), 'DESC']],
+      order: [[Sequelize.fn('MAX', Sequelize.col('AppliedJob.created_at')), 'DESC']],
     });
 
     return NextResponse.json(usage);

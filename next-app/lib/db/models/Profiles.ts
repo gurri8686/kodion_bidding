@@ -25,7 +25,7 @@ Profiles.init({
 }, {
   sequelize,
   modelName: 'Profiles',
-  tableName: 'Profiles',
+  tableName: 'profiles',
   timestamps: true
 });
 

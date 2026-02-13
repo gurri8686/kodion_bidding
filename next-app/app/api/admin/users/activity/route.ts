@@ -37,27 +37,27 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
         'joinDate',
         'lastActive',
         [
-          Sequelize.literal('(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = users.id)'),
+          Sequelize.literal('(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = `User`.id)'),
           'appliedJobsCount',
         ],
         [
-          Sequelize.literal('(SELECT COUNT(*) FROM ignored_jobs AS ij WHERE ij.userId = users.id)'),
+          Sequelize.literal('(SELECT COUNT(*) FROM ignored_jobs AS ij WHERE ij.userId = `User`.id)'),
           'ignoredJobsCount',
         ],
         [
-          Sequelize.literal('(SELECT COUNT(*) FROM hired_jobs AS hj WHERE hj.bidderId = users.id)'),
+          Sequelize.literal('(SELECT COUNT(*) FROM hired_jobs AS hj WHERE hj.bidderId = `User`.id)'),
           'hiredJobsCount',
         ],
         [
-          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = users.id AND aj.stage = 'replied')"),
+          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = `User`.id AND aj.stage = 'replied')"),
           'repliedJobsCount',
         ],
         [
-          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = users.id AND aj.stage = 'interview')"),
+          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = `User`.id AND aj.stage = 'interview')"),
           'interviewedJobsCount',
         ],
         [
-          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = users.id AND aj.stage = 'not-hired')"),
+          Sequelize.literal("(SELECT COUNT(*) FROM applied_jobs AS aj WHERE aj.userId = `User`.id AND aj.stage = 'not-hired')"),
           'notHiredJobsCount',
         ],
       ],

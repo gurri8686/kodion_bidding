@@ -51,7 +51,7 @@ Logs.init({
 }, {
   sequelize,
   modelName: 'Logs',
-  tableName: 'Logs',
+  tableName: 'logs',
   timestamps: true,
 });
 

@@ -24,7 +24,7 @@ export const GET = withAuth(async (
           attributes: ['id', 'firstname', 'lastname', 'email'],
         },
       ],
-      order: [['createdAt', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     return NextResponse.json({
