@@ -94,8 +94,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
   return (
     <Modal isOpen={isOpen} onRequestClose={handleClose} contentLabel="Add Manual Job Entry"
       className="bg-white mx-6 lg:mx-0 p-6 rounded-lg shadow-lg lg:w-1/2 w-full mx-auto outline-none z-50 max-h-[90vh] overflow-y-auto"
-      overlayClassName="fixed inset-0 bg-black/50 flex justify-center items-start pt-8 z-40"
-      style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}>
+      style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '2rem', zIndex: 40 } }}>
       <ToastContainer position="top-center" autoClose={2000} />
       <div className="sticky -top-[23px] bg-white pb-4 mb-4">
         <h2 className="text-2xl font-bold text-gray-900">Add Your Job Application</h2>

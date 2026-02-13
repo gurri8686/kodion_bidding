@@ -87,8 +87,7 @@ const EditAppliedJobModal = ({ isOpen, onClose, job, fetchAppliedJobs }: any) =>
       <ToastContainer position="top-center" autoClose={2000} />
       <Modal isOpen={isOpen} onRequestClose={onClose} contentLabel="Edit Applied Job Modal"
         className="bg-white p-6 mx-4 rounded-lg shadow-md lg:w-1/2 w-full lg:mx-auto outline-none z-50"
-        overlayClassName="fixed inset-0 bg-black/30 flex justify-center items-center z-40"
-        style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.3)' } }}>
+        style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 40 } }}>
         <h2 className="text-xl font-bold mb-4">Edit Applied Job</h2>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
