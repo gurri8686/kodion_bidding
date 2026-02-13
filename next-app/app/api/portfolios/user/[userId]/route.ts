@@ -26,7 +26,7 @@ export const GET = withAuth(async (
       where: { user_id: userId },
       order: [
         ['display_order', 'ASC'],
-        ['createdAt', 'DESC'],
+        ['created_at', 'DESC'],
       ],
       limit,
       offset,
