@@ -35,7 +35,7 @@ export default function ConnectCostModal({
     <div
       id="modalOverlay"
       onClick={handleOverlayClick}
-      className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50"
     >
       <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-6 animate-fadeIn">
         <h2 className="text-xl font-semibold mb-4">

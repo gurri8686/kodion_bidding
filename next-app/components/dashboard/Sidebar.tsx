@@ -263,7 +263,7 @@ const Sidebar = () => {
         onRequestClose={closeModal}
         contentLabel="Confirm Logout"
         className="bg-white p-6 m-10 rounded-lg shadow-md max-w-sm lg:mx-auto mt-[14rem] outline-none"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50"
+        overlayClassName="fixed inset-0 bg-black/50 z-50"
       >
         <h2 className="text-xl font-bold mb-4">
           Are you sure you want to log out?

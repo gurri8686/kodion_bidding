@@ -212,7 +212,7 @@ export default function ProgressTracker() {
           )}
 
           {isModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center p-4 z-50">
+            <div className="fixed inset-0 bg-black/40 flex justify-center items-center p-4 z-50">
               <div className="bg-white w-full max-w-md rounded-xl p-4 md:p-6 shadow-xl">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg md:text-xl font-bold">

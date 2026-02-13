@@ -75,7 +75,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg relative">
         <button
           onClick={onClose}

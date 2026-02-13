@@ -35,7 +35,7 @@ const MediaGalleryModal = ({ isOpen, onClose, attachments = [] }: MediaGalleryMo
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50 p-4">
       <div className="bg-white mx-4 lg:mx-auto p-0 rounded-xl shadow-2xl lg:w-[90vw] lg:max-w-6xl w-full outline-none z-50 max-h-[95vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b bg-gray-50">
@@ -116,14 +116,14 @@ const MediaGalleryModal = ({ isOpen, onClose, attachments = [] }: MediaGalleryMo
             <>
               <button
                 onClick={goPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 text-white flex items-center justify-center transition-all"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-all"
                 title="Previous"
               >
                 <ChevronLeft size={28} />
               </button>
               <button
                 onClick={goNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black bg-opacity-50 hover:bg-opacity-70 text-white flex items-center justify-center transition-all"
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition-all"
                 title="Next"
               >
                 <ChevronRight size={28} />

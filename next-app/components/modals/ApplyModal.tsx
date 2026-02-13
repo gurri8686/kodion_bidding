@@ -81,7 +81,7 @@ const ApplyModal = ({ isOpen, onRequestClose, jobId, job, onApplyJob }: any) => 
         onRequestClose={onRequestClose}
         contentLabel="Apply Job Modal"
         className="bg-white p-6 mt-[100px] mx-4 rounded-lg shadow-md lg:w-1/3 w-full lg:mx-auto mt-5 outline-none z-50"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-40"
+        overlayClassName="fixed inset-0 bg-black/30 flex justify-center items-center z-40"
       >
         <h2 className="text-xl font-bold mb-4">Applied Job Details</h2>
         <Formik
