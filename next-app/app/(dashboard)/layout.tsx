@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/lib/store/hooks';
 import Sidebar from '@/components/dashboard/Sidebar';
-import GlobalHeader from '@/components/dashboard/GlobalHeader';
+import NotificationBell from '@/components/NotificationBell';
 
 export default function DashboardLayout({
   children,
@@ -33,7 +33,10 @@ export default function DashboardLayout({
       <Sidebar />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col relative">
+        <div className="absolute top-4 right-6 z-20">
+          <NotificationBell />
+        </div>
         {/* Page Content */}
         <main className="flex-1 overflow-auto">
           {children}
