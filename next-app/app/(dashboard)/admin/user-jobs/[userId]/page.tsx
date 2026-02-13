@@ -143,7 +143,7 @@ export default function UserJobDetails() {
   const userEmail = data?.user?.email || '';
   const formatDate = (d: string | null) => {
     if (!d) return '\u2014';
-    return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   const formatDateTime = (d: string | null) => {
@@ -271,13 +271,13 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Connects Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Technology Applied</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Proposal Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Applied At</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Profile Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Connects Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Technology Applied</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Proposal Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Applied At</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -301,20 +301,20 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={job.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{connects}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={techs}>{techs}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{techs}</td>
                                 <td className="px-6 py-3 text-sm">
                                   {proposalLink ? (
-                                    <a href={proposalLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate block max-w-[120px]">
+                                    <a href={proposalLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
                                 <td className="px-6 py-3 text-sm">
                                   {jobLink ? (
-                                    <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate block max-w-[120px]">
+                                    <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
@@ -335,13 +335,13 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Type</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Price</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Reason</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Ignored Time</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Location</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Type</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Price</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Reason</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Ignored Time</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -364,11 +364,11 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={ij.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{location}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{jobType}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{price}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={reason}>{reason}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{reason}</td>
                                 <td className="px-6 py-3 text-sm">
                                   {jobLink ? (
                                     <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
@@ -392,14 +392,14 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Client</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Developer Hired</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Budget</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Hired Date</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Client</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Profile Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Developer Hired</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Budget</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Hired Date</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -418,14 +418,14 @@ export default function UserJobDetails() {
                             const profileName = hj.profileName || applied?.profile?.name || '\u2014';
                             const developer = hj.developerDetails?.name || '\u2014';
                             const budget = hj.budgetAmount
-                              ? `$${hj.budgetAmount} (${hj.budgetType})`
+                              ? `${hj.budgetType || 'Fixed'} - $${hj.budgetAmount}`
                               : '\u2014';
                             const jobLink = applied?.manualJobUrl || applied?.manual_job_url || job?.link || '';
                             const hiredDate = hj.hiredDate || hj.hired_date || hj.hiredAt;
 
                             return (
                               <tr key={hj.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{client}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
                                 <td className="px-6 py-3 text-sm text-gray-600">{developer}</td>
