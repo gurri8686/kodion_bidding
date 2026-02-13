@@ -44,11 +44,6 @@ function createSequelizeInstance(): Sequelize {
       },
 
       dialectOptions: {
-        // 🔥 Required for many remote MySQL providers (including GoDaddy)
-        ssl: {
-          require: true,
-          rejectUnauthorized: false,
-        },
         connectTimeout: 10000,
       },
     }
