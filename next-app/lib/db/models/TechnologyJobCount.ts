@@ -35,6 +35,7 @@ TechnologyJobCount.init({
   },
 }, {
   sequelize,
+  modelName: 'TechnologyJobCount',
   tableName: 'TechnologyJobCounts',
   timestamps: true,
 });

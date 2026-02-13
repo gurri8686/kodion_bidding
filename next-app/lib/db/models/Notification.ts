@@ -96,6 +96,7 @@ Notification.init({
   },
 }, {
   sequelize,
+  modelName: 'Notification',
   tableName: 'notifications',
   timestamps: true,
   updatedAt: false,

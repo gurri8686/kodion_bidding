@@ -35,6 +35,7 @@ ScrapeLog.init({
   },
 }, {
   sequelize,
+  modelName: 'ScrapeLog',
   tableName: 'ScrapeLogs',
   timestamps: true,
 });

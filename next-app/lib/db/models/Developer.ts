@@ -21,6 +21,7 @@ Developer.init({
   contact: DataTypes.STRING,
 }, {
   sequelize,
+  modelName: 'Developer',
   tableName: 'developers',
   timestamps: true
 });

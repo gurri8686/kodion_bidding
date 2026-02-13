@@ -24,6 +24,7 @@ Profiles.init({
   },
 }, {
   sequelize,
+  modelName: 'Profiles',
   tableName: 'Profiles',
   timestamps: true
 });

@@ -135,6 +135,7 @@ Job.init({
   },
 }, {
   sequelize,
+  modelName: 'Job',
   tableName: 'jobs',
   timestamps: true,
   id: false,

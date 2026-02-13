@@ -37,6 +37,7 @@ UserTechnologies.init({
   }
 }, {
   sequelize,
+  modelName: 'UserTechnologies',
   tableName: 'user_technologies',
   timestamps: true,
   indexes: [

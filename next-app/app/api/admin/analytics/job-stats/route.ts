@@ -216,7 +216,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const hiredPlatformAgg = await HiredJob.findAll({
       attributes: [
         [col('appliedJobDetails.platformId'), 'platformId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
+        [fn('COUNT', col('hired_jobs.id')), 'count'],
       ],
       include: [
         {
@@ -235,7 +235,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const hiredUserAgg = await HiredJob.findAll({
       attributes: [
         [col('appliedJobDetails.userId'), 'userId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
+        [fn('COUNT', col('hired_jobs.id')), 'count'],
       ],
       include: [
         {
@@ -254,7 +254,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const hiredProfileAgg = await HiredJob.findAll({
       attributes: [
         [col('appliedJobDetails.profileId'), 'profileId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
+        [fn('COUNT', col('hired_jobs.id')), 'count'],
       ],
       include: [
         {

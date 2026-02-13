@@ -84,6 +84,7 @@ HiredJob.init({
   },
 }, {
   sequelize,
+  modelName: 'HiredJob',
   tableName: 'hired_jobs',
   timestamps: true,
 });

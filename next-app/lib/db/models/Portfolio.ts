@@ -60,6 +60,7 @@ Portfolio.init({
   }
 }, {
   sequelize,
+  modelName: 'Portfolio',
   tableName: 'portfolios',
   timestamps: true,
   createdAt: 'created_at',

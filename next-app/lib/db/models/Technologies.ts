@@ -35,6 +35,7 @@ Technologies.init({
   },
 }, {
   sequelize,
+  modelName: 'Technologies',
   tableName: 'Technologies',
   timestamps: true,
 });

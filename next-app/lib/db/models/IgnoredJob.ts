@@ -45,6 +45,7 @@ IgnoredJob.init({
   }
 }, {
   sequelize,
+  modelName: 'IgnoredJob',
   tableName: 'ignored_jobs',
   timestamps: true,
 });

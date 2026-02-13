@@ -171,6 +171,7 @@ AppliedJob.init({
   },
 }, {
   sequelize,
+  modelName: 'AppliedJob',
   tableName: 'applied_jobs',
   timestamps: true,
   createdAt: 'created_at',

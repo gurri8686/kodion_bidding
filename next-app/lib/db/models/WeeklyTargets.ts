@@ -45,6 +45,7 @@ WeeklyTargets.init({
   },
 }, {
   sequelize,
+  modelName: 'WeeklyTargets',
   tableName: 'weekly_targets',
   timestamps: true,
 });

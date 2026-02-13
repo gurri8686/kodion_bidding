@@ -86,12 +86,12 @@ const Sidebar = () => {
           },
           {
             label: "Applied Jobs",
-            path: "/admin/applied-jobs",
+            path: "/applied-jobs",
             icon: <ClipboardList size={18} />,
           },
           {
             label: "Hired Jobs",
-            path: "/admin/hired-jobs",
+            path: "/hired-jobs",
             icon: <BadgeCheck size={18} />,
           },
           {

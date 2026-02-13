@@ -25,6 +25,7 @@ ConnectsLog.init({
   created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }
 }, {
   sequelize,
+  modelName: 'ConnectsLog',
   tableName: 'connects_log',
   timestamps: true,
   createdAt: 'created_at',
