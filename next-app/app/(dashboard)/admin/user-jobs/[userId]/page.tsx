@@ -141,7 +141,7 @@ export default function UserJobDetails() {
 
   const userName = data?.user?.name || 'User';
   const userEmail = data?.user?.email || '';
-  const summary = data?.summary || { totalApplied: 0, totalIgnored: 0, totalHired: 0, totalReplied: 0, totalInterviewed: 0, totalNotHired: 0 };
+  const summary = data?.summary || { totalApplied: 0, totalIgnored: 0, totalHired: 0 };
 
   const formatDate = (d: string | null) => {
     if (!d) return '\u2014';
@@ -233,34 +233,18 @@ export default function UserJobDetails() {
           {!loading && !error && data && (
             <>
               {/* Summary Cards */}
-              <div className="bg-white rounded-lg border border-gray-200 p-3 mb-6">
-                <div className="grid grid-cols-3 gap-2 mb-2 pb-2 border-b border-gray-100">
-                  <div className="text-center bg-gray-50 rounded py-1.5 hover:bg-gray-100 transition-colors">
-                    <p className="text-lg font-bold text-gray-900">{summary.totalApplied}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Applied</p>
-                  </div>
-                  <div className="text-center bg-gray-50 rounded py-1.5 hover:bg-gray-100 transition-colors">
-                    <p className="text-lg font-bold text-gray-900">{summary.totalIgnored}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Ignored</p>
-                  </div>
-                  <div className="text-center bg-green-50 rounded py-1.5 hover:bg-green-100 transition-colors">
-                    <p className="text-lg font-bold text-green-700">{summary.totalHired}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Hired</p>
-                  </div>
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
+                  <p className="text-3xl font-bold text-gray-900">{summary.totalApplied ?? 0}</p>
+                  <p className="text-sm text-gray-500 mt-1">Applied</p>
                 </div>
-                <div className="grid grid-cols-3 gap-2 mb-3">
-                  <div className="text-center py-1.5 bg-blue-50 rounded hover:bg-blue-100 transition-colors">
-                    <p className="text-lg font-bold text-blue-600">{summary.totalReplied || 0}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Replied</p>
-                  </div>
-                  <div className="text-center py-1.5 bg-purple-50 rounded hover:bg-purple-100 transition-colors">
-                    <p className="text-lg font-bold text-purple-600">{summary.totalInterviewed || 0}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Interview</p>
-                  </div>
-                  <div className="text-center py-1.5 bg-red-50 rounded hover:bg-red-100 transition-colors">
-                    <p className="text-lg font-bold text-red-600">{summary.totalNotHired || 0}</p>
-                    <p className="text-[13px] mt-0.5 font-medium">Rejected</p>
-                  </div>
+                <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
+                  <p className="text-3xl font-bold text-gray-900">{summary.totalIgnored ?? 0}</p>
+                  <p className="text-sm text-gray-500 mt-1">Ignored</p>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-xl p-5 text-center">
+                  <p className="text-3xl font-bold text-green-700">{summary.totalHired ?? 0}</p>
+                  <p className="text-sm text-green-600 mt-1">Hired</p>
                 </div>
               </div>
 
