@@ -255,7 +255,7 @@ export default function UserJobDetails() {
                         onClick={() => setActiveTab(tab.key)}
                         className={`px-6 py-3 text-sm border-b-2 transition-colors ${
                           activeTab === tab.key
-                            ? 'border-gray-900 text-gray-900 font-bold'
+                            ? 'border-blue-600 text-gray-900 font-bold'
                             : 'border-transparent text-gray-500 hover:text-gray-700 font-medium'
                         }`}
                       >
@@ -271,19 +271,19 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Connects Used</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Technology Applied</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Proposal Link</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Applied At</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Connects Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Technology Applied</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Proposal Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Applied At</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
                         {data.appliedJobs?.length === 0 ? (
                           <tr>
-                            <td colSpan={7} className="px-4 py-8 text-center text-sm text-gray-400">
+                            <td colSpan={7} className="px-6 py-8 text-center text-sm text-gray-400">
                               No applied jobs found.
                             </td>
                           </tr>
@@ -301,25 +301,25 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={job.id} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{profileName}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{connects}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={techs}>{techs}</td>
-                                <td className="px-4 py-3 text-sm">
+                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{connects}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={techs}>{techs}</td>
+                                <td className="px-6 py-3 text-sm">
                                   {proposalLink ? (
                                     <a href={proposalLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate block max-w-[120px]">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-4 py-3 text-sm">
+                                <td className="px-6 py-3 text-sm">
                                   {jobLink ? (
                                     <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate block max-w-[120px]">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(appliedAt)}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(appliedAt)}</td>
                               </tr>
                             );
                           })
@@ -335,19 +335,19 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Type</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Price</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Reason</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ignored Time</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Type</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Price</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Reason</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Ignored Time</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
                         {data.ignoredJobs?.length === 0 ? (
                           <tr>
-                            <td colSpan={7} className="px-4 py-8 text-center text-sm text-gray-400">
+                            <td colSpan={7} className="px-6 py-8 text-center text-sm text-gray-400">
                               No ignored jobs found.
                             </td>
                           </tr>
@@ -364,19 +364,19 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={ij.id} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{location}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{jobType}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{price}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={reason}>{reason}</td>
-                                <td className="px-4 py-3 text-sm">
+                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{location}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{jobType}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{price}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600 max-w-[150px] truncate" title={reason}>{reason}</td>
+                                <td className="px-6 py-3 text-sm">
                                   {jobLink ? (
                                     <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDateTime(ignoredTime)}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDateTime(ignoredTime)}</td>
                               </tr>
                             );
                           })
@@ -392,20 +392,20 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Title</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Client</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Developer Hired</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Budget</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Hired Date</th>
-                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Title</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Client</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Developer Hired</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Budget</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Hired Date</th>
+                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
                         {data.hiredJobs?.length === 0 ? (
                           <tr>
-                            <td colSpan={8} className="px-4 py-8 text-center text-sm text-gray-400">
+                            <td colSpan={8} className="px-6 py-8 text-center text-sm text-gray-400">
                               No hired jobs found.
                             </td>
                           </tr>
@@ -425,20 +425,20 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={hj.id} className="hover:bg-gray-50">
-                                <td className="px-4 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{client}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{profileName}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600">{developer}</td>
-                                <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{budget}</td>
-                                <td className="px-4 py-3 text-sm">
+                                <td className="px-6 py-3 text-sm text-gray-900 max-w-[200px] truncate" title={title}>{title}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{client}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600">{developer}</td>
+                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{budget}</td>
+                                <td className="px-6 py-3 text-sm">
                                   {jobLink ? (
                                     <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-4 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(hiredDate)}</td>
-                                <td className="px-4 py-3 text-sm">
+                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(hiredDate)}</td>
+                                <td className="px-6 py-3 text-sm">
                                   <button className="text-blue-600 hover:text-blue-800 text-xs font-medium">
                                     View
                                   </button>
