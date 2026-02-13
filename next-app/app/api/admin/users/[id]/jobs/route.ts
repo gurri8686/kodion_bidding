@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAuth } from '@/lib/middleware/auth';
-import { AppliedJob, Job, HiredJob, IgnoredJob, Platform, Profiles } from '@/lib/db/models';
+import { AppliedJob, Job, HiredJob, IgnoredJob, Platform, Profiles, User, Developer } from '@/lib/db/models';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,6 +19,15 @@ export const GET = withAdminAuth(async (req: NextRequest, context: { params?: an
     }
 
     const userIdInt = parseInt(id);
+
+    // Get user info
+    const user = await User.findByPk(userIdInt, {
+      attributes: ['id', 'firstname', 'lastname', 'email'],
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
 
     // Get applied jobs for the user
     const appliedJobs = await AppliedJob.findAll({
@@ -67,6 +76,11 @@ export const GET = withAdminAuth(async (req: NextRequest, context: { params?: an
             },
           ],
         },
+        {
+          model: Developer,
+          as: 'developerDetails',
+          required: false,
+        },
       ],
       order: [['createdAt', 'DESC']],
     });
@@ -83,7 +97,18 @@ export const GET = withAdminAuth(async (req: NextRequest, context: { params?: an
       order: [['createdAt', 'DESC']],
     });
 
+    // Count stage-based stats from applied jobs
+    const appliedPlain = appliedJobs.map((j) => j.get({ plain: true }));
+    const repliedCount = appliedPlain.filter((j) => j.stage === 'replied').length;
+    const interviewCount = appliedPlain.filter((j) => j.stage === 'interview').length;
+    const notHiredCount = appliedPlain.filter((j) => j.stage === 'not-hired').length;
+
     return NextResponse.json({
+      user: {
+        id: user.id,
+        name: `${user.firstname} ${user.lastname}`.trim() || user.firstname,
+        email: user.email,
+      },
       appliedJobs,
       hiredJobs,
       ignoredJobs,
@@ -91,6 +116,9 @@ export const GET = withAdminAuth(async (req: NextRequest, context: { params?: an
         totalApplied: appliedJobs.length,
         totalHired: hiredJobs.length,
         totalIgnored: ignoredJobs.length,
+        totalReplied: repliedCount,
+        totalInterviewed: interviewCount,
+        totalNotHired: notHiredCount,
       },
     });
   } catch (error: any) {
