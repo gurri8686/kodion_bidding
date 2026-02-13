@@ -22,7 +22,7 @@ const ConfirmModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">{title}</h2>
         <p className="text-gray-600 mb-6">{message}</p>

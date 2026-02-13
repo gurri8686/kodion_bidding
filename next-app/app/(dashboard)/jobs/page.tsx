@@ -245,6 +245,7 @@ const Jobs = () => {
         contentLabel="Ignore Reason"
         className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto mt-20 outline-none"
         overlayClassName="fixed inset-0 bg-black/50 z-50"
+        style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <h2 className="text-xl font-bold mb-4">Why are you ignoring this job?</h2>
 

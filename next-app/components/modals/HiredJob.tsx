@@ -57,7 +57,7 @@ export default function HiredJobModal({ isOpen, onClose, onHiredSubmit, jobTitle
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose}></div>
+      <div className="fixed inset-0 bg-black/50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} onClick={onClose}></div>
       <ToastContainer position="top-center" autoClose={2000} />
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative bg-white rounded-lg shadow-xl w-1/2 mx-4">

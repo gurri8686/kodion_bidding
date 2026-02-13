@@ -46,7 +46,7 @@ export default function MarkAsNotHiredModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-start z-50">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-start z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <div className="bg-white rounded-lg shadow-lg max-w-md mx-auto p-6 mt-20 outline-none w-full">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Mark as Not Hired</h2>

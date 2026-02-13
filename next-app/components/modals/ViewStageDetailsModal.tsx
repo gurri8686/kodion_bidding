@@ -76,7 +76,7 @@ export default function ViewStageDetailsModal({ isOpen, onClose, job }: ViewStag
   const details = getStageDetails();
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center px-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center px-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative animate-fadeIn">
 
         {/* Close Button */}

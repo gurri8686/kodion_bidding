@@ -23,7 +23,7 @@ export default function AttachmentPreviewModal({
   const isPdf = /\.pdf$/i.test(lower);
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center px-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-center px-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
       <div className="bg-white w-full max-w-4xl rounded-xl shadow-lg p-4 relative animate-fadeIn max-h-[90vh] overflow-hidden">
 
         {/* Close Button */}
