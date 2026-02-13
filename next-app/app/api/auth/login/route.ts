@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import pool from "@/lib/db";
 import { RowDataPacket } from "mysql2/promise";
+
+const SECRET_KEY = process.env.SECRET_KEY || 'dev_secret_change_me';
 
 // Define TypeScript type for user
 interface User extends RowDataPacket {
@@ -50,9 +53,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Return user data (without password)
-    return NextResponse.json({
-      token: "dummy-token", // replace with JWT if needed
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      SECRET_KEY,
+      { expiresIn: '7d' }
+    );
+
+    // Build response with user data
+    const response = NextResponse.json({
+      token,
       userId: user.id.toString(),
       user: {
         id: user.id.toString(),
@@ -62,6 +72,17 @@ export async function POST(req: NextRequest) {
         lastname: user.lastname,
       },
     });
+
+    // Set token as httpOnly cookie
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
