@@ -51,7 +51,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
       setLoading(true);
 
       await axios.put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/jobs/update-stage/${job.id}`,
+        `/api/jobs/update-stage/${job.id}`,
         {
           stage: "replied",
           date: dateTime.toISOString(), // replyDate

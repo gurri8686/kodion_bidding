@@ -15,7 +15,7 @@ const AttachmentViewerModal = ({ isOpen, onClose, fileUrl, filename }: Attachmen
 
   const isImage = /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(filename);
   const isPdf = /\.pdf$/i.test(filename);
-  const fullUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${fileUrl}`;
+  const fullUrl = fileUrl;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4">

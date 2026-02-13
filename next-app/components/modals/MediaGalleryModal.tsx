@@ -19,7 +19,7 @@ const MediaGalleryModal = ({ isOpen, onClose, attachments = [] }: MediaGalleryMo
   const filename = currentFile.split('/').pop() || '';
   const isImage = /\.(jpg|jpeg|png|gif|webp|bmp)$/i.test(filename);
   const isPdf = /\.pdf$/i.test(filename);
-  const fullUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${currentFile}`;
+  const fullUrl = currentFile;
 
   const goNext = () => {
     setCurrentIndex((prev) => (prev + 1) % attachments.length);
@@ -151,7 +151,7 @@ const MediaGalleryModal = ({ isOpen, onClose, attachments = [] }: MediaGalleryMo
                   >
                     {thumbIsImage ? (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${fileUrl}`}
+                        src={fileUrl}
                         alt={thumbFilename}
                         width={80}
                         height={80}
