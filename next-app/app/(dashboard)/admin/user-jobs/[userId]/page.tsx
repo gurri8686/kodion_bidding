@@ -141,8 +141,6 @@ export default function UserJobDetails() {
 
   const userName = data?.user?.name || 'User';
   const userEmail = data?.user?.email || '';
-  const summary = data?.summary || { totalApplied: 0, totalIgnored: 0, totalHired: 0 };
-
   const formatDate = (d: string | null) => {
     if (!d) return '\u2014';
     return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -234,16 +232,16 @@ export default function UserJobDetails() {
               {/* Summary Cards */}
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
-                  <p className="text-3xl font-bold text-gray-900">{summary.totalApplied ?? 0}</p>
+                  <p className="text-3xl font-bold text-gray-900">{data.appliedJobs?.length ?? 0}</p>
                   <p className="text-sm text-gray-500 mt-1">Applied</p>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
-                  <p className="text-3xl font-bold text-gray-900">{summary.totalIgnored ?? 0}</p>
+                  <p className="text-3xl font-bold text-gray-900">{data.ignoredJobs?.length ?? 0}</p>
                   <p className="text-sm text-gray-500 mt-1">Ignored</p>
                 </div>
                 <div className="bg-green-50 border border-green-200 rounded-xl p-5 text-center">
-                  <p className="text-3xl font-bold text-green-700">{summary.totalHired ?? 0}</p>
-                  <p className="text-sm text-green-600 mt-1">Hired</p>
+                  <p style={{ color: '#15803d' }} className="text-3xl font-bold">{data.hiredJobs?.length ?? 0}</p>
+                  <p style={{ color: '#16a34a' }} className="text-sm mt-1">Hired</p>
                 </div>
               </div>
 
@@ -255,11 +253,11 @@ export default function UserJobDetails() {
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        className={`px-6 py-3 text-sm transition-colors ${
+                        style={
                           activeTab === tab.key
-                            ? 'bg-gray-900 text-white font-bold'
-                            : 'text-gray-500 hover:text-gray-700 font-medium'
-                        }`}
+                            ? { backgroundColor: '#111827', color: '#fff', fontWeight: 700, padding: '12px 24px', fontSize: '14px' }
+                            : { backgroundColor: 'transparent', color: '#6b7280', fontWeight: 500, padding: '12px 24px', fontSize: '14px' }
+                        }
                       >
                         {tab.label}
                       </button>
