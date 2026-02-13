@@ -32,7 +32,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const users = await User.findAll({
       where: whereClause,
       attributes: { exclude: ['password'] },
-      order: [['createdAt', 'DESC']],
+      order: [['joinDate', 'DESC']],
     });
 
     return NextResponse.json(users);

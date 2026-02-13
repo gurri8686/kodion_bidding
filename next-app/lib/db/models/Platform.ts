@@ -34,6 +34,7 @@ Platform.init({
   },
 }, {
   sequelize,
+  tableName: 'Platform',
   timestamps: true,
 });
 
