@@ -187,21 +187,23 @@ export default function UserJobDetails() {
       <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
         {/* Header */}
         <div className="p-6 border-b border-gray-200 bg-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <button
-                onClick={() => router.push('/admin/activity')}
-                className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-2"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back
-              </button>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {loading ? 'Loading...' : `${userName}'s Job Details`}
-              </h1>
-            </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {loading ? 'Loading...' : `${userName}'s Job Details`}
+          </h1>
+        </div>
+
+        <div className="max-w-7xl mx-auto p-6">
+          {/* Back button + user info */}
+          <div className="flex items-center justify-between mb-6">
+            <button
+              onClick={() => router.push('/admin/activity')}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+            </button>
             {!loading && data?.user && (
               <div className="flex items-center gap-3">
                 <div className="text-right">
@@ -214,9 +216,6 @@ export default function UserJobDetails() {
               </div>
             )}
           </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto p-6">
           {loading && (
             <div className="bg-white border border-gray-200 p-10 rounded-xl text-center">
               <div className="inline-block animate-spin rounded-full h-7 w-7 border-2 border-gray-200 border-t-blue-600"></div>
@@ -256,10 +255,10 @@ export default function UserJobDetails() {
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+                        className={`px-6 py-3 text-sm transition-colors ${
                           activeTab === tab.key
-                            ? 'border-blue-600 text-blue-600'
-                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            ? 'bg-gray-900 text-white font-bold'
+                            : 'text-gray-500 hover:text-gray-700 font-medium'
                         }`}
                       >
                         {tab.label}
