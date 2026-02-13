@@ -79,7 +79,7 @@ export const GET = withAuth(
       if (keyword) {
         appliedJobWhere[Op.or] = [
           { manualJobTitle: { [Op.like]: `%${keyword}%` } },
-          Sequelize.literal(`Job.title LIKE '%${keyword}%'`),
+          Sequelize.literal("jobs.title LIKE '%" + keyword.replace(/'/g, "\\'") + "%'"),
         ];
       }
 
