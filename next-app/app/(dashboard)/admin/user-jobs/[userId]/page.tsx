@@ -253,11 +253,11 @@ export default function UserJobDetails() {
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        style={
+                        className={`px-6 py-3 text-sm border-b-2 transition-colors ${
                           activeTab === tab.key
-                            ? { backgroundColor: '#111827', color: '#fff', fontWeight: 700, padding: '12px 24px', fontSize: '14px' }
-                            : { backgroundColor: 'transparent', color: '#6b7280', fontWeight: 500, padding: '12px 24px', fontSize: '14px' }
-                        }
+                            ? 'border-gray-900 text-gray-900 font-bold'
+                            : 'border-transparent text-gray-500 hover:text-gray-700 font-medium'
+                        }`}
                       >
                         {tab.label}
                       </button>
@@ -271,13 +271,13 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Title</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Profile Used</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Connects Used</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Technology Applied</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Proposal Link</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Job Link</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Applied At</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Connects Used</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Technology Applied</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Proposal Link</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Applied At</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -335,13 +335,13 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Title</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Location</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Job Type</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Price</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Reason</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Job Link</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Ignored Time</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Title</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Type</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Price</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Reason</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Ignored Time</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -392,14 +392,14 @@ export default function UserJobDetails() {
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Job Title</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Client</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Profile Used</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Developer Hired</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Budget</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Job Link</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Hired Date</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Title</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Client</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Profile Used</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Developer Hired</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Budget</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Job Link</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Hired Date</th>
+                          <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
