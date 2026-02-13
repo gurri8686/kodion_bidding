@@ -50,7 +50,7 @@ Logs.init({
   }
 }, {
   sequelize,
-  tableName: 'logs',
+  tableName: 'Logs',
   timestamps: true,
 });
 
