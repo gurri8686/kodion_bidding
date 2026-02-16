@@ -29,7 +29,7 @@ class HiredJob extends Model {
 
     HiredJob.belongsTo(models.AppliedJob, {
       foreignKey: 'jobId',
-      targetKey: 'id',
+      targetKey: 'jobId',
       as: 'appliedJobDetails',
     });
   }

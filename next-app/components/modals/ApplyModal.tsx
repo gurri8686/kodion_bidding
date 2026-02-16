@@ -80,12 +80,12 @@ const ApplyModal = ({ isOpen, onRequestClose, jobId, job, onApplyJob }: any) => 
         isOpen={isOpen}
         onRequestClose={onRequestClose}
         contentLabel="Apply Job Modal"
-        className="bg-white p-6 mt-[100px] mx-4 rounded-lg shadow-md lg:w-1/3 w-full lg:mx-auto mt-5 outline-none z-50"
+        className="bg-white p-6 mt-[100px] mx-4 rounded-lg shadow-md lg:w-1/3 w-full lg:mx-auto outline-none z-50"
         style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 40 } }}
       >
         <h2 className="text-xl font-bold mb-4">Applied Job Details</h2>
         <Formik
-          initialValues={{ bidderName: user?.firstname || "", profileId: "", technologies: [], connectsUsed: "", proposalLink: "" }}
+          initialValues={{ bidderName: user?.firstname || "", profileId: "", technologies: [], connects: "", proposalLink: "" }}
           validationSchema={appliedJobSchema}
           onSubmit={handleSubmit}
         >

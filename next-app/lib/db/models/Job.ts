@@ -133,6 +133,11 @@ Job.init({
     defaultValue: false,
     field: 'hiredJobs'
   },
+  jobUrl: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    field: 'jobUrl'
+  },
 }, {
   sequelize,
   modelName: 'Job',

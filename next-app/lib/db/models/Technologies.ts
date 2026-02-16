@@ -6,12 +6,6 @@ class Technologies extends Model {
   declare name: string;
 
   static associate(models: any) {
-    Technologies.hasMany(models.Job, {
-      foreignKey: 'scrapeLogId',
-      sourceKey: 'id',
-      as: 'jobs',
-    });
-
     // Many-to-many with User
     Technologies.belongsToMany(models.User, {
       through: models.UserTechnologies,

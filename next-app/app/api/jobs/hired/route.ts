@@ -45,14 +45,14 @@ export const POST = withAuth(async (req: NextRequest, context: any, user: Authen
       return NextResponse.json({ message: 'Missing required fields.' }, { status: 400 });
     }
 
-    // Find the applied job to get its numeric ID
+    // Find the applied job to verify it exists
     const appliedJob = await AppliedJob.findOne({ where: { jobId } });
     if (!appliedJob) {
       return NextResponse.json({ message: 'Applied job not found.' }, { status: 404 });
     }
 
-    // Check if already hired using the applied job's ID
-    const existing = await HiredJob.findOne({ where: { jobId: (appliedJob as any).id } });
+    // Check if already hired using the string jobId
+    const existing = await HiredJob.findOne({ where: { jobId } });
     if (existing) {
       return NextResponse.json(
         { message: 'This job has already been marked as hired.' },
@@ -60,9 +60,9 @@ export const POST = withAuth(async (req: NextRequest, context: any, user: Authen
       );
     }
 
-    // Create hired record with the applied job's numeric ID
+    // Create hired record with the string jobId (matches Job.jobId and AppliedJob.jobId)
     const hiredJob = await HiredJob.create({
-      jobId: (appliedJob as any).id, // Store the applied job's ID, not the string jobId
+      jobId,
       bidderId,
       developerId,
       hiredAt,

@@ -38,7 +38,7 @@ export const GET = withAuth(
       if (date) {
         const formattedDate = new Date(date).toISOString().split('T')[0]; // 'YYYY-MM-DD'
         whereClause[Op.and] = [
-          sequelize.where(sequelize.fn('DATE', sequelize.col('hired_at')), formattedDate),
+          sequelize.where(sequelize.fn('DATE', sequelize.col('hiredAt')), formattedDate),
         ];
       }
 

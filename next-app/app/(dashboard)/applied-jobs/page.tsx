@@ -641,7 +641,7 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
                         )}
                       </div>
                     </td>
-                    <td className="py-2 md:py-3 px-2 md:px-4 text-w-700">
+                    <td className="py-2 md:py-3 px-2 md:px-4 text-gray-700">
                       <div className="max-w-[120px] truncate">
                         {job?.profile?.name || "N/A"}
                       </div>

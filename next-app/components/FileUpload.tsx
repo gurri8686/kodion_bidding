@@ -124,7 +124,7 @@ const FileUpload = ({ files, setFiles, maxFiles = 5 }: FileUploadProps) => {
         className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition"
       >
         <Upload className="mx-auto mb-2 text-gray-400" size={32} />
-        <p className="text-sm k-gray-600">
+        <p className="text-sm text-gray-600">
           Click to upload files (max {maxFiles})
         </p>
         <p className="text-xs text-gray-500 mt-1">
