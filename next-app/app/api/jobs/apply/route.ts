@@ -125,10 +125,6 @@ export const POST = withAuth(async (
       if (job) {
         job.appliedJobs = true;
 
-        if (!job.jobUrl && upworkJobUrl) {
-          job.jobUrl = upworkJobUrl;
-        }
-
         // Remove from ignored jobs if exists
         const ignored = await IgnoredJob.findOne({
           where: { userId, jobId: originalJobId },
@@ -146,11 +142,7 @@ export const POST = withAuth(async (
       await Job.create({
         jobId,
         title: jobTitle,
-        description: jobDescription,
-        jobUrl: upworkJobUrl,
         link: upworkJobUrl,
-        userId,
-        source: 'manual',
         appliedJobs: true,
         ignoredJobs: false,
       });
