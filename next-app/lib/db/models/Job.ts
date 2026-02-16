@@ -26,7 +26,7 @@ class Job extends Model {
   declare ignoredJobs: boolean;
   declare appliedJobs: boolean;
   declare hiredJobs: boolean;
-  declare jobUrl: string;
+
 
   static associate(models: any) {
     Job.belongsTo(models.ScrapeLog, {
@@ -133,11 +133,7 @@ Job.init({
     defaultValue: false,
     field: 'hiredJobs'
   },
-  jobUrl: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    field: 'jobUrl'
-  },
+
 }, {
   sequelize,
   modelName: 'Job',
