@@ -5,6 +5,9 @@ import axios from 'axios';
 import { useAppSelector } from '@/lib/store/hooks';
 import { Loader } from '@/components/admin/Loader';
 import { format } from 'date-fns';
+import { Calendar } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 export default function Connects() {
   const [logs, setLogs] = useState<any[]>([]);
@@ -12,7 +15,9 @@ export default function Connects() {
   const [loading, setLoading] = useState(false);
   const token = useAppSelector((state) => state.auth.token);
   const userId = useAppSelector((state) => state.auth.userId);
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [tempDate, setTempDate] = useState(new Date());
+  const calendarRef = useRef<HTMLDivElement>(null);
 
   const fetchConnectsLogs = async () => {
     try {
@@ -37,6 +42,21 @@ export default function Connects() {
   useEffect(() => {
     if (token && userId) fetchConnectsLogs();
   }, [selectedDate, token, userId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setCalendarOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleApplyDate = () => {
+    setSelectedDate(tempDate);
+    setCalendarOpen(false);
+  };
 
   const groupedByProfile = logs.reduce((acc: any, log) => {
     const profileName = log.profile?.name || 'No Profile';
@@ -82,21 +102,33 @@ export default function Connects() {
                 </p>
               </div>
               <div className="flex-shrink-0">
-                <div className="relative w-full">
+                <div className="relative" ref={calendarRef}>
                   <div
-                    className="border border-gray-300 px-3 py-2 rounded cursor-pointer w-full bg-white hover:border-blue-400 transition-colors flex items-center justify-between"
-                    onMouseEnter={() => dateInputRef.current?.showPicker()}
-                    onClick={() => dateInputRef.current?.showPicker()}
+                    className="border border-gray-300 px-3 py-2 rounded cursor-pointer bg-white hover:border-blue-400 transition-colors flex items-center justify-between"
+                    onClick={() => {
+                      setTempDate(selectedDate);
+                      setCalendarOpen(!calendarOpen);
+                    }}
                   >
                     <span className="text-gray-700">{format(selectedDate, 'MMM d, yyyy')}</span>
                   </div>
-                  <input
-                    ref={dateInputRef}
-                    type="date"
-                    value={format(selectedDate, 'yyyy-MM-dd')}
-                    onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                    className="absolute inset-0 opacity-0 pointer-events-none w-full"
-                  />
+                  {calendarOpen && (
+                    <div className="absolute right-0 top-full mt-1 z-50 shadow-xl bg-white border border-gray-200 rounded-lg">
+                      <Calendar
+                        date={tempDate}
+                        onChange={(date: Date) => setTempDate(date)}
+                        color="#3d91ff"
+                      />
+                      <div className="p-3 border-t border-gray-200 flex justify-end">
+                        <button
+                          className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          onClick={handleApplyDate}
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
