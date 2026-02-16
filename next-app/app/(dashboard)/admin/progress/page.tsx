@@ -120,11 +120,13 @@ export default function ProgressTracker() {
   const progress = targetAmount ? Math.round(Math.min((achievedAmount / Number(targetAmount)) * 100, 100)) : 0;
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <div className="flex-1 overflow-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">Progress Tracker</h1>
-        </div>
+    <div className="flex min-h-full bg-gray-50">
+      <div className="flex-1">
+        <header className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+          <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-4 flex-1 min-w-0">
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 truncate">Progress Tracker</h1>
+          </div>
+        </header>
 
         <div className="p-4 md:p-10">
           {loading ? (
