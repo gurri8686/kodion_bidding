@@ -85,6 +85,7 @@ export default function Connects() {
                 <div className="relative w-full">
                   <div
                     className="border border-gray-300 px-3 py-2 rounded cursor-pointer w-full bg-white hover:border-blue-400 transition-colors flex items-center justify-between"
+                    onMouseEnter={() => dateInputRef.current?.showPicker()}
                     onClick={() => dateInputRef.current?.showPicker()}
                   >
                     <span className="text-gray-700">{format(selectedDate, 'MMM d, yyyy')}</span>
