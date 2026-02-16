@@ -242,17 +242,17 @@ export default function UserJobDetails() {
               </div>
 
               {/* Tabs */}
-              <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div className="border-b border-gray-200">
-                  <div className="flex">
+              <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+                <div>
+                  <div className="flex border-b">
                     {tabs.map((tab) => (
                       <button
                         key={tab.key}
                         onClick={() => setActiveTab(tab.key)}
-                        className={`px-6 py-3 text-sm border-b-2 transition-colors ${
+                        className={`px-4 py-2 border-b-2 transition-colors ${
                           activeTab === tab.key
-                            ? 'border-blue-600 text-gray-900 font-bold'
-                            : 'border-transparent text-gray-500 hover:text-gray-700 font-medium'
+                            ? 'border-blue-500 font-bold'
+                            : 'border-transparent text-gray-500 hover:text-gray-700'
                         }`}
                       >
                         {tab.label}
@@ -263,26 +263,27 @@ export default function UserJobDetails() {
 
                 {/* Applied Jobs Tab */}
                 {activeTab === 'applied' && (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Profile Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Connects Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Technology Applied</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Proposal Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Applied At</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {data.appliedJobs?.length === 0 ? (
-                          <tr>
-                            <td colSpan={7} className="px-6 py-8 text-center text-sm text-gray-400">
-                              No applied jobs found.
-                            </td>
+                  <div className="p-4">
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border shadow-xl rounded-lg overflow-hidden">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr className="text-left text-sm font-bold text-gray-700">
+                            <th className="p-4 w-[18rem]">Title</th>
+                            <th className="p-4">Profile Used</th>
+                            <th className="p-4">Connects Used</th>
+                            <th className="p-4">Technology Applied</th>
+                            <th className="p-4">Proposal Link</th>
+                            <th className="p-4">Job Link</th>
+                            <th className="p-4">Applied At</th>
                           </tr>
+                        </thead>
+                        <tbody className="text-sm">
+                          {data.appliedJobs?.length === 0 ? (
+                            <tr>
+                              <td colSpan={7} className="p-4 text-center text-gray-500">
+                                No applied jobs found.
+                              </td>
+                            </tr>
                         ) : (
                           data.appliedJobs?.map((job: any) => {
                             const title = job.manualJobTitle || job.manual_job_title || job.Job?.title || '\u2014';
@@ -297,31 +298,32 @@ export default function UserJobDetails() {
 
                             return (
                               <tr key={job.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{connects}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{techs}</td>
-                                <td className="px-6 py-3 text-sm">
+                                <td className="p-4 text-gray-900">{title}</td>
+                                <td className="p-4 text-gray-600">{profileName}</td>
+                                <td className="p-4 text-gray-600">{connects}</td>
+                                <td className="p-4 text-gray-600">{techs}</td>
+                                <td className="p-4">
                                   {proposalLink ? (
                                     <a href={proposalLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-6 py-3 text-sm">
+                                <td className="p-4">
                                   {jobLink ? (
                                     <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                       View
                                     </a>
                                   ) : '\u2014'}
                                 </td>
-                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(appliedAt)}</td>
+                                <td className="p-4 text-gray-600 whitespace-nowrap">{formatDate(appliedAt)}</td>
                               </tr>
                             );
                           })
                         )}
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 
