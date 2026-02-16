@@ -93,7 +93,7 @@ const EditAppliedJobModal = ({ isOpen, onClose, job, fetchAppliedJobs }: any) =>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block font-medium">Job Title</label>
-              <input type="text" name="manualJobTitle" value={formik.values.manualJobTitle} onChange={formik.handleChange} className="w-full border px-3 py-2 rounded" />
+              <input type="text" name="manualJobTitle" value={formik.values.manualJobTitle} onChange={formik.handleChange} className="w-full border border-gray-300 px-3 py-2 rounded" />
               {formik.touched.manualJobTitle && formik.errors.manualJobTitle && <div className="text-red-500 text-sm">{formik.errors.manualJobTitle as string}</div>}
             </div>
             <div>
@@ -113,21 +113,21 @@ const EditAppliedJobModal = ({ isOpen, onClose, job, fetchAppliedJobs }: any) =>
           </div>
           <div>
             <label className="block font-medium">Connects Used</label>
-            <input type="number" name="connectsUsed" value={formik.values.connectsUsed} onChange={formik.handleChange} className="w-full border px-3 py-2 rounded" />
+            <input type="number" name="connectsUsed" value={formik.values.connectsUsed} onChange={formik.handleChange} className="w-full border border-gray-300 px-3 py-2 rounded" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block font-medium">Proposal Link</label>
-              <input type="text" name="proposalLink" value={formik.values.proposalLink} onChange={formik.handleChange} className="w-full border px-3 py-2 rounded" />
+              <input type="text" name="proposalLink" value={formik.values.proposalLink} onChange={formik.handleChange} className="w-full border border-gray-300 px-3 py-2 rounded" />
             </div>
             <div>
               <label className="block font-medium">Job URL</label>
-              <input type="text" name="manualJobUrl" value={formik.values.manualJobUrl} onChange={formik.handleChange} className="w-full border px-3 py-2 rounded" />
+              <input type="text" name="manualJobUrl" value={formik.values.manualJobUrl} onChange={formik.handleChange} className="w-full border border-gray-300 px-3 py-2 rounded" />
             </div>
           </div>
           <div>
             <label className="block font-medium">Applied Date</label>
-            <input type="date" name="appliedAt" value={formik.values.appliedAt?.split('T')[0]} onChange={formik.handleChange} className="w-full border px-3 py-2 rounded" />
+            <input type="date" name="appliedAt" value={formik.values.appliedAt?.split('T')[0]} onChange={formik.handleChange} className="w-full border border-gray-300 px-3 py-2 rounded" />
           </div>
           <div className="flex justify-end gap-3 mt-5">
             <button type="button" className="px-4 py-2 bg-gray-300 rounded" onClick={onClose}>Cancel</button>

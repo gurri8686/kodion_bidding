@@ -168,9 +168,9 @@ const JobFilters = ({
   };
 
   return (
-    <div className="mb-4 bg-white rounded-lg shadow-sm border">
+    <div className="mb-4 bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Header with Search and Filter Toggle */}
-      <div className="p-3 border-b">
+      <div className="p-3 border-b border-gray-200">
         <div className="flex gap-3 items-center lg:flex-row flex-col ">
           <div className="flex-1">
             <JobSearch
@@ -236,7 +236,7 @@ const JobFilters = ({
                         handleChange("hourlyMinRate", e.target.value)
                       }
                       placeholder="Min"
-                      className="w-full p-2 border rounded-md text-sm"
+                      className="w-full p-2 border border-gray-300 rounded-md text-sm"
                     />
                     <input
                       type="number"
@@ -245,7 +245,7 @@ const JobFilters = ({
                         handleChange("hourlyMaxRate", e.target.value)
                       }
                       placeholder="Max"
-                      className="w-full p-2 border rounded-md text-sm"
+                      className="w-full p-2 border border-gray-300 rounded-md text-sm"
                     />
                   </div>
                   {errors.hourlyRate && (
@@ -266,7 +266,7 @@ const JobFilters = ({
                     onChange={(e) =>
                       handleChange("fixedPriceRange", e.target.value)
                     }
-                    className="w-full p-2 border rounded-md text-sm"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm"
                   >
                     <option value="">Select Budget Range</option>
                     {fixedPriceOptions.map((opt) => (
@@ -308,7 +308,7 @@ const JobFilters = ({
               <select
                 value={localFilters.rating || ""}
                 onChange={(e) => handleChange("rating", e.target.value || null)}
-                className="p-2 border rounded-md w-full text-sm"
+                className="p-2 border border-gray-300 rounded-md w-full text-sm"
               >
                 <option value="">All Ratings</option>
                 {[4.5, 4.0, 3.5].map((r) => (
@@ -332,7 +332,7 @@ const JobFilters = ({
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end pt-2 border-t">
+          <div className="flex justify-end pt-2 border-t border-gray-200">
             <button
               onClick={handleLocalClear}
               className="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm transition-colors"

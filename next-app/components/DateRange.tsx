@@ -47,10 +47,10 @@ export const DateRangePickerInput = ({
         readOnly
         value={`${start} - ${end}`}
         onClick={() => setOpen(!open)}
-        className="border px-3 py-2 rounded cursor-pointer w-64 text-sm"
+        className="border border-gray-300 px-3 py-2 rounded cursor-pointer w-64 text-sm"
       />
       {open && (
-        <div className="absolute border z-50 mt-2 shadow-lg bg-white">
+        <div className="absolute border border-gray-200 z-50 mt-2 shadow-lg bg-white">
           <DateRange
             editableDateInputs={true}
             onChange={(item) => {

@@ -32,7 +32,7 @@ const HiredJobsCard = ({ job }: HiredJobsCardProps) => {
   }
 
   return (
-    <div className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition-all text-sm space-y-3">
+    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all text-sm space-y-3">
       {/* Job Title + Client */}
       <div className="flex justify-between items-start">
         <div>
@@ -79,7 +79,7 @@ const HiredJobsCard = ({ job }: HiredJobsCardProps) => {
       </div>
 
       {/* Developer Info */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 gap-2 text-gray-700 border-t pt-3">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-2 text-gray-700 border-t border-gray-200 pt-3">
         <h2 className='font-semibold'>Assigned Developer Info</h2>
         <div className="flex items-center gap-2">
           <User size={14} />

@@ -94,7 +94,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
             </label>
 
             <div
-              className="flex items-center border rounded-lg px-3 py-2 cursor-pointer hover:border-orange-400 transition"
+              className="flex items-center border border-gray-300 rounded-lg px-3 py-2 cursor-pointer hover:border-orange-400 transition"
               onClick={() => setIsPickerOpen((prev) => !prev)}
             >
               <Calendar className="text-gray-500 mr-2" size={16} />
@@ -104,7 +104,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
             </div>
 
             {isPickerOpen && (
-              <div className="absolute mt-2 right-0 bg-white rounded-lg shadow-lg z-50 border w-[280px]">
+              <div className="absolute mt-2 right-0 bg-white rounded-lg shadow-lg z-50 border border-gray-200 w-[280px]">
                 <DateRange
                   editableDateInputs={true}
                   onChange={(item: RangeKeyDict) =>
@@ -132,7 +132,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-orange-200 outline-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-orange-200 outline-none"
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ const MarkAsReplyModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAsRepl
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add notes about your reply..."
-              className="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-orange-200 outline-none"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring focus:ring-orange-200 outline-none"
             />
           </div>
 

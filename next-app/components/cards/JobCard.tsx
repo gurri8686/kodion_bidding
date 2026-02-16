@@ -41,7 +41,7 @@ const JobCard = ({ job, mode = "job", onIgnore, onApply }: JobCardProps) => {
     job.jobType === "Hourly" ? `${job.hourlyRate}/hr` : job.fixedPrice;
 
   return (
-    <div className="relative group bg-white border rounded-md shadow-sm px-4 py-3 hover:shadow-md transition-all text-sm">
+    <div className="relative group bg-white border border-gray-200 rounded-md shadow-sm px-4 py-3 hover:shadow-md transition-all text-sm">
       {/* Header */}
       <div className="flex justify-between items-start mb-2">
         <div>

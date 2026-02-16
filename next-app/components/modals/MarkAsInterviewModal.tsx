@@ -94,7 +94,7 @@ const MarkAsInterviewModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAs
             </label>
 
             <div
-              className="flex items-center border rounded-lg px-3 py-2 cursor-pointer hover:border-orange-400 transition"
+              className="flex items-center border border-gray-300 rounded-lg px-3 py-2 cursor-pointer hover:border-orange-400 transition"
               onClick={() => setIsPickerOpen((prev) => !prev)}
             >
               <Calendar className="text-gray-500 mr-2" size={16} />
@@ -104,7 +104,7 @@ const MarkAsInterviewModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAs
             </div>
 
             {isPickerOpen && (
-              <div className="absolute mt-2 right-0 bg-white rounded-lg shadow-lg border z-50 w-[280px]">
+              <div className="absolute mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-50 w-[280px]">
                 <DateRange
                   editableDateInputs={true}
                   onChange={(item: RangeKeyDict) =>
@@ -132,7 +132,7 @@ const MarkAsInterviewModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAs
                 type="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 outline-none focus:ring focus:ring-orange-200"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring focus:ring-orange-200"
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ const MarkAsInterviewModal = ({ isOpen, onClose, job, fetchAppliedJobs }: MarkAs
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add interview notes..."
-              className="w-full border rounded-lg px-3 py-2 outline-none focus:ring focus:ring-orange-200"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring focus:ring-orange-200"
             />
           </div>
 

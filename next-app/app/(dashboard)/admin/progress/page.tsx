@@ -166,7 +166,7 @@ export default function ProgressTracker() {
               </div>
 
               {!hasTarget ? (
-                <div className="bg-white p-6 md:p-10 rounded-xl shadow text-center border">
+                <div className="bg-white p-6 md:p-10 rounded-xl shadow text-center border border-gray-200">
                   <Target size={50} className="mx-auto text-blue-500" />
                   <h2 className="text-lg md:text-xl font-semibold mt-3">No target set for this week</h2>
                   <p className="text-gray-600 mt-1 text-sm md:text-base">
@@ -175,14 +175,14 @@ export default function ProgressTracker() {
                 </div>
               ) : (
                 <>
-                  <div className="bg-white p-4 md:p-6 rounded-xl shadow border mb-8">
+                  <div className="bg-white p-4 md:p-6 rounded-xl shadow border border-gray-200 mb-8">
                     <h2 className="text-lg md:text-xl font-bold mb-4">Weekly Summary</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                      <div className="p-4 border rounded-lg bg-gray-50">
+                      <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <p className="text-gray-500 text-sm">Target Amount ($)</p>
                         <p className="text-2xl md:text-3xl font-bold">{targetAmount}</p>
                       </div>
-                      <div className="p-4 border rounded-lg bg-gray-50">
+                      <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <p className="text-gray-500 text-sm">Achieved ($)</p>
                         <p className="text-2xl md:text-3xl font-bold text-green-600">{achievedAmount}</p>
                       </div>
@@ -231,7 +231,7 @@ export default function ProgressTracker() {
                     type="number"
                     value={formAmount}
                     onChange={(e) => setFormAmount(e.target.value)}
-                    className="w-full border p-2 md:p-3 rounded-lg text-sm md:text-base"
+                    className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-sm md:text-base"
                     required
                   />
 
@@ -240,7 +240,7 @@ export default function ProgressTracker() {
                     type="number"
                     value={formAchievedAmount}
                     onChange={(e) => setFormAchievedAmount(e.target.value)}
-                    className="w-full border p-2 md:p-3 rounded-lg text-sm md:text-base"
+                    className="w-full border border-gray-300 p-2 md:p-3 rounded-lg text-sm md:text-base"
                   />
 
                   <button

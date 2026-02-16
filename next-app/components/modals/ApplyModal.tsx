@@ -103,12 +103,12 @@ const ApplyModal = ({ isOpen, onRequestClose, jobId, job, onApplyJob }: any) => 
               </div>
               <div>
                 <label className="block font-medium">Connects Used</label>
-                <Field name="connects" type="number" className="w-full border px-3 py-2 rounded" />
+                <Field name="connects" type="number" className="w-full border border-gray-300 px-3 py-2 rounded" />
                 <ErrorMessage name="connects" component="div" className="text-red-500 text-sm" />
               </div>
               <div>
                 <label className="block font-medium">Proposal Link</label>
-                <Field name="proposalLink" className="w-full border px-3 py-2 rounded" />
+                <Field name="proposalLink" className="w-full border border-gray-300 px-3 py-2 rounded" />
                 <ErrorMessage name="proposalLink" component="div" className="text-red-500 text-sm" />
               </div>
               <div className="flex justify-end mt-5 gap-3">
