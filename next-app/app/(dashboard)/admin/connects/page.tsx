@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useAppSelector } from '@/lib/store/hooks';
 import { Loader } from '@/components/admin/Loader';
@@ -12,6 +12,7 @@ export default function Connects() {
   const [loading, setLoading] = useState(false);
   const token = useAppSelector((state) => state.auth.token);
   const userId = useAppSelector((state) => state.auth.userId);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const fetchConnectsLogs = async () => {
     try {
@@ -66,9 +67,11 @@ export default function Connects() {
   return (
     <div className="flex h-screen bg-gray-50">
       <div className="flex-1 overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">Connects Logs</h1>
-        </div>
+        <header className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+          <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-4 flex-1 min-w-0">
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 truncate">Connects Logs</h1>
+          </div>
+        </header>
 
         <div className="max-w-7xl mx-auto p-3 md:p-4">
           <div className="bg-white border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4">
@@ -79,12 +82,21 @@ export default function Connects() {
                 </p>
               </div>
               <div className="flex-shrink-0">
-                <input
-                  type="date"
-                  value={format(selectedDate, 'yyyy-MM-dd')}
-                  onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                />
+                <div className="relative w-full">
+                  <div
+                    className="border border-gray-300 px-3 py-2 rounded cursor-pointer w-full bg-white hover:border-blue-400 transition-colors flex items-center justify-between"
+                    onClick={() => dateInputRef.current?.showPicker()}
+                  >
+                    <span className="text-gray-700">{format(selectedDate, 'MMM d, yyyy')}</span>
+                  </div>
+                  <input
+                    ref={dateInputRef}
+                    type="date"
+                    value={format(selectedDate, 'yyyy-MM-dd')}
+                    onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full"
+                  />
+                </div>
               </div>
             </div>
           </div>
