@@ -19,10 +19,10 @@ import DashboardFilters from '@/components/admin/DashboardFilters';
 import Image from 'next/image';
 
 const platformIcons: Record<string, string> = {
-  Upwork: '/icons/upwork-icon.png',
-  Freelancer: '/icons/freelancer-icon.png',
-  Guru: '/icons/guru-icon.png',
-  LinkedIn: '/icons/linkedIn-icon.png',
+  Upwork: '/icons/upwork.svg',
+  Freelancer: '/icons/freelancer.svg',
+  Guru: '/icons/guru.svg',
+  LinkedIn: '/icons/linkedin.svg',
 };
 
 interface Summary {
