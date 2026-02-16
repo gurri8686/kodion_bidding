@@ -68,7 +68,7 @@ export default function AttachmentPreviewModal({
             )}
           </div>
 
-          <div className="md:w-80 w-full border-l md:border-l md:pl-4 pt-2 md:pt-0">
+          <div className="md:w-80 w-full border-l border-gray-200 md:border-l md:pl-4 pt-2 md:pt-0">
             <h3 className="text-lg font-semibold text-gray-800 truncate">{filename || 'Attachment'}</h3>
             <p className="text-sm text-gray-500 mt-2">{isImage ? 'Image' : isPdf ? 'PDF Document' : 'File'}</p>
 

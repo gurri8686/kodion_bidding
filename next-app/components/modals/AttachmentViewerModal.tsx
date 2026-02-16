@@ -21,7 +21,7 @@ const AttachmentViewerModal = ({ isOpen, onClose, fileUrl, filename }: Attachmen
     <div className="fixed inset-0 bg-black/75 flex justify-center items-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}>
       <div className="bg-white mx-4 lg:mx-auto p-0 rounded-lg shadow-2xl lg:w-[90vw] lg:max-w-6xl w-full outline-none z-50 max-h-[95vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b bg-gray-50 rounded-t-lg">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
           <div className="flex-1 min-w-0">
             <h2 className="text-lg font-semibold text-gray-900 truncate">
               {filename}

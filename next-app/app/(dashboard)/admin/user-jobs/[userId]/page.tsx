@@ -244,7 +244,7 @@ export default function UserJobDetails() {
               {/* Tabs */}
               <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
                 <div>
-                  <div className="flex border-b">
+                  <div className="flex border-b border-gray-200">
                     {tabs.map((tab) => (
                       <button
                         key={tab.key}

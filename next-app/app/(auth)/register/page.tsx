@@ -49,7 +49,7 @@ const RegisterPage = () => {
                     type={field === "email" ? "email" : "text"}
                     name={field}
                     placeholder={field[0].toUpperCase() + field.slice(1).replace("name", " Name")}
-                    className="w-full p-2 border rounded-md"
+                    className="w-full p-2 border border-gray-300 rounded-md"
                   />
                   <ErrorMessage name={field} component="div" className="text-red-500 text-sm" />
                 </div>

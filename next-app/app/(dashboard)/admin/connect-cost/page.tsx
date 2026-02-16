@@ -134,9 +134,9 @@ export default function ConnectsCost() {
                 </button>
               </div>
 
-              <div className="bg-white p-5 rounded-xl shadow-md border">
+              <div className="bg-white p-5 rounded-xl shadow-md border border-gray-200">
                 <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b">
+                  <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
                       <th className="p-3 text-left">Platform</th>
                       <th className="p-3 text-center">USD ($)</th>
@@ -147,7 +147,7 @@ export default function ConnectsCost() {
                   </thead>
                   <tbody>
                     {platforms.map((p) => (
-                      <tr key={p.id} className="border-b hover:bg-gray-50 transition">
+                      <tr key={p.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
                         <td className="p-3">{p.name}</td>
                         <td className="p-3 text-center">{p.connect_cost_usd ?? '-'}</td>
                         <td className="p-3 text-center">{p.connect_cost_inr ?? '-'}</td>

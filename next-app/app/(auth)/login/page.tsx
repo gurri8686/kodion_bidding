@@ -88,7 +88,7 @@ const LoginPage = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full p-2 border rounded-md text-gray-900 placeholder-gray-500"
+              className="w-full p-2 border border-gray-300 rounded-md text-gray-900 placeholder-gray-500"
             />
             {formik.touched.email && formik.errors.email && (
               <p className="text-red-500 text-sm">{formik.errors.email}</p>
@@ -105,7 +105,7 @@ const LoginPage = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="w-full p-2 border rounded-md border-none focus:outline-none text-gray-900 placeholder-gray-500"
+              className="w-full p-2 rounded-md border-none focus:outline-none text-gray-900 placeholder-gray-500"
             />
             <span
               className="cursor-pointer pr-2"

@@ -199,7 +199,7 @@ export default function UniversalJobCard({ job, fetchJobs, type = "applied" }: U
                       </a>
                     )}
 
-                    <div className="border-t my-1"></div>
+                    <div className="border-t border-gray-200 my-1"></div>
 
                     <button
                       onClick={() => handleStageUpdate(job.id, "replied")}
@@ -232,7 +232,7 @@ export default function UniversalJobCard({ job, fetchJobs, type = "applied" }: U
                     >
                       Mark as Not Hired
                     </button>
-                    <div className="border-t my-1"></div>
+                    <div className="border-t border-gray-200 my-1"></div>
                     <button
                       onClick={handleEditJob}
                       className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"

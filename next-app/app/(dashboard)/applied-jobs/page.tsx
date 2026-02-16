@@ -763,7 +763,7 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
                   View Job
                 </a>
               )}
-              <div className="border-t my-1"></div>
+              <div className="border-t border-gray-200 my-1"></div>
               {attachments.length > 0 && (
                 <button
                   onClick={() => {
@@ -802,7 +802,7 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
               >
                 Mark as Not Hired
               </button>
-              <div className="border-t my-1"></div>
+              <div className="border-t border-gray-200 my-1"></div>
               <button
                 onClick={() => { setSelectedJob(job); setIsEditModalOpen(true); setOpenMenuId(null); setMenuCoords(null); }}
                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 text-left"

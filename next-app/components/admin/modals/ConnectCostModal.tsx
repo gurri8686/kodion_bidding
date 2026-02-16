@@ -52,7 +52,7 @@ export default function ConnectCostModal({
                 value={platformName}
                 onChange={(e) => setPlatformName(e.target.value)}
                 placeholder="Enter Platform Name (e.g., Upwork)"
-                className="w-full border rounded-lg p-2 focus:ring focus:ring-blue-300"
+                className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
                 required
               />
             </div>
@@ -66,7 +66,7 @@ export default function ConnectCostModal({
               step="0.01"
               value={costUSD}
               onChange={(e) => setCostUSD(e.target.value)}
-              className="w-full border rounded-lg p-2 focus:ring focus:ring-blue-300"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
               required
             />
           </div>
@@ -79,7 +79,7 @@ export default function ConnectCostModal({
               step="0.01"
               value={costINR}
               onChange={(e) => setCostINR(e.target.value)}
-              className="w-full border rounded-lg p-2 focus:ring focus:ring-blue-300"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-blue-300"
               required
             />
           </div>

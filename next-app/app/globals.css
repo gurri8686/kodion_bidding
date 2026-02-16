@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 @import "tailwindcss";
 
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--color-gray-200, #e5e7eb);
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
