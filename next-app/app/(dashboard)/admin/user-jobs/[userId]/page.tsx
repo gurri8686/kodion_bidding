@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAppSelector } from '@/lib/store/hooks';
 import { ArrowRight, History } from 'lucide-react';
+import GlobalHeader from '@/components/GlobalHeader';
 
 type Tab = 'applied' | 'ignored' | 'hired' | 'logs';
 
@@ -181,14 +182,9 @@ export default function UserJobDetails() {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
-        {/* Header */}
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {loading ? 'Loading...' : `${userName}'s Job Details`}
-          </h1>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+        <GlobalHeader title={loading ? 'Loading...' : `${userName}'s Job Details`} />
 
         <div className="max-w-7xl mx-auto p-6">
           {/* Back button + user info */}

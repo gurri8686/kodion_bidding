@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAppSelector } from '@/lib/store/hooks';
 import { ArrowRight, History } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import GlobalHeader from '@/components/GlobalHeader';
 
 const PLATFORM_NAMES: Record<number, string> = {
   1: 'Upwork',
@@ -160,12 +161,9 @@ export default function UserLogs() {
   });
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">User Logs</h1>
-          <p className="text-gray-600">View edit history for user ID: {userId}</p>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+        <GlobalHeader title="User Logs" />
 
         <div className="p-6">
           <div className="space-y-3">

@@ -23,6 +23,7 @@ import {
 } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const HiredJobs = () => {
   const [hiredJobs, setHiredJobs] = useState([]);
@@ -221,6 +222,8 @@ const HiredJobs = () => {
   };
 
   return (
+        <div className="flex flex-col min-h-full">
+        <GlobalHeader title="Hired Jobs" />
         <main className="p-8">
         {/* Filters - Always visible after initial load */}
         {!loading && (
@@ -393,6 +396,7 @@ const HiredJobs = () => {
           </>
         )}
       </main>
+        </div>
   );
 };
 

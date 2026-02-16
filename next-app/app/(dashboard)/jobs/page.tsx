@@ -12,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loader } from "@/utils/Loader";
 import JobCard from "@/components/cards/JobCard";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -180,6 +181,8 @@ const Jobs = () => {
   };
 
   return (
+        <div className="flex flex-col min-h-full">
+        <GlobalHeader title="Jobs" />
         <main className="p-8">
           <ToastContainer position="top-center" autoClose={2000} />
           <div className="flex lg:items-center lg:flex-row flex-col justify-between mb-6 text-left ">
@@ -298,6 +301,7 @@ const Jobs = () => {
       </Modal>
 
   </main>
+        </div>
   );
 };
 

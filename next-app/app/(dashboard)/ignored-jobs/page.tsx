@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Loader } from "@/utils/Loader";
 import ReactPaginate from "react-paginate";
 import JobCard from "@/components/cards/JobCard";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const IgnoredJobs = () => {
   const [ignoredJobs, setIgnoredJobs] = useState([]);
@@ -135,6 +136,8 @@ const IgnoredJobs = () => {
   };
 
   return (
+        <div className="flex flex-col min-h-full">
+        <GlobalHeader title="Ignored Jobs" />
         <main className="p-8">
           <div className="flex lg:items-center lg:flex-row flex-col justify-between mb-3">
             <p className="text-gray-700 font-medium">
@@ -193,6 +196,7 @@ const IgnoredJobs = () => {
           </>
         )}
       </main>
+        </div>
   );
 };
 

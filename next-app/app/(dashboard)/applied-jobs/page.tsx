@@ -21,6 +21,7 @@ import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, 
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const jobsPerPage = 6;
 
@@ -249,6 +250,8 @@ const AppliedJobs = () => {
   const hasActiveFilters = debouncedSearch !== "" || stageFilter !== "";
 
   return (
+        <div className="flex flex-col min-h-full">
+        <GlobalHeader title="Applied Jobs" />
         <main className="p-3 sm:p-6 lg:p-8">
         <ApplyManualJob
           isOpen={applyModal}
@@ -529,6 +532,7 @@ const AppliedJobs = () => {
           </div>
         )}
       </main>
+        </div>
   );
 };
 

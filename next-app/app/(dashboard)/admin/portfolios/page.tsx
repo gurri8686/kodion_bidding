@@ -7,6 +7,7 @@ import { Loader } from '@/components/admin/Loader';
 import { Briefcase, Search, ExternalLink, Grid3x3, Table as TableIcon, Filter, X } from 'lucide-react';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import GlobalHeader from '@/components/GlobalHeader';
 
 interface Portfolio {
   id: number;
@@ -126,14 +127,12 @@ export default function AllPortfolios() {
   }));
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">Portfolio Management</h2>
-              <p className="text-sm text-gray-600 mt-1">View and manage all user portfolios</p>
-            </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gray-100">
+        <GlobalHeader title="Portfolio Management" />
+        <div className="p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+            <p className="text-sm text-gray-600">View and manage all user portfolios</p>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setViewMode('card')}

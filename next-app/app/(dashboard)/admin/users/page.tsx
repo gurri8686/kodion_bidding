@@ -8,6 +8,7 @@ import { Loader } from '@/components/admin/Loader';
 import ViewUser from '@/components/admin/modals/ViewUser';
 import ConfirmUserBlock from '@/components/admin/modals/ConfirmUserBlock';
 import { toast } from 'react-toastify';
+import GlobalHeader from '@/components/GlobalHeader';
 
 interface User {
   id: number;
@@ -102,12 +103,9 @@ export default function AllUsers() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex-1 overflow-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">All Users</h1>
-          <p className="text-gray-600">Manage and monitor all users in your system</p>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gray-100">
+        <GlobalHeader title="All Users" />
 
         <div className="p-8">
           <div className="mb-8">

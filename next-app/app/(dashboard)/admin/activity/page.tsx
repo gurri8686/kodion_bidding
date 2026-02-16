@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAppSelector } from '@/lib/store/hooks';
 import { Loader } from '@/components/admin/Loader';
 import { useRouter } from 'next/navigation';
+import GlobalHeader from '@/components/GlobalHeader';
 
 interface UserActivity {
   id: number;
@@ -60,11 +61,9 @@ export default function UserActivity() {
   }, [searchTerm, users]);
 
   return (
-    <div className="flex flex-col md:flex-row h-screen overflow-hidden">
-      <div className="flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">User Activity</h1>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+        <GlobalHeader title="User Activity" />
 
         <div className="max-w-7xl mx-auto p-6">
           <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 mb-4 hover:shadow-md transition-shadow">

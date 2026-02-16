@@ -5,6 +5,7 @@ import { useNotifications } from '@/context/NotificationContext';
 import { formatDistanceToNow } from 'date-fns';
 import { Bell, Check, CheckCheck, Trash2, Filter } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import GlobalHeader from '@/components/GlobalHeader';
 
 const Notifications = () => {
   const router = useRouter();
@@ -37,21 +38,17 @@ const Notifications = () => {
   });
 
   return (
+        <>
+        <GlobalHeader title="Notifications" />
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          {/* Header */}
+          {/* Action Buttons */}
           <div className="mb-6">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center gap-3">
-                  <Bell size={32} className="text-blue-600" />
-                  Notifications
-                </h1>
-                <p className="text-gray-600 mt-1">
-                  {unreadCount > 0
-                    ? `You have ${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
-                    : 'All caught up!'}
-                </p>
-              </div>
+              <p className="text-gray-600">
+                {unreadCount > 0
+                  ? `You have ${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
+                  : 'All caught up!'}
+              </p>
               <div className="flex items-center gap-2">
                 {unreadCount > 0 && (
                   <button
@@ -232,6 +229,7 @@ const Notifications = () => {
             )}
           </div>
         </div>
+        </>
   );
 };
 

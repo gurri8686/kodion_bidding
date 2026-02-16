@@ -7,6 +7,7 @@ import { Loader } from "@/utils/Loader";
 import { format } from "date-fns";
 import { UnifiedDateTimePicker } from "@/components/UnifiedDateTimePicker";
 import { FileText } from "lucide-react";
+import GlobalHeader from '@/components/GlobalHeader';
 
 interface TechCount {
   technology: string;
@@ -99,11 +100,10 @@ const ScrapeLogs = () => {
   }, {});
 
   return (
-    <main className="p-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Scrape Logs</h2>
-        <p className="text-sm text-gray-600 mt-1">View job scraping history and technology breakdown</p>
-      </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gray-50">
+        <GlobalHeader title="Scrape Logs" />
+        <div className="p-8">
 
       {/* Date Picker */}
       <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex items-center gap-4">
@@ -161,7 +161,9 @@ const ScrapeLogs = () => {
           ))}
         </div>
       )}
-    </main>
+        </div>
+      </div>
+    </div>
   );
 };
 

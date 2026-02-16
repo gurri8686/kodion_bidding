@@ -11,6 +11,7 @@ import EditPortfolioModal from "@/components/modals/EditPortfolioModal";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const Portfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
@@ -91,6 +92,7 @@ const Portfolios = () => {
 
   return (
     <>
+        <GlobalHeader title="Portfolio Showcase" />
         <main className="p-8">
           {/* Header Section */}
           <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

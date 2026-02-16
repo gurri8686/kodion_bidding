@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { Calendar } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+import GlobalHeader from '@/components/GlobalHeader';
 
 export default function Connects() {
   const [logs, setLogs] = useState<any[]>([]);
@@ -87,11 +88,7 @@ export default function Connects() {
   return (
     <div className="flex min-h-full bg-gray-50">
       <div className="flex-1">
-        <header className="bg-white border-b border-gray-200 px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-          <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-4 flex-1 min-w-0">
-            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 truncate">Connects Logs</h1>
-          </div>
-        </header>
+        <GlobalHeader title="Connects Logs" />
 
         <div className="max-w-7xl mx-auto p-3 md:p-4">
           <div className="bg-white border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4">

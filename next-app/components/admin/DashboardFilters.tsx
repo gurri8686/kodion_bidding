@@ -228,8 +228,8 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
   }, [platform, userProfile, bidder, range.startDate, range.endDate]);
 
   return (
-    <div className="flex flex-wrap gap-4 bg-white p-4 rounded-2xl shadow-md border border-gray-100 items-center m-5">
-      <div className="flex flex-col min-w-[250px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 bg-white p-4 rounded-2xl shadow-md border border-gray-200 items-end m-5">
+      <div className="flex flex-col">
         <label className="text-sm font-semibold text-gray-600 mb-1">Platform</label>
         <Select
           isMulti
@@ -241,7 +241,7 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
         />
       </div>
 
-      <div className="flex flex-col relative min-w-[180px]" ref={pickerRef}>
+      <div className="flex flex-col relative" ref={pickerRef}>
         <label className="text-sm font-semibold text-gray-600 mb-1">Date</label>
         <Select
           options={dateSelectOptions}
@@ -253,14 +253,14 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
           styles={singleSelectStyles}
         />
         {showPicker && (
-          <div className="absolute z-50 top-[70px] bg-white shadow-xl border rounded-xl p-3">
+          <div className="absolute z-50 top-[70px] bg-white shadow-xl border border-gray-200 rounded-xl p-3">
             <DateRange
               editableDateInputs
               ranges={[range]}
               onChange={handleRangeChange}
               maxDate={new Date()}
             />
-            <div className="flex justify-end gap-2 mt-2 border-t pt-2">
+            <div className="flex justify-end gap-2 mt-2 border-t border-gray-200 pt-2">
               <button
                 onClick={() => setShowPicker(false)}
                 className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800"
@@ -278,7 +278,7 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
         )}
       </div>
 
-      <div className="flex flex-col min-w-[180px]">
+      <div className="flex flex-col">
         <label className="text-sm font-semibold text-gray-600 mb-1">User Profile</label>
         <Select
           options={profileOptions}
@@ -291,7 +291,7 @@ export default function DashboardFilters({ onFilterChange }: DashboardFiltersPro
         />
       </div>
 
-      <div className="flex flex-col min-w-[250px]">
+      <div className="flex flex-col">
         <label className="text-sm font-semibold text-gray-600 mb-1">Bidder</label>
         <Select
           isMulti

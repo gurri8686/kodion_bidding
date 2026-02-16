@@ -5,6 +5,7 @@ import { useAppSelector } from '@/lib/store/hooks';
 import { Loader } from '@/components/admin/Loader';
 import { toast } from 'react-toastify';
 import ConnectCostModal from '@/components/admin/modals/ConnectCostModal';
+import GlobalHeader from '@/components/GlobalHeader';
 
 interface Platform {
   id: number;
@@ -113,11 +114,9 @@ export default function ConnectsCost() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <div className="flex-1 overflow-auto">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">Connects Cost</h1>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gray-100">
+        <GlobalHeader title="Connects Cost" />
 
         <div className="p-6">
           {loading ? (

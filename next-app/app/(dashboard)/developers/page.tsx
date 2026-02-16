@@ -7,6 +7,7 @@ import { Loader } from "@/utils/Loader";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { addDeveloperSchema } from '@/utils/validations';
 import ConfirmModal from '@/components/modals/ConfirmModal';
+import GlobalHeader from '@/components/GlobalHeader';
 
 const ManageDevelopers = () => {
   const [developers, setDevelopers] = useState([]);
@@ -201,6 +202,8 @@ const ManageDevelopers = () => {
   };
 
   return (
+    <div className="flex flex-col min-h-full">
+      <GlobalHeader title="Manage Developers" />
         <div className="p-6">
           <div className="max-w-7xl mx-auto">
             {/* Header Section */}
@@ -349,6 +352,7 @@ const ManageDevelopers = () => {
           {/* Footer Stats */}
           </div>
         </div>
+    </div>
   );
 };
 

@@ -16,6 +16,7 @@ import { useAppSelector } from '@/lib/store/hooks';
 import { Loader } from '@/components/admin/Loader';
 import CountUp from 'react-countup';
 import DashboardFilters from '@/components/admin/DashboardFilters';
+import GlobalHeader from '@/components/GlobalHeader';
 import Image from 'next/image';
 
 const platformIcons: Record<string, string> = {
@@ -171,11 +172,9 @@ export default function AdminDashboard() {
   }, [filters, fetchJobStats]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="p-6 border-b border-gray-200 bg-white">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        </div>
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100">
+        <GlobalHeader title="Dashboard" />
 
         <DashboardFilters onFilterChange={handleFilterChange} />
         {loading ? (

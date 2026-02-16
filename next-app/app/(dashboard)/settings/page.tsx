@@ -5,6 +5,7 @@ import { useAppSelector } from '@/lib/store/hooks';
 import { toast, ToastContainer } from "react-toastify";
 import { Loader } from '@/components/ui/Loader';
 import "react-toastify/dist/ReactToastify.css";
+import GlobalHeader from '@/components/GlobalHeader';
 
 const SettingsPage = () => {
   const [activeTech, setActiveTech] = useState<string[]>([]);
@@ -96,6 +97,8 @@ const SettingsPage = () => {
   };
 
   return (
+    <div className="flex flex-col min-h-full">
+      <GlobalHeader title="Active Technologies" />
       <div className="p-8 h-full flex items-start justify-center overflow-hidden bg-gray-100">
           {loading ? (
             <div className='grid grid-cols-1 mx-auto'>
@@ -147,6 +150,7 @@ const SettingsPage = () => {
             </div>
           )}
       </div>
+    </div>
   );
 };
 
