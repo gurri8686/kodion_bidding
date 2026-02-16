@@ -95,7 +95,7 @@ export default function Connects() {
                     type="date"
                     value={format(selectedDate, 'yyyy-MM-dd')}
                     onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full"
+                    className="absolute inset-0 opacity-0 pointer-events-none w-full"
                   />
                 </div>
               </div>
