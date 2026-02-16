@@ -147,7 +147,7 @@ export default function ProgressTracker() {
                   <select
                     value={selectedWeek.id}
                     onChange={(e) => setSelectedWeek(weekOptions.find((w) => w.id == Number(e.target.value))!)}
-                    className="border p-2 rounded-lg bg-white w-full sm:w-auto"
+                    className="border border-gray-300 p-2 rounded-lg bg-white w-full sm:w-auto"
                   >
                     {weekOptions.map((week) => (
                       <option key={week.id} value={week.id}>
