@@ -329,124 +329,128 @@ export default function UserJobDetails() {
 
                 {/* Ignored Jobs Tab */}
                 {activeTab === 'ignored' && (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Location</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Type</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Price</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Reason</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Ignored Time</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {data.ignoredJobs?.length === 0 ? (
-                          <tr>
-                            <td colSpan={7} className="px-6 py-8 text-center text-sm text-gray-400">
-                              No ignored jobs found.
-                            </td>
+                  <div className="p-4">
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border shadow-xl rounded-lg overflow-hidden">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr className="text-left text-sm font-bold text-gray-700">
+                            <th className="p-4 w-[18rem]">Title</th>
+                            <th className="p-4">Location</th>
+                            <th className="p-4">Job Type</th>
+                            <th className="p-4">Price</th>
+                            <th className="p-4">Reason</th>
+                            <th className="p-4">Job Link</th>
+                            <th className="p-4">Ignored Time</th>
                           </tr>
-                        ) : (
-                          data.ignoredJobs?.map((ij: any) => {
-                            const job = ij.Job;
-                            const title = job?.title || '\u2014';
-                            const location = job?.clientLocation || '\u2014';
-                            const jobType = job?.jobType || '\u2014';
-                            const price = job?.fixedPrice || job?.hourlyRate || '\u2014';
-                            const reason = ij.customReason || ij.reason || '\u2014';
-                            const jobLink = job?.link || '';
-                            const ignoredTime = ij.createdAt;
+                        </thead>
+                        <tbody className="text-sm">
+                          {data.ignoredJobs?.length === 0 ? (
+                            <tr>
+                              <td colSpan={7} className="p-4 text-center text-gray-500">
+                                No ignored jobs found.
+                              </td>
+                            </tr>
+                          ) : (
+                            data.ignoredJobs?.map((ij: any) => {
+                              const job = ij.Job;
+                              const title = job?.title || '\u2014';
+                              const location = job?.clientLocation || '\u2014';
+                              const jobType = job?.jobType || '\u2014';
+                              const price = job?.fixedPrice || job?.hourlyRate || '\u2014';
+                              const reason = ij.customReason || ij.reason || '\u2014';
+                              const jobLink = job?.link || '';
+                              const ignoredTime = ij.createdAt;
 
-                            return (
-                              <tr key={ij.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{location}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{jobType}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{price}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{reason}</td>
-                                <td className="px-6 py-3 text-sm">
-                                  {jobLink ? (
-                                    <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                                      View
-                                    </a>
-                                  ) : '\u2014'}
-                                </td>
-                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDateTime(ignoredTime)}</td>
-                              </tr>
-                            );
-                          })
-                        )}
-                      </tbody>
-                    </table>
+                              return (
+                                <tr key={ij.id} className="hover:bg-gray-50">
+                                  <td className="p-4 text-gray-900">{title}</td>
+                                  <td className="p-4 text-gray-600">{location}</td>
+                                  <td className="p-4 text-gray-600">{jobType}</td>
+                                  <td className="p-4 text-gray-600">{price}</td>
+                                  <td className="p-4 text-gray-600">{reason}</td>
+                                  <td className="p-4">
+                                    {jobLink ? (
+                                      <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                        View
+                                      </a>
+                                    ) : '\u2014'}
+                                  </td>
+                                  <td className="p-4 text-gray-600 whitespace-nowrap">{formatDateTime(ignoredTime)}</td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 
                 {/* Hired Jobs Tab */}
                 {activeTab === 'hired' && (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Title</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Client</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Profile Used</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Developer Hired</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Budget</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Job Link</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Hired Date</th>
-                          <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {data.hiredJobs?.length === 0 ? (
-                          <tr>
-                            <td colSpan={8} className="px-6 py-8 text-center text-sm text-gray-400">
-                              No hired jobs found.
-                            </td>
+                  <div className="p-4">
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full bg-white border shadow-xl rounded-lg overflow-hidden">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr className="text-left text-sm font-bold text-gray-700">
+                            <th className="p-4 w-[18rem]">Job Title</th>
+                            <th className="p-4">Client</th>
+                            <th className="p-4">Profile Used</th>
+                            <th className="p-4">Developer Hired</th>
+                            <th className="p-4">Budget</th>
+                            <th className="p-4">Job Link</th>
+                            <th className="p-4">Hired Date</th>
+                            <th className="p-4">Actions</th>
                           </tr>
-                        ) : (
-                          data.hiredJobs?.map((hj: any) => {
-                            const applied = hj.appliedJobDetails;
-                            const job = applied?.Job;
-                            const title = applied?.manualJobTitle || applied?.manual_job_title || job?.title || '\u2014';
-                            const client = hj.clientName || '\u2014';
-                            const profileName = hj.profileName || applied?.profile?.name || '\u2014';
-                            const developer = hj.developerDetails?.name || '\u2014';
-                            const budget = hj.budgetAmount
-                              ? `${hj.budgetType || 'Fixed'} - $${hj.budgetAmount}`
-                              : '\u2014';
-                            const jobLink = applied?.manualJobUrl || applied?.manual_job_url || job?.link || '';
-                            const hiredDate = hj.hiredDate || hj.hired_date || hj.hiredAt;
+                        </thead>
+                        <tbody className="text-sm">
+                          {data.hiredJobs?.length === 0 ? (
+                            <tr>
+                              <td colSpan={8} className="p-4 text-center text-gray-500">
+                                No hired jobs found.
+                              </td>
+                            </tr>
+                          ) : (
+                            data.hiredJobs?.map((hj: any) => {
+                              const applied = hj.appliedJobDetails;
+                              const job = applied?.Job;
+                              const title = applied?.manualJobTitle || applied?.manual_job_title || job?.title || '\u2014';
+                              const client = hj.clientName || '\u2014';
+                              const profileName = hj.profileName || applied?.profile?.name || '\u2014';
+                              const developer = hj.developerDetails?.name || '\u2014';
+                              const budget = hj.budgetAmount
+                                ? `${hj.budgetType || 'Fixed'} - $${hj.budgetAmount}`
+                                : '\u2014';
+                              const jobLink = applied?.manualJobUrl || applied?.manual_job_url || job?.link || '';
+                              const hiredDate = hj.hiredDate || hj.hired_date || hj.hiredAt;
 
-                            return (
-                              <tr key={hj.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-3 text-sm text-gray-900">{title}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{client}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{profileName}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600">{developer}</td>
-                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{budget}</td>
-                                <td className="px-6 py-3 text-sm">
-                                  {jobLink ? (
-                                    <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                              return (
+                                <tr key={hj.id} className="hover:bg-gray-50">
+                                  <td className="p-4 text-gray-900">{title}</td>
+                                  <td className="p-4 text-gray-600">{client}</td>
+                                  <td className="p-4 text-gray-600">{profileName}</td>
+                                  <td className="p-4 text-gray-600">{developer}</td>
+                                  <td className="p-4 text-gray-600 whitespace-nowrap">{budget}</td>
+                                  <td className="p-4">
+                                    {jobLink ? (
+                                      <a href={jobLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                        View
+                                      </a>
+                                    ) : '\u2014'}
+                                  </td>
+                                  <td className="p-4 text-gray-600 whitespace-nowrap">{formatDate(hiredDate)}</td>
+                                  <td className="p-4">
+                                    <button className="text-blue-600 hover:text-blue-800 text-xs font-medium">
                                       View
-                                    </a>
-                                  ) : '\u2014'}
-                                </td>
-                                <td className="px-6 py-3 text-sm text-gray-600 whitespace-nowrap">{formatDate(hiredDate)}</td>
-                                <td className="px-6 py-3 text-sm">
-                                  <button className="text-blue-600 hover:text-blue-800 text-xs font-medium">
-                                    View
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        )}
-                      </tbody>
-                    </table>
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
 
