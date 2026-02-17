@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 @import "tailwindcss";
 
-@layer base {
-  *,
-  ::after,
-  ::before {
-    border-color: var(--color-gray-200, #e5e7eb);
-  }
+/*
+  Default border color for all elements.
+  Placed outside @layer so it applies consistently in both dev and production.
+  Tailwind v4 preflight sets `border: 0 solid` without a color,
+  so we need this to ensure borders use gray-200 by default.
+*/
+*,
+::after,
+::before {
+  border-color: #e5e7eb;
 }
 
 :root {
