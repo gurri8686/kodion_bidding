@@ -36,11 +36,15 @@ const Sidebar = () => {
   const role = user?.role;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    setIsMobile(window.innerWidth < 768);
+
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      setIsMobile(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
         setIsMobileMenuOpen(false);
       }
@@ -182,7 +186,7 @@ const Sidebar = () => {
       </div>
 
       {/* Mobile Sidebar */}
-      {windowWidth < 768 && (
+      {isMounted && isMobile && (
         <div
           className={`fixed inset-0 z-20 bg-[#343A40] text-white transform ${
             isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
@@ -221,7 +225,7 @@ const Sidebar = () => {
       )}
 
       {/* Desktop Sidebar */}
-      {windowWidth >= 768 && (
+      {(!isMounted || !isMobile) && (
         <aside className="w-[17rem] bg-[#343A40] text-white p-4 min-h-screen hidden md:block">
           <div className="mt-3 mb-4">
             <Image src="/logo.png" alt="Logo" width={200} height={80} />
