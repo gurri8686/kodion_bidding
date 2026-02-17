@@ -5,21 +5,17 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import axios from "axios";
 import { logout } from "@/lib/store/slices/authSlice";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import {
   User,
-  Briefcase,
   ClipboardList,
-  EyeOff,
-  Activity,
   Workflow,
   Settings,
   LogOut,
   LayoutDashboard,
-  Users,
   BarChart,
   BadgeCheck,
   Code2,
@@ -36,22 +32,6 @@ const Sidebar = () => {
   const role = user?.role;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-    setIsMobile(window.innerWidth < 768);
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -166,9 +146,36 @@ const Sidebar = () => {
     return pathname?.startsWith(path);
   };
 
+  const renderMenuItems = (onItemClick?: () => void) => (
+    <>
+      {menuItems.map((item) => (
+        <li key={item.path}>
+          <Link
+            href={item.path}
+            className={`p-3 flex items-center gap-3 rounded ${
+              isActive(item.path, item.label)
+                ? "bg-[#007BFF] text-white font-semibold"
+                : "hover:bg-[#494E53]"
+            }`}
+            onClick={onItemClick}
+          >
+            {item.icon}
+            {item.label}
+          </Link>
+        </li>
+      ))}
+      <li
+        className="hover:bg-red-600 p-3 rounded cursor-pointer mt-6"
+        onClick={openModal}
+      >
+        <LogOut size={18} className="inline-block mr-4" /> Logout
+      </li>
+    </>
+  );
+
   return (
     <>
-      {/* Mobile Menu Toggle */}
+      {/* Mobile Menu Toggle - CSS-only visibility */}
       <div className="md:hidden fixed top-4 left-4 z-30">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -185,76 +192,31 @@ const Sidebar = () => {
         </button>
       </div>
 
-      {/* Mobile Sidebar */}
-      {isMounted && isMobile && (
-        <div
-          className={`fixed inset-0 z-20 bg-[#343A40] text-white transform ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out`}
-        >
-          <div className="p-4">
-            <div className="mt-3 mb-6">
-              <Image src="/logo.png" alt="Logo" width={160} height={64} className="h-[4rem]" />
-            </div>
-            <ul className="space-y-2 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
-              {menuItems.map((item) => (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    className={`p-3 flex items-center gap-3 rounded ${
-                      isActive(item.path, item.label)
-                        ? "bg-[#007BFF] text-white font-semibold"
-                        : "hover:bg-[#494E53]"
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.icon}
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li
-                className="hover:bg-red-600 p-3 rounded cursor-pointer mt-6"
-                onClick={openModal}
-              >
-                <LogOut size={18} className="inline-block mr-2" /> Logout
-              </li>
-            </ul>
+      {/* Mobile Sidebar - CSS-only visibility */}
+      <div
+        className={`fixed inset-0 z-20 bg-[#343A40] text-white transform md:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out`}
+      >
+        <div className="p-4">
+          <div className="mt-3 mb-6">
+            <Image src="/logo.png" alt="Logo" width={160} height={64} className="h-[4rem] w-auto" />
           </div>
-        </div>
-      )}
-
-      {/* Desktop Sidebar */}
-      {(!isMounted || !isMobile) && (
-        <aside className="w-[17rem] bg-[#343A40] text-white p-4 min-h-screen hidden md:block">
-          <div className="mt-3 mb-4">
-            <Image src="/logo.png" alt="Logo" width={200} height={80} />
-          </div>
-          <ul className="space-y-1 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
-            {menuItems.map((item) => (
-              <li key={item.path}>
-                <Link
-                  href={item.path}
-                  className={`p-3 flex items-center gap-3 rounded ${
-                    isActive(item.path, item.label)
-                      ? "bg-[#007BFF] text-white font-semibold"
-                      : "hover:bg-[#494E53]"
-                  }`}
-                >
-                  {item.icon}
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-            <li
-              className="hover:bg-red-600 p-3 rounded cursor-pointer mt-6"
-              onClick={openModal}
-            >
-              <LogOut size={18} className="inline-block mr-4" /> Logout
-            </li>
+          <ul className="space-y-2 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
+            {renderMenuItems(() => setIsMobileMenuOpen(false))}
           </ul>
-        </aside>
-      )}
+        </div>
+      </div>
+
+      {/* Desktop Sidebar - CSS-only visibility, always in DOM */}
+      <aside className="w-[17rem] min-w-[17rem] bg-[#343A40] text-white p-4 min-h-screen hidden md:block">
+        <div className="mt-3 mb-4">
+          <Image src="/logo.png" alt="Logo" width={200} height={80} className="w-auto" />
+        </div>
+        <ul className="space-y-1 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
+          {renderMenuItems()}
+        </ul>
+      </aside>
 
       {/* Logout Modal */}
       <Modal
