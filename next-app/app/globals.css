@@ -3,13 +3,12 @@
 
 /*
   Default border color for all elements.
-  Placed outside @layer so it applies consistently in both dev and production.
+  Using :where() for zero specificity so Tailwind utilities like
+  border-[#4f5962] can override this without specificity conflicts.
   Tailwind v4 preflight sets `border: 0 solid` without a color,
   so we need this to ensure borders use gray-200 by default.
 */
-*,
-::after,
-::before {
+:where(*, ::after, ::before) {
   border-color: #e5e7eb;
 }
 

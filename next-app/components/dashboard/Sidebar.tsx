@@ -196,7 +196,7 @@ const Sidebar = () => {
             <div className="mt-3 mb-6">
               <Image src="/logo.png" alt="Logo" width={160} height={64} className="h-[4rem]" />
             </div>
-            <ul className="space-y-2 mt-4 border-t border-[#4f5962]">
+            <ul className="space-y-2 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
               {menuItems.map((item) => (
                 <li key={item.path}>
                   <Link
@@ -230,7 +230,7 @@ const Sidebar = () => {
           <div className="mt-3 mb-4">
             <Image src="/logo.png" alt="Logo" width={200} height={80} />
           </div>
-          <ul className="space-y-1 mt-4 border-t border-[#4f5962]">
+          <ul className="space-y-1 mt-4" style={{ borderTop: '1px solid #4f5962' }}>
             {menuItems.map((item) => (
               <li key={item.path}>
                 <Link
