@@ -10,6 +10,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { applyManualJobSchema } from "@/utils/validations";
 import FileUpload from "@/components/FileUpload";
 
+const toLocalDatetimeString = (date: Date) => {
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
+
 const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }: any) => {
   const { user, token } = useSelector((state: any) => state.auth);
   const [techOptions, setTechOptions] = useState<any[]>([]);
@@ -42,7 +47,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
   };
 
   const handleClose = () => {
-    formik.resetForm({ values: { ...formik.initialValues, appliedAt: new Date().toISOString() } });
+    formik.resetForm({ values: { ...formik.initialValues, appliedAt: toLocalDatetimeString(new Date()) } });
     setAttachments([]);
     onRequestClose();
   };
@@ -56,7 +61,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
       jobTitle: "", jobDescription: "", upworkJobUrl: "",
       bidderName: user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : "",
       platformId: null, profileId: "", technologies: [] as string[], connects: "", proposalLink: "",
-      appliedAt: new Date().toISOString(),
+      appliedAt: toLocalDatetimeString(new Date()),
     },
     validationSchema: applyManualJobSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -70,8 +75,8 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
         formData.append("profileId", values.profileId);
         formData.append("technologies", JSON.stringify(values.technologies));
         formData.append("connectsUsed", String(Number(values.connects)));
-        formData.append("proposalLink", values.proposalLink || "");
-        formData.append("appliedAt", values.appliedAt);
+        formData.append("ccccc", values.proposalLink || "");
+        formData.append("appliedAt", new Date(values.appliedAt).toISOString());
         formData.append("platformId", values.platformId || "");
         attachments.forEach((fileObj: any) => { if (fileObj.file) formData.append("attachments", fileObj.file); });
 
@@ -88,7 +93,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
   });
 
   useEffect(() => {
-    if (isOpen) formik.setFieldValue("appliedAt", new Date().toISOString());
+    if (isOpen) formik.setFieldValue("appliedAt", toLocalDatetimeString(new Date()));
   }, [isOpen]);
 
   return (
@@ -102,7 +107,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <input name="jobTitle" placeholder="Job Title" value={formik.values.jobTitle} onChange={formik.handleChange} onBlur={formik.handleBlur} className="border p-2 rounded w-full" />
+            <input name="jobTitle" placeholder="Job   " value={formik.values.jobTitle} onChange={formik.handleChange} onBlur={formik.handleBlur} className="border p-2 rounded w-full" />
             {formik.touched.jobTitle && formik.errors.jobTitle && <div className="text-red-500 text-sm">{formik.errors.jobTitle as string}</div>}
           </div>
           <div>
@@ -133,7 +138,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
         </div>
         <div>
           <label className="block mb-1 font-medium">Applied Date</label>
-          <input type="datetime-local" value={formik.values.appliedAt?.slice(0, 16)} onChange={(e) => formik.setFieldValue("appliedAt", new Date(e.target.value).toISOString())} className="border p-2 rounded w-full" />
+          <input type="datetime-local" value={formik.values.appliedAt} onChange={(e) => formik.setFieldValue("appliedAt", e.target.value)} className="border p-2 rounded w-full" />
         </div>
         <FileUpload files={attachments} setFiles={setAttachments} maxFiles={5} />
         <div className="flex justify-end gap-3 mt-6 pt-4">
