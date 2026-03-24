@@ -1,16 +1,14 @@
 /**
  * GET /api/admin/platforms
- * Get all platforms
+ * Get all platforms (PUBLIC)
  */
-
 import { NextResponse } from 'next/server';
-import { withAdminAuth } from '@/lib/middleware/auth';
 import { Platform } from '@/lib/db/models';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export const GET = withAdminAuth(async () => {
+export const GET = async () => {
   try {
     const platforms = await Platform.findAll();
 
@@ -22,4 +20,4 @@ export const GET = withAdminAuth(async () => {
       { status: 500 }
     );
   }
-});
+};
