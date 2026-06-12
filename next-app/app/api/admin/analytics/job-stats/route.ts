@@ -65,120 +65,134 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
       ];
     }
 
-    // Fetch metadata
-    const [platforms, users, profiles] = await Promise.all([
-      Platform.findAll({
-        attributes: ['id', 'name', 'connect_cost_usd', 'connect_cost_inr'],
-      }),
-      User.findAll({
-        attributes: ['id', 'firstname'],
-      }),
-      Profiles.findAll({
-        attributes: ['id', 'name'],
-      }),
-    ]);
+    // Build the weekly-target filter up front so its query can run with the rest.
+    const weeklyWhere: any = {};
 
-    const platformById: any = {};
-    const userById: any = {};
-    const profileById: any = {};
+    if (userId) {
+      weeklyWhere.userId = { [Op.in]: userId.split(',').map(Number) };
+    }
 
-    platforms.forEach((p: any) => (platformById[p.id] = p));
-    users.forEach((u: any) => (userById[u.id] = u.firstname));
-    profiles.forEach((p: any) => (profileById[p.id] = p.name));
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
 
-    // Aggregated queries
-    const platformAgg = await AppliedJob.findAll({
-      attributes: [
-        'platformId',
-        [fn('SUM', col('connects_used')), 'connects'],
-        [fn('COUNT', col('id')), 'applied'],
-      ],
-      where: whereClause,
-      group: ['platformId'],
-      raw: true,
-    });
+      weeklyWhere[Op.and] = [
+        { week_start: { [Op.lte]: start } },
+        { week_end: { [Op.gte]: end } },
+      ];
+    }
 
-    const userAgg = await AppliedJob.findAll({
-      attributes: [
-        'userId',
-        [fn('SUM', col('connects_used')), 'connects'],
-        [fn('COUNT', col('id')), 'applied'],
-      ],
-      where: whereClause,
-      group: ['userId'],
-      raw: true,
-    });
-
-    const profileAgg = await AppliedJob.findAll({
-      attributes: [
-        'profileId',
-        [fn('SUM', col('connects_used')), 'connects'],
-        [fn('COUNT', col('id')), 'applied'],
-      ],
-      where: whereClause,
-      group: ['profileId'],
-      raw: true,
-    });
-
-    const userPlatformAgg = await AppliedJob.findAll({
-      attributes: [
-        'userId',
-        'platformId',
-        [fn('SUM', col('connects_used')), 'connects'],
-      ],
-      where: whereClause,
-      group: ['userId', 'platformId'],
-      raw: true,
-    });
-
-    const profilePlatformAgg = await AppliedJob.findAll({
-      attributes: [
-        'profileId',
-        'platformId',
-        [fn('SUM', col('connects_used')), 'connects'],
-      ],
-      where: whereClause,
-      group: ['profileId', 'platformId'],
-      raw: true,
-    });
-
-    const stageAgg = await AppliedJob.findAll({
-      attributes: ['stage', [fn('COUNT', col('id')), 'count']],
-      where: whereClause,
-      group: ['stage'],
-      raw: true,
-    });
-
-    // Replied/interview - platform & profile
-    const repliedInterviewPlatformAgg = await AppliedJob.findAll({
-      attributes: ['platformId', 'stage', [fn('COUNT', col('id')), 'count']],
-      where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-      group: ['platformId', 'stage'],
-      raw: true,
-    });
-
-    const repliedInterviewProfileAgg = await AppliedJob.findAll({
-      attributes: ['profileId', 'stage', [fn('COUNT', col('id')), 'count']],
-      where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-      group: ['profileId', 'stage'],
-      raw: true,
-    });
-
-    // Replied/interview - user wise
-    const repliedInterviewUserAgg = await AppliedJob.findAll({
-      attributes: ['userId', 'stage', [fn('COUNT', col('id')), 'count']],
-      where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-      group: ['userId', 'stage'],
-      raw: true,
-    });
-
-    // Totals
+    // Every query below is an independent read, so run them concurrently
+    // instead of awaiting one-by-one. This collapses ~15 serial DB round-trips
+    // into a handful of parallel waves (bounded by the connection pool size).
     const [
+      platforms,
+      users,
+      profiles,
+      platformAgg,
+      userAgg,
+      profileAgg,
+      userPlatformAgg,
+      profilePlatformAgg,
+      stageAgg,
+      repliedInterviewPlatformAgg,
+      repliedInterviewProfileAgg,
+      repliedInterviewUserAgg,
       totalAppliedJobsRes,
       totalConnectsUsedRes,
       totalHiredJobsRes,
       totalHiredBudgetRes,
+      hiredPlatformAgg,
+      hiredUserAgg,
+      hiredProfileAgg,
+      targets,
     ] = await Promise.all([
+      // Metadata
+      Platform.findAll({
+        attributes: ['id', 'name', 'connect_cost_usd', 'connect_cost_inr'],
+      }),
+      User.findAll({ attributes: ['id', 'firstname'] }),
+      Profiles.findAll({ attributes: ['id', 'name'] }),
+
+      // Applied-job aggregations
+      AppliedJob.findAll({
+        attributes: [
+          'platformId',
+          [fn('SUM', col('connects_used')), 'connects'],
+          [fn('COUNT', col('id')), 'applied'],
+        ],
+        where: whereClause,
+        group: ['platformId'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: [
+          'userId',
+          [fn('SUM', col('connects_used')), 'connects'],
+          [fn('COUNT', col('id')), 'applied'],
+        ],
+        where: whereClause,
+        group: ['userId'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: [
+          'profileId',
+          [fn('SUM', col('connects_used')), 'connects'],
+          [fn('COUNT', col('id')), 'applied'],
+        ],
+        where: whereClause,
+        group: ['profileId'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: [
+          'userId',
+          'platformId',
+          [fn('SUM', col('connects_used')), 'connects'],
+        ],
+        where: whereClause,
+        group: ['userId', 'platformId'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: [
+          'profileId',
+          'platformId',
+          [fn('SUM', col('connects_used')), 'connects'],
+        ],
+        where: whereClause,
+        group: ['profileId', 'platformId'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: ['stage', [fn('COUNT', col('id')), 'count']],
+        where: whereClause,
+        group: ['stage'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: ['platformId', 'stage', [fn('COUNT', col('id')), 'count']],
+        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
+        group: ['platformId', 'stage'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: ['profileId', 'stage', [fn('COUNT', col('id')), 'count']],
+        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
+        group: ['profileId', 'stage'],
+        raw: true,
+      }),
+      AppliedJob.findAll({
+        attributes: ['userId', 'stage', [fn('COUNT', col('id')), 'count']],
+        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
+        group: ['userId', 'stage'],
+        raw: true,
+      }),
+
+      // Totals
       AppliedJob.count({ where: whereClause }),
       AppliedJob.sum('connects_used', { where: whereClause }),
       HiredJob.count({
@@ -205,70 +219,79 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
         ],
         subQuery: false,
       } as any),
+
+      // Hired-job breakdowns
+      HiredJob.findAll({
+        attributes: [
+          [col('appliedJobDetails.platformId'), 'platformId'],
+          [fn('COUNT', col('HiredJob.id')), 'count'],
+        ],
+        include: [
+          {
+            model: AppliedJob,
+            as: 'appliedJobDetails',
+            required: true,
+            where: whereClause,
+            attributes: [],
+          },
+        ],
+        group: [col('appliedJobDetails.platformId')],
+        subQuery: false,
+        raw: true,
+      }),
+      HiredJob.findAll({
+        attributes: [
+          [col('appliedJobDetails.userId'), 'userId'],
+          [fn('COUNT', col('HiredJob.id')), 'count'],
+        ],
+        include: [
+          {
+            model: AppliedJob,
+            as: 'appliedJobDetails',
+            required: true,
+            where: whereClause,
+            attributes: [],
+          },
+        ],
+        group: [col('appliedJobDetails.userId')],
+        subQuery: false,
+        raw: true,
+      }),
+      HiredJob.findAll({
+        attributes: [
+          [col('appliedJobDetails.profileId'), 'profileId'],
+          [fn('COUNT', col('HiredJob.id')), 'count'],
+        ],
+        include: [
+          {
+            model: AppliedJob,
+            as: 'appliedJobDetails',
+            required: true,
+            where: whereClause,
+            attributes: [],
+          },
+        ],
+        group: [col('appliedJobDetails.profileId')],
+        subQuery: false,
+        raw: true,
+      }),
+
+      // Weekly targets
+      WeeklyTargets.findAll({ where: weeklyWhere, raw: true }),
     ]);
+
+    const platformById: any = {};
+    const userById: any = {};
+    const profileById: any = {};
+
+    platforms.forEach((p: any) => (platformById[p.id] = p));
+    users.forEach((u: any) => (userById[u.id] = u.firstname));
+    profiles.forEach((p: any) => (profileById[p.id] = p.name));
 
     const totalAppliedJobs = totalAppliedJobsRes || 0;
     const totalConnectsUsed = totalConnectsUsedRes || 0;
     const totalHiredJobs = totalHiredJobsRes || 0;
     const totalHiredBudget = Number(totalHiredBudgetRes || 0);
-
-    // Hired jobs breakdowns
-    const hiredPlatformAgg = await HiredJob.findAll({
-      attributes: [
-        [col('appliedJobDetails.platformId'), 'platformId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
-      ],
-      include: [
-        {
-          model: AppliedJob,
-          as: 'appliedJobDetails',
-          required: true,
-          where: whereClause,
-          attributes: [],
-        },
-      ],
-      group: [col('appliedJobDetails.platformId')],
-      subQuery: false,
-      raw: true,
-    });
-
-    const hiredUserAgg = await HiredJob.findAll({
-      attributes: [
-        [col('appliedJobDetails.userId'), 'userId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
-      ],
-      include: [
-        {
-          model: AppliedJob,
-          as: 'appliedJobDetails',
-          required: true,
-          where: whereClause,
-          attributes: [],
-        },
-      ],
-      group: [col('appliedJobDetails.userId')],
-      subQuery: false,
-      raw: true,
-    });
-
-    const hiredProfileAgg = await HiredJob.findAll({
-      attributes: [
-        [col('appliedJobDetails.profileId'), 'profileId'],
-        [fn('COUNT', col('HiredJob.id')), 'count'],
-      ],
-      include: [
-        {
-          model: AppliedJob,
-          as: 'appliedJobDetails',
-          required: true,
-          where: whereClause,
-          attributes: [],
-        },
-      ],
-      group: [col('appliedJobDetails.profileId')],
-      subQuery: false,
-      raw: true,
-    });
 
     // Platform breakdowns
     const connectsBreakdown: any = {};
@@ -438,28 +461,6 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     };
 
     let weeklyTargetUserWise: any = {};
-    const weeklyWhere: any = {};
-
-    if (userId) {
-      weeklyWhere.userId = { [Op.in]: userId.split(',').map(Number) };
-    }
-
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      start.setHours(0, 0, 0, 0);
-      end.setHours(23, 59, 59, 999);
-
-      weeklyWhere[Op.and] = [
-        { week_start: { [Op.lte]: start } },
-        { week_end: { [Op.gte]: end } },
-      ];
-    }
-
-    const targets = await WeeklyTargets.findAll({
-      where: weeklyWhere,
-      raw: true,
-    });
 
     if (targets && targets.length > 0) {
       const totalTarget = (targets as any[]).reduce(
