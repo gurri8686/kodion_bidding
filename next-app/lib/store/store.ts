@@ -5,11 +5,12 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from 'redux-persist/lib/storage';
 import authReducer from './slices/authSlice';
 
-// Redux Persist configuration
+// Redux Persist configuration — persist the whole auth slice (token + user)
+// so the session survives a page reload. (A whitelist here would be wrong: it
+// filters fields *within* this slice, which has no `auth` field of its own.)
 const persistConfig = {
-  key: 'root',
+  key: 'auth',
   storage,
-  whitelist: ['auth'] // Only persist auth state
 };
 
 // Create persisted reducer
