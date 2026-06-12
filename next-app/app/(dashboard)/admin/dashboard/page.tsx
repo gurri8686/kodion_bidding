@@ -69,6 +69,7 @@ interface Summary {
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [summary, setSummary] = useState<Summary>({
     totalAppliedJobs: 0,
     totalConnectsUsed: 0,
@@ -119,8 +120,27 @@ export default function AdminDashboard() {
 
   const fetchJobStats = useCallback(
     async (appliedFilters: any = {}) => {
+      const cacheKey = `jobstats:${JSON.stringify(appliedFilters || {})}`;
+
+      // Stale-while-revalidate: paint cached numbers instantly so a slow/cold
+      // API call doesn't block the dashboard, then refresh in the background.
+      let hasCache = false;
       try {
-        setLoading(true);
+        const cached =
+          typeof window !== 'undefined' ? window.localStorage.getItem(cacheKey) : null;
+        if (cached) {
+          setSummary((prev) => ({ ...prev, ...JSON.parse(cached) }));
+          setLoading(false);
+          setRefreshing(true);
+          hasCache = true;
+        }
+      } catch {
+        /* ignore cache read errors */
+      }
+
+      if (!hasCache) setLoading(true);
+
+      try {
         const { platform, userProfile, bidder, startDate, endDate } = appliedFilters || {};
 
         const res = await axios.get(
@@ -143,10 +163,19 @@ export default function AdminDashboard() {
           ...prev,
           ...apiSummary,
         }));
+
+        try {
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem(cacheKey, JSON.stringify(apiSummary));
+          }
+        } catch {
+          /* ignore cache write errors (e.g. quota) */
+        }
       } catch (error) {
         console.error('Error fetching job stats:', error);
       } finally {
         setLoading(false);
+        setRefreshing(false);
       }
     },
     [token]
@@ -181,6 +210,15 @@ export default function AdminDashboard() {
           <Loader />
         ) : (
           <div className="p-6">
+            {refreshing && (
+              <div className="mb-2 flex items-center gap-2 text-xs text-gray-500">
+                <span
+                  className="inline-block w-3 h-3 rounded-full animate-spin"
+                  style={{ border: '2px solid #FFE0CC', borderTopColor: '#FF6D00' }}
+                />
+                Updating…
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
               <DashboardCard
                 title="Applied Jobs"
