@@ -48,13 +48,17 @@ export const editJobSchema = Yup.object().shape({
     .of(Yup.string())
     .min(1, "At least one technology is required")
     .required("Technologies are required"),
-  proposalLink: Yup.string().required("Please provide the proposal link"),
-  manualJobUrl: Yup.string().required("Please provide the Upwork job URL"),
+  proposalLink: Yup.string().notRequired(),
+  manualJobUrl: Yup.string().notRequired(),
   connectsUsed: Yup.number()
     .typeError("Must be a number")
     .required("Connects used is required")
     .min(0, "Must be at least 0"),
 });
+
+// LinkedIn jobs don't use connects or proposal links, so those fields are
+// optional only for that platform. Matched case-insensitively by name.
+const isLinkedIn = (name: any) => (name || "").toLowerCase() === "linkedin";
 
 export const applyManualJobSchema = Yup.object().shape({
   bidderName: Yup.string().required("Please enter the bidder's name"),
@@ -64,13 +68,22 @@ export const applyManualJobSchema = Yup.object().shape({
   technologies: Yup.array()
     .of(Yup.string())
     .min(1, "Select at least one technology"),
+  platformName: Yup.string(),
   connects: Yup.number()
     .transform((value: any, originalValue: any) =>
       originalValue === "" ? undefined : value
     )
     .typeError("Connects must be a number")
-    .required("Enter the number of connects used"),
-  proposalLink: Yup.string().required("Please provide the proposal link"),
+    .when("platformName", {
+      is: isLinkedIn,
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required("Enter the number of connects used"),
+    }),
+  proposalLink: Yup.string().when("platformName", {
+    is: isLinkedIn,
+    then: (schema) => schema.notRequired(),
+    otherwise: (schema) => schema.required("Please provide the proposal link"),
+  }),
 });
 
 export const addDeveloperSchema = Yup.object().shape({

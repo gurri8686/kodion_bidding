@@ -64,14 +64,22 @@ const EditAppliedJobModal = ({ isOpen, onClose, job, fetchAppliedJobs }: any) =>
     validationSchema: editJobSchema,
     onSubmit: async (values) => {
       try {
+        // The PUT endpoint parses multipart form-data (it also handles file
+        // attachments), so send FormData here — not JSON.
+        const formData = new FormData();
+        formData.append("manualJobTitle", values.manualJobTitle);
+        formData.append("profileId", String(values.profileId));
+        formData.append("platformId", values.platformId ? String(values.platformId) : "");
+        formData.append("technologies", JSON.stringify(values.technologies));
+        formData.append("connectsUsed", String(Number(values.connectsUsed)));
+        formData.append("proposalLink", values.proposalLink || "");
+        formData.append("manualJobUrl", values.manualJobUrl || "");
+        formData.append("appliedAt", values.appliedAt ? new Date(values.appliedAt).toISOString() : "");
+
         const response = await fetch(`/api/jobs/edit-apply-job/${job.id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({
-            manualJobTitle: values.manualJobTitle, profileId: values.profileId, platformId: values.platformId,
-            technologies: values.technologies, connectsUsed: Number(values.connectsUsed),
-            proposalLink: values.proposalLink, manualJobUrl: values.manualJobUrl, appliedAt: values.appliedAt,
-          }),
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
         });
         const result = await response.json();
         if (response.ok) { toast.success("Job updated successfully!"); fetchAppliedJobs(); onClose(); }

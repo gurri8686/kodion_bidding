@@ -164,6 +164,21 @@ export const PUT = withAuth(
         updatedFields.platformId = platformId ? parseInt(platformId) : null;
       }
 
+      // FormData values arrive as strings — coerce to the shapes the model/checks expect.
+      if (typeof updatedFields.technologies === 'string') {
+        try {
+          updatedFields.technologies = JSON.parse(updatedFields.technologies);
+        } catch {
+          updatedFields.technologies = [];
+        }
+      }
+      if (typeof updatedFields.connectsUsed === 'string') {
+        updatedFields.connectsUsed = parseInt(updatedFields.connectsUsed) || 0;
+      }
+      if (typeof updatedFields.profileId === 'string') {
+        updatedFields.profileId = parseInt(updatedFields.profileId);
+      }
+
       const newFiles = parseFilesFromFormData(formData);
       let newAttachmentUrls: string[] = [];
 

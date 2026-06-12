@@ -7,7 +7,7 @@ import Select from "react-select";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { applyManualJobSchema } from "@/utils/validations";
+import { applyManualJobSchema } from "@/utils/validations"; 
 import FileUpload from "@/components/FileUpload";
 
 const toLocalDatetimeString = (date: Date) => {
@@ -60,7 +60,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
     initialValues: {
       jobTitle: "", jobDescription: "", upworkJobUrl: "",
       bidderName: user?.firstname && user?.lastname ? `${user.firstname} ${user.lastname}` : "",
-      platformId: null, profileId: "", technologies: [] as string[], connects: "", proposalLink: "",
+      platformId: null, platformName: "", profileId: "", technologies: [] as string[], connects: "", proposalLink: "",
       appliedAt: toLocalDatetimeString(new Date()),
     },
     validationSchema: applyManualJobSchema,
@@ -116,7 +116,7 @@ const ApplyManualJob = ({ isOpen, onRequestClose, onApplyJob, fetchAppliedJobs }
           </div>
         </div>
         <div>
-          <Select name="platformId" value={platformOptions.find(opt => opt.value === formik.values.platformId) || null} onChange={(option: any) => formik.setFieldValue("platformId", option.value)} options={platformOptions} className="w-full" placeholder="Select Platform" />
+          <Select name="platformId" value={platformOptions.find(opt => opt.value === formik.values.platformId) || null} onChange={(option: any) => { formik.setFieldValue("platformId", option.value); formik.setFieldValue("platformName", option.label); }} options={platformOptions} className="w-full" placeholder="Select Platform" />
         </div>
         <div>
           <Select isMulti name="technologies" value={formik.values.technologies.map((val: string) => ({ label: val, value: val }))} onChange={(opts: any) => formik.setFieldValue("technologies", opts.map((o: any) => o.value))} onBlur={() => formik.setFieldTouched("technologies", true)} options={techOptions} placeholder="Select Technologies" />
