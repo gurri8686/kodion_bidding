@@ -2,6 +2,10 @@
  * GET /api/admin/analytics/job-stats
  * Get comprehensive job statistics with filters
  * Supports filtering by platform, profile, user, and date range
+ *
+ * The applied_jobs dataset is small, so instead of issuing ~20 separate
+ * GROUP BY round-trips to a remote DB, we fetch the filtered rows once and
+ * aggregate them in JavaScript. This collapses the endpoint to ~5 queries.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -14,7 +18,7 @@ import {
   Profiles,
   WeeklyTargets,
 } from '@/lib/db/models';
-import { Op, fn, col } from 'sequelize';
+import { Op } from 'sequelize';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -65,7 +69,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
       ];
     }
 
-    // Build the weekly-target filter up front so its query can run with the rest.
+    // Weekly-target filter
     const weeklyWhere: any = {};
 
     if (userId) {
@@ -84,214 +88,150 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
       ];
     }
 
-    // Every query below is an independent read, so run them concurrently
-    // instead of awaiting one-by-one. This collapses ~15 serial DB round-trips
-    // into a handful of parallel waves (bounded by the connection pool size).
-    const [
-      platforms,
-      users,
-      profiles,
-      platformAgg,
-      userAgg,
-      profileAgg,
-      userPlatformAgg,
-      profilePlatformAgg,
-      stageAgg,
-      repliedInterviewPlatformAgg,
-      repliedInterviewProfileAgg,
-      repliedInterviewUserAgg,
-      totalAppliedJobsRes,
-      totalConnectsUsedRes,
-      totalHiredJobsRes,
-      totalHiredBudgetRes,
-      hiredPlatformAgg,
-      hiredUserAgg,
-      hiredProfileAgg,
-      targets,
-    ] = await Promise.all([
-      // Metadata
-      Platform.findAll({
-        attributes: ['id', 'name', 'connect_cost_usd', 'connect_cost_inr'],
-      }),
-      User.findAll({ attributes: ['id', 'firstname'] }),
-      Profiles.findAll({ attributes: ['id', 'name'] }),
-
-      // Applied-job aggregations
-      AppliedJob.findAll({
-        attributes: [
-          'platformId',
-          [fn('SUM', col('connects_used')), 'connects'],
-          [fn('COUNT', col('id')), 'applied'],
-        ],
-        where: whereClause,
-        group: ['platformId'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: [
-          'userId',
-          [fn('SUM', col('connects_used')), 'connects'],
-          [fn('COUNT', col('id')), 'applied'],
-        ],
-        where: whereClause,
-        group: ['userId'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: [
-          'profileId',
-          [fn('SUM', col('connects_used')), 'connects'],
-          [fn('COUNT', col('id')), 'applied'],
-        ],
-        where: whereClause,
-        group: ['profileId'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: [
-          'userId',
-          'platformId',
-          [fn('SUM', col('connects_used')), 'connects'],
-        ],
-        where: whereClause,
-        group: ['userId', 'platformId'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: [
-          'profileId',
-          'platformId',
-          [fn('SUM', col('connects_used')), 'connects'],
-        ],
-        where: whereClause,
-        group: ['profileId', 'platformId'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: ['stage', [fn('COUNT', col('id')), 'count']],
-        where: whereClause,
-        group: ['stage'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: ['platformId', 'stage', [fn('COUNT', col('id')), 'count']],
-        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-        group: ['platformId', 'stage'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: ['profileId', 'stage', [fn('COUNT', col('id')), 'count']],
-        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-        group: ['profileId', 'stage'],
-        raw: true,
-      }),
-      AppliedJob.findAll({
-        attributes: ['userId', 'stage', [fn('COUNT', col('id')), 'count']],
-        where: { ...whereClause, stage: { [Op.in]: ['replied', 'interview'] } },
-        group: ['userId', 'stage'],
-        raw: true,
-      }),
-
-      // Totals
-      AppliedJob.count({ where: whereClause }),
-      AppliedJob.sum('connects_used', { where: whereClause }),
-      HiredJob.count({
-        include: [
-          {
-            model: AppliedJob,
-            as: 'appliedJobDetails',
-            required: true,
-            where: whereClause,
-            attributes: [],
-          },
-        ],
-        subQuery: false,
-      } as any),
-      HiredJob.sum('budgetAmount', {
-        include: [
-          {
-            model: AppliedJob,
-            as: 'appliedJobDetails',
-            required: true,
-            where: whereClause,
-            attributes: [],
-          },
-        ],
-        subQuery: false,
-      } as any),
-
-      // Hired-job breakdowns
-      HiredJob.findAll({
-        attributes: [
-          [col('appliedJobDetails.platformId'), 'platformId'],
-          [fn('COUNT', col('HiredJob.id')), 'count'],
-        ],
-        include: [
-          {
-            model: AppliedJob,
-            as: 'appliedJobDetails',
-            required: true,
-            where: whereClause,
-            attributes: [],
-          },
-        ],
-        group: [col('appliedJobDetails.platformId')],
-        subQuery: false,
-        raw: true,
-      }),
-      HiredJob.findAll({
-        attributes: [
-          [col('appliedJobDetails.userId'), 'userId'],
-          [fn('COUNT', col('HiredJob.id')), 'count'],
-        ],
-        include: [
-          {
-            model: AppliedJob,
-            as: 'appliedJobDetails',
-            required: true,
-            where: whereClause,
-            attributes: [],
-          },
-        ],
-        group: [col('appliedJobDetails.userId')],
-        subQuery: false,
-        raw: true,
-      }),
-      HiredJob.findAll({
-        attributes: [
-          [col('appliedJobDetails.profileId'), 'profileId'],
-          [fn('COUNT', col('HiredJob.id')), 'count'],
-        ],
-        include: [
-          {
-            model: AppliedJob,
-            as: 'appliedJobDetails',
-            required: true,
-            where: whereClause,
-            attributes: [],
-          },
-        ],
-        group: [col('appliedJobDetails.profileId')],
-        subQuery: false,
-        raw: true,
-      }),
-
-      // Weekly targets
-      WeeklyTargets.findAll({ where: weeklyWhere, raw: true }),
-    ]);
+    // 5 parallel queries: metadata + the raw filtered rows + targets.
+    const [platforms, users, profiles, appliedRows, hiredRows, targets] =
+      await Promise.all([
+        Platform.findAll({
+          attributes: ['id', 'name', 'connect_cost_usd', 'connect_cost_inr'],
+          raw: true,
+        }),
+        User.findAll({ attributes: ['id', 'firstname'], raw: true }),
+        Profiles.findAll({ attributes: ['id', 'name'], raw: true }),
+        AppliedJob.findAll({
+          attributes: ['platformId', 'userId', 'profileId', 'connectsUsed', 'stage'],
+          where: whereClause,
+          raw: true,
+        }),
+        HiredJob.findAll({
+          attributes: ['budgetAmount'],
+          include: [
+            {
+              model: AppliedJob,
+              as: 'appliedJobDetails',
+              required: true,
+              where: whereClause,
+              attributes: ['platformId', 'userId', 'profileId'],
+            },
+          ],
+          raw: true,
+        }),
+        WeeklyTargets.findAll({ where: weeklyWhere, raw: true }),
+      ]);
 
     const platformById: any = {};
     const userById: any = {};
     const profileById: any = {};
 
-    platforms.forEach((p: any) => (platformById[p.id] = p));
-    users.forEach((u: any) => (userById[u.id] = u.firstname));
-    profiles.forEach((p: any) => (profileById[p.id] = p.name));
+    (platforms as any[]).forEach((p: any) => (platformById[p.id] = p));
+    (users as any[]).forEach((u: any) => (userById[u.id] = u.firstname));
+    (profiles as any[]).forEach((p: any) => (profileById[p.id] = p.name));
 
-    const totalAppliedJobs = totalAppliedJobsRes || 0;
-    const totalConnectsUsed = totalConnectsUsedRes || 0;
-    const totalHiredJobs = totalHiredJobsRes || 0;
-    const totalHiredBudget = Number(totalHiredBudgetRes || 0);
+    // ---- Aggregate applied rows in JS ----
+    const applied = appliedRows as any[];
+
+    const connectsOf = (r: any) => Number(r.connectsUsed ?? r.connects_used ?? 0);
+
+    const totalAppliedJobs = applied.length;
+    const totalConnectsUsed = applied.reduce((s, r) => s + connectsOf(r), 0);
+
+    const platformAggMap: Record<string, any> = {};
+    const userAggMap: Record<string, any> = {};
+    const profileAggMap: Record<string, any> = {};
+    const userPlatformMap: Record<string, any> = {};
+    const profilePlatformMap: Record<string, any> = {};
+    const stageMap: Record<string, number> = {};
+    const riPlatformMap: Record<string, any> = {};
+    const riProfileMap: Record<string, any> = {};
+    const riUserMap: Record<string, any> = {};
+
+    for (const r of applied) {
+      const connects = connectsOf(r);
+      const pid = r.platformId;
+      const uid = r.userId;
+      const prid = r.profileId;
+      const stage = r.stage;
+
+      if (!platformAggMap[pid]) platformAggMap[pid] = { platformId: pid, connects: 0, applied: 0 };
+      platformAggMap[pid].connects += connects;
+      platformAggMap[pid].applied += 1;
+
+      if (!userAggMap[uid]) userAggMap[uid] = { userId: uid, connects: 0, applied: 0 };
+      userAggMap[uid].connects += connects;
+      userAggMap[uid].applied += 1;
+
+      if (!profileAggMap[prid]) profileAggMap[prid] = { profileId: prid, connects: 0, applied: 0 };
+      profileAggMap[prid].connects += connects;
+      profileAggMap[prid].applied += 1;
+
+      const upKey = `${uid}|${pid}`;
+      if (!userPlatformMap[upKey]) userPlatformMap[upKey] = { userId: uid, platformId: pid, connects: 0 };
+      userPlatformMap[upKey].connects += connects;
+
+      const ppKey = `${prid}|${pid}`;
+      if (!profilePlatformMap[ppKey]) profilePlatformMap[ppKey] = { profileId: prid, platformId: pid, connects: 0 };
+      profilePlatformMap[ppKey].connects += connects;
+
+      stageMap[stage] = (stageMap[stage] || 0) + 1;
+
+      if (stage === 'replied' || stage === 'interview') {
+        const rpKey = `${pid}|${stage}`;
+        if (!riPlatformMap[rpKey]) riPlatformMap[rpKey] = { platformId: pid, stage, count: 0 };
+        riPlatformMap[rpKey].count += 1;
+
+        const rprKey = `${prid}|${stage}`;
+        if (!riProfileMap[rprKey]) riProfileMap[rprKey] = { profileId: prid, stage, count: 0 };
+        riProfileMap[rprKey].count += 1;
+
+        const ruKey = `${uid}|${stage}`;
+        if (!riUserMap[ruKey]) riUserMap[ruKey] = { userId: uid, stage, count: 0 };
+        riUserMap[ruKey].count += 1;
+      }
+    }
+
+    const platformAgg = Object.values(platformAggMap);
+    const userAgg = Object.values(userAggMap);
+    const profileAgg = Object.values(profileAggMap);
+    const userPlatformAgg = Object.values(userPlatformMap);
+    const profilePlatformAgg = Object.values(profilePlatformMap);
+    const stageAgg = Object.entries(stageMap).map(([stage, count]) => ({ stage, count }));
+    const repliedInterviewPlatformAgg = Object.values(riPlatformMap);
+    const repliedInterviewProfileAgg = Object.values(riProfileMap);
+    const repliedInterviewUserAgg = Object.values(riUserMap);
+
+    // ---- Aggregate hired rows in JS ----
+    const hired = hiredRows as any[];
+
+    const totalHiredJobs = hired.length;
+    const totalHiredBudget = Number(
+      hired.reduce((s, r) => s + Number(r.budgetAmount || 0), 0)
+    );
+
+    const hiredPlatformMap: Record<string, any> = {};
+    const hiredUserMap: Record<string, any> = {};
+    const hiredProfileMap: Record<string, any> = {};
+
+    for (const r of hired) {
+      const pid = r['appliedJobDetails.platformId'] ?? r.platformId;
+      const uid = r['appliedJobDetails.userId'] ?? r.userId;
+      const prid = r['appliedJobDetails.profileId'] ?? r.profileId;
+
+      if (pid != null) {
+        if (!hiredPlatformMap[pid]) hiredPlatformMap[pid] = { platformId: pid, count: 0 };
+        hiredPlatformMap[pid].count += 1;
+      }
+      if (uid != null) {
+        if (!hiredUserMap[uid]) hiredUserMap[uid] = { userId: uid, count: 0 };
+        hiredUserMap[uid].count += 1;
+      }
+      if (prid != null) {
+        if (!hiredProfileMap[prid]) hiredProfileMap[prid] = { profileId: prid, count: 0 };
+        hiredProfileMap[prid].count += 1;
+      }
+    }
+
+    const hiredPlatformAgg = Object.values(hiredPlatformMap);
+    const hiredUserAgg = Object.values(hiredUserMap);
+    const hiredProfileAgg = Object.values(hiredProfileMap);
 
     // Platform breakdowns
     const connectsBreakdown: any = {};
@@ -299,7 +239,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const appliedJobsBreakdown: any = {};
     const hiredPlatformWise: any = {};
 
-    platforms.forEach((p: any) => {
+    (platforms as any[]).forEach((p: any) => {
       connectsBreakdown[p.name] = 0;
       costBreakdown[p.name] = 0;
       appliedJobsBreakdown[p.name] = 0;
@@ -329,7 +269,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const costUserWise: any = {};
     const hiredUserWise: any = {};
 
-    users.forEach((u: any) => {
+    (users as any[]).forEach((u: any) => {
       appliedUserWise[u.firstname] = 0;
       connectsUserWise[u.firstname] = 0;
       costUserWise[u.firstname] = 0;
@@ -363,7 +303,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const costProfileWise: any = {};
     const hiredProfileWise: any = {};
 
-    profiles.forEach((p: any) => {
+    (profiles as any[]).forEach((p: any) => {
       appliedProfileWise[p.name] = 0;
       connectsProfileWise[p.name] = 0;
       costProfileWise[p.name] = 0;
@@ -405,7 +345,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const repliedPlatformWise: any = {};
     const interviewPlatformWise: any = {};
 
-    platforms.forEach((p: any) => {
+    (platforms as any[]).forEach((p: any) => {
       repliedPlatformWise[p.name] = 0;
       interviewPlatformWise[p.name] = 0;
     });
@@ -422,7 +362,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const repliedProfileWise: any = {};
     const interviewProfileWise: any = {};
 
-    profiles.forEach((p: any) => {
+    (profiles as any[]).forEach((p: any) => {
       repliedProfileWise[p.name] = 0;
       interviewProfileWise[p.name] = 0;
     });
@@ -439,7 +379,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     const repliedUserWise: any = {};
     const interviewUserWise: any = {};
 
-    users.forEach((u: any) => {
+    (users as any[]).forEach((u: any) => {
       repliedUserWise[u.firstname] = 0;
       interviewUserWise[u.firstname] = 0;
     });
@@ -506,7 +446,7 @@ export const GET = withAdminAuth(async (req: NextRequest) => {
     let totalConnectsCostINR = 0;
     for (const pfName of Object.keys(connectsBreakdown)) {
       const used = connectsBreakdown[pfName] || 0;
-      const plat = platforms.find((p: any) => p.name === pfName);
+      const plat = (platforms as any[]).find((p: any) => p.name === pfName);
       const inr = (plat as any)?.connect_cost_inr || 0;
       totalConnectsCostINR += used * inr;
     }
