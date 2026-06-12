@@ -4,14 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 import { Bell, Check, CheckCheck, Trash2, X } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 import { formatDistanceToNow } from 'date-fns';
-import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 const NotificationBell = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const user = useSelector((state: any) => state.auth.user);
   const {
     notifications,
     unreadCount,
@@ -181,10 +179,7 @@ const NotificationBell = () => {
               <button
                 onClick={() => {
                   setIsOpen(false);
-                  const notificationsPath = user?.role === 'admin'
-                    ? '/admin/notifications'
-                    : '/dashboard/notifications';
-                  router.push(notificationsPath);
+                  router.push('/notifications');
                 }}
                 className="text-sm text-blue-600 hover:text-blue-800 font-medium"
               >
