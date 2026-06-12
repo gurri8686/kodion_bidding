@@ -242,12 +242,21 @@ const AppliedJobs = () => {
 
   const handleClearSearch = () => setSearchTerm("");
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setDebouncedSearch("");
+    setStageFilter("");
+    applyDateFilter("This Week");
+    setCurrentPage(0);
+  };
+
   const handleApply = async () => {
     await fetchAppliedJobs(1);
     setApplyModal(false);
   };
 
-  const hasActiveFilters = debouncedSearch !== "" || stageFilter !== "";
+  const hasActiveFilters =
+    debouncedSearch !== "" || stageFilter !== "" || dateLabel !== "This Week";
 
   return (
         <div className="flex flex-col min-h-full">
@@ -401,6 +410,21 @@ const AppliedJobs = () => {
                     </svg>
                   </div>
                 </div>
+
+                {hasActiveFilters && (
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      onClick={handleClearFilters}
+                      className="px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-300 transition-colors whitespace-nowrap flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Clear filters
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -439,12 +463,22 @@ const AppliedJobs = () => {
             <p className="text-gray-400 mt-1 text-xs">
               Try selecting a different date range or add a new job.
             </p>
-            <button
-              onClick={() => setApplyModal(true)}
-              className="mt-4 bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition font-medium text-sm"
-            >
-              Add Job
-            </button>
+            <div className="mt-4 flex items-center gap-3">
+              {hasActiveFilters && (
+                <button
+                  onClick={handleClearFilters}
+                  className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition font-medium text-sm"
+                >
+                  Clear filters
+                </button>
+              )}
+              <button
+                onClick={() => setApplyModal(true)}
+                className="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition font-medium text-sm"
+              >
+                Add Job
+              </button>
+            </div>
           </div>
         ) : (
           <>
@@ -580,6 +614,16 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
     return stages[stage] || { label: "-", color: "bg-gray-100 text-gray-700" };
   };
 
+  // Color-code platform chips to match the card view.
+  const platformChipClass = (name: string) => {
+    const n = (name || "").toLowerCase();
+    if (n.includes("upwork")) return "bg-green-50 text-green-700";
+    if (n.includes("linkedin")) return "bg-blue-50 text-blue-700";
+    if (n.includes("freelancer")) return "bg-cyan-50 text-cyan-700";
+    if (n.includes("fiverr")) return "bg-emerald-50 text-emerald-700";
+    return "bg-orange-50 text-orange-700";
+  };
+
   const handleStageUpdate = (job: any, stage: string) => {
     setSelectedJob(job);
     if (stage === "replied") setIsReplyModalOpen(true);
@@ -594,11 +638,12 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
     <>
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-xs md:text-sm min-w-[800px]">
-            <thead className="bg-gray-50 border-b border-gray-200">
+          <table className="w-full text-xs md:text-sm min-w-[900px]">
+            <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
               <tr>
                 <th className="text-left py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Job Title</th>
                 <th className="text-left py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Profile</th>
+                <th className="text-left py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Platform</th>
                 <th className="text-left py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Technologies</th>
                 <th className="text-center py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Connects</th>
                 <th className="text-center py-2 md:py-3 px-2 md:px-4 font-medium text-gray-700">Stage</th>
@@ -645,6 +690,15 @@ const AppliedJobsTable = ({ jobs, fetchAppliedJobs }: { jobs: any[]; fetchApplie
                       <div className="max-w-[120px] truncate">
                         {job?.profile?.name || "N/A"}
                       </div>
+                    </td>
+                    <td className="py-2 md:py-3 px-2 md:px-4">
+                      {job?.platform?.name ? (
+                        <span className={`inline-block text-xs px-2 py-0.5 rounded-full whitespace-nowrap font-medium ${platformChipClass(job.platform.name)}`}>
+                          {job.platform.name}
+                        </span>
+                      ) : (
+                        <span className="text-gray-400 text-xs">-</span>
+                      )}
                     </td>
                     <td className="py-2 md:py-3 px-2 md:px-4">
                       <div className="flex flex-wrap gap-1 max-w-[150px]">

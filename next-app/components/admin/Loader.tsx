@@ -1,12 +1,19 @@
 'use client';
 
-export const Loader = () => {
-  return (
-    <div className="flex items-center justify-center min-h-[400px]">
-      <div className="flex flex-col items-center gap-3">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        <p className="text-sm text-gray-500">Loading...</p>
-      </div>
-    </div>
-  );
-};
+// Thin spinning ring. Colors are set inline (literal hex) so they don't depend
+// on Tailwind generating orange utility classes.
+export const Loader = () => (
+  <div className="flex items-center justify-center min-h-[300px]">
+    <div
+      role="status"
+      aria-label="Loading"
+      className="animate-spin rounded-full"
+      style={{
+        width: 48,
+        height: 48,
+        border: "4px solid #FFE0CC",
+        borderTopColor: "#FF6D00",
+      }}
+    />
+  </div>
+);

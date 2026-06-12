@@ -8,6 +8,7 @@ import {
   MoreVertical,
   Image as ImageIcon,
   ExternalLink,
+  Briefcase,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -93,6 +94,17 @@ export default function AppliedCard({ job, fetchAppliedJobs }: AppliedCardProps)
   });
   const technologies = safeJsonParse(job.technologies);
   const attachments = safeJsonParse(job.attachments, []);
+  const platformName = job?.platform?.name || "";
+
+  // Color-code the platform chip so users can scan where each job was applied.
+  const getPlatformStyle = (name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes("upwork")) return "bg-green-50 text-green-700 border-green-200";
+    if (n.includes("linkedin")) return "bg-blue-50 text-blue-700 border-blue-200";
+    if (n.includes("freelancer")) return "bg-cyan-50 text-cyan-700 border-cyan-200";
+    if (n.includes("fiverr")) return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    return "bg-orange-50 text-orange-700 border-orange-200";
+  };
 
   // Get stage display
   const getStageStyle = () => {
@@ -128,7 +140,7 @@ export default function AppliedCard({ job, fetchAppliedJobs }: AppliedCardProps)
             </h3>
           )}
           <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 text-xs font-semibold rounded-full border-2 ${stageInfo.class}`}>
+            <span className={`px-3 py-1 text-xs font-semibold rounded-full ${stageInfo.class}`}>
               {stageInfo.label}
             </span>
             <div className="relative flex-shrink-0">
@@ -221,16 +233,30 @@ export default function AppliedCard({ job, fetchAppliedJobs }: AppliedCardProps)
 
       {/* Compact Info Section */}
       <div className="p-4">
-        <div className="space-y-2">
-          {/* Profile & Connects - Single Row */}
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              <User2 size={14} className="text-gray-400" />
-              <span className="text-gray-600">{job?.profile?.name || "N/A"}</span>
+        <div className="space-y-2.5">
+          {/* Platform + Profile (left) & Connects (right) */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              {platformName && (
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border whitespace-nowrap ${getPlatformStyle(platformName)}`}
+                  title={`Platform: ${platformName}`}
+                >
+                  <Briefcase size={12} />
+                  {platformName}
+                </span>
+              )}
+              <span className="flex items-center gap-1 text-sm text-gray-600 min-w-0" title={job?.profile?.name || "N/A"}>
+                <User2 size={14} className="text-gray-400 flex-shrink-0" />
+                <span className="truncate">{job?.profile?.name || "N/A"}</span>
+              </span>
             </div>
-            <div className="flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-md border border-yellow-200">
+            <div
+              className="flex items-center gap-1.5 bg-yellow-50 px-2 py-1 rounded-md border border-yellow-200 flex-shrink-0"
+              title="Connects used"
+            >
               <Zap size={14} className="text-yellow-600" />
-              <span className="font-semibold text-yellow-900 text-sm">{job.connectsUsed}</span>
+              <span className="font-semibold text-yellow-900 text-sm">{job.connectsUsed ?? 0}</span>
             </div>
           </div>
 

@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Op, Sequelize } from 'sequelize';
 import { withAuth, AuthenticatedUser } from '@/lib/middleware/auth';
-import { AppliedJob, Job, Profiles, Logs } from '@/lib/db/models';
+import { AppliedJob, Job, Profiles, Logs, Platform } from '@/lib/db/models';
 import { uploadMultipleFiles, parseFilesFromFormData, deleteFile } from '@/lib/utils/fileUpload';
 
 /**
@@ -110,6 +110,11 @@ export const GET = withAuth(
           {
             model: Profiles,
             as: 'profile',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: Platform,
+            as: 'platform',
             attributes: ['id', 'name'],
           },
         ],
